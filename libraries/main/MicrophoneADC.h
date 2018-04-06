@@ -31,7 +31,7 @@ public:
   String printSample(void);
 
   // Write out
-  size_t writeDataBytes(unsigned char * buffer, size_t idx);
+  void writeDataBytes(unsigned char * buffer, size_t idx);
 
   int lastExecutionTime = -1;
 };
