@@ -9,7 +9,7 @@ MicLogger::MicLogger(void)
 {
 }
 
-void MicLogger::include(DataSource * source_p) {
+void MicLogger::include(MicrophoneDataSource * source_p) {
 	sources[num_datasources] = source_p;
 	++num_datasources;
 }
@@ -109,9 +109,9 @@ bool MicLogger::log(void){
 	file = SD.open(logfilename, FILE_WRITE);
 	if (file) {
 		// write time
-		file.write(&timeBuffer,BYTES_PER_BLOCK*4);  // 4 bytes for unsigned long
-		file.write(&micBuffer,BYTES_PER_BLOCK);
-		file.write(&envBuffer,4)  // 4 bytes total for one unsigned long
+		file.write(&timeBuffer,BYTES_PER_BLOCK*4);  // casted as int, so 4 bytes * number of samples
+		file.write(&micBuffer,BYTES_PER_BLOCK*4); //casted as int, so 4 bytes * number of samples
+		file.write((int) &envBuffer,4)  // 4 bytes total for one unsigned long
 
 	}
 	file.close();

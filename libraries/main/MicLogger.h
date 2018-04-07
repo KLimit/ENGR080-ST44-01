@@ -16,7 +16,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <SD.h>
-#include "DataSource.h"
+#include "MicrophoneDataSource.h"
 #include "Pinouts.h"
 
 class MicLogger {
@@ -24,9 +24,9 @@ public:
 	MicLogger(void);
 
     // include all dataSources before running init
-	void include(DataSource * source_p);
+	void include(MicrophoneDataSource * source_p);
 
-    // run after all dataSources have been registered
+    // run after all MicrophonedataSources have been registered
 	void init(void);
 
 	// records all data at the time it's called to the SD
@@ -39,7 +39,7 @@ public:
 private:
 	void padding(int number, byte width, String & str);
 
-	DataSource* sources[MAX_NUM_DATASOURCES];
+	MicrophoneDataSource* sources[MAX_NUM_DATASOURCES];
 	unsigned int num_datasources;
 	char logfilename[LOG_FILENAME_BUFFERLEN];
 	char headingfilename[LOG_FILENAME_BUFFERLEN];

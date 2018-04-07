@@ -1,6 +1,9 @@
+#ifndef __MICROPHONE_ADC_H__
+#define __MICROPHONE_ADC_H__
+
 #include <Arduino.h>
 #include "MotorDriver.h"
-#include "DataSource.h"
+#include "MicrophoneDataSource.h"
 #include "Pinouts.h"
 
 /*
@@ -10,8 +13,7 @@
 #define NUM_SAMPLES 8192
 #define ENV_THRESHOLD 125  // threshold analog value for the envelope
 
-class MicrophoneADC : public DataSource
-{
+class MicrophoneADC : public MicrophoneDataSource {
 public:
 
   MicrophoneADC(void);
@@ -31,7 +33,8 @@ public:
   String printSample(void);
 
   // Write out
-  void writeDataBytes(unsigned char * buffer, size_t idx);
+  void writeDataBytes(unsigned long * timeBuffer, unsigned char * micBuffer, unsigned long envBuffer);
 
   int lastExecutionTime = -1;
 };
+#endif
