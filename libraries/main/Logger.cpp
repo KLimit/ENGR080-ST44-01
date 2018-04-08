@@ -115,7 +115,8 @@ bool Logger::log(void){
 	file.close();
 
 	writtenBlocks++;
-	keepLogging = true;
+	return keepLogging = true; // I don't know if this was supposed to be returned. 
+	
 }
 
 String Logger::printState(void){

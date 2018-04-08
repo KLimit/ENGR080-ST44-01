@@ -9,7 +9,7 @@ class MicrophoneDataSource {
 public:
   // writes raw bytes of data to buffer, starting at index idx
   // returns the idx of the next vacant byte in the buffer
-  virtual void writeDataBytes(unsigned long * timeBuffer, unsigned char * micBuffer, unsigned long envBuffer);
+  virtual void writeDataBytes(unsigned char * timeBuffer, unsigned char * micBuffer, unsigned char * envBuffer);
 
   // contains comma separated headings for each datavalue the dataSource reports
   const char * csvVarNames;

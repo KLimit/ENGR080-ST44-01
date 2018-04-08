@@ -35,15 +35,24 @@ void MicrophoneADC::updateSample(void)
 //   return printString; //printer.printValue(0, printString);
 // }
 
-void MicrophoneADC::writeDataBytes(unsigned long * timeBuffer, unsigned char * micBuffer, unsigned long envBuffer)
+void MicrophoneADC::writeDataBytes(unsigned char * timeBuffer, unsigned char * micBuffer, unsigned char * envBuffer)
 {
   unsigned long * data_time = (unsigned long *) &timeBuffer[0];
 	unsigned char * data_mic = (unsigned char *) &micBuffer[0];
-	unsigned long data_env = (unsigned long) &envBuffer;
+	unsigned char * data_env = (unsigned char *) &envBuffer;
   for (int i=0; i<NUM_SAMPLES; i++) {
-    	data_time[i] = sampTime[i];
+
+		//Casting an unsigned long as an unsigned char takes the 8 least significant bits and truncates the rest.
+			data_time[4i] = (unsigned char) sampTime[i]>>24; 
+			data_time[4i+1] = (unsigned char) sampTime[i]>>16;
+			data_time[4i+2] = (unsigned char) sampTime[i]>>8;
+			data_time[4i+3] = (unsigned char) sampTime[i];
 			data_mic[i] = mic[i];
-  }
-	data_env = envThreshTime;
+	}
+	
+	for(int i = 4; i > 0; i--){
+		data_env[i] = (unsigned char) envBuffer>>(i-1)*8;
+	}
+
 
 }

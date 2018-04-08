@@ -91,7 +91,7 @@ void MicLogger::init(void) {
 bool MicLogger::log(void){
 	// record data from sources
 
-	unsigned long timeBuffer[BYTES_PER_BLOCK];
+	unsigned char timeBuffer[4*BYTES_PER_BLOCK]; //4 bytes for unsigned longs
 	unsigned char micBuffer[BYTES_PER_BLOCK];
 	unsigned long envTime = 0;
 
