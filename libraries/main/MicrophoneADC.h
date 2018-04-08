@@ -33,7 +33,7 @@ public:
   String printSample(void);
 
   // Write out
-  void writeDataBytes(unsigned char * timeBuffer, unsigned char * micBuffer, unsigned char envBuffer);
+  void writeDataBytes(unsigned char * timeBuffer, unsigned char * micBuffer, unsigned char * envBuffer);
 
   int lastExecutionTime = -1;
 };

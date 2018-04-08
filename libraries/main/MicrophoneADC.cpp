@@ -4,7 +4,7 @@
 extern Printer printer;
 
 MicrophoneADC::MicrophoneADC(void)
-  : Microphone	DataSource("A00,A01,A02,A03,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19",
+  : MicrophoneDataSource("A00,A01,A02,A03,A10,A11,A12,A13,A14,A15,A16,A17,A18,A19",
                "int,int,int,int,int,int,int,int,int,int,int,int,int,int") // from DataSource
 {}
 
@@ -37,7 +37,7 @@ void MicrophoneADC::updateSample(void)
 
 void MicrophoneADC::writeDataBytes(unsigned char * timeBuffer, unsigned char * micBuffer, unsigned char * envBuffer)
 {
-  unsigned long * data_time = (unsigned long *) &timeBuffer[0];
+  unsigned char * data_time = (unsigned char *) &timeBuffer[0]; //Why do we take the address? I'm not sure.
 	unsigned char * data_mic = (unsigned char *) &micBuffer[0];
 	unsigned char * data_env = (unsigned char *) &envBuffer;
   for (int i=0; i<NUM_SAMPLES; i++) {

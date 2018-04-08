@@ -93,7 +93,7 @@ bool MicLogger::log(void){
 
 	unsigned char timeBuffer[4*BYTES_PER_BLOCK]; //4 bytes for unsigned longs
 	unsigned char micBuffer[BYTES_PER_BLOCK];
-	unsigned long envTime = 0;
+	unsigned char envTime[4]; // Four bytes
 
 
 	//sources[0] should be a microphone object
@@ -109,12 +109,13 @@ bool MicLogger::log(void){
 	file = SD.open(logfilename, FILE_WRITE);
 	if (file) {
 		// write time
-		file.write(&timeBuffer,BYTES_PER_BLOCK*4);  // casted as int, so 4 bytes * number of samples
-		file.write(&micBuffer,BYTES_PER_BLOCK*4); //casted as int, so 4 bytes * number of samples
-		file.write((int) &envBuffer,4)  // 4 bytes total for one unsigned long
+		file.write(&timeBuffer[0],BYTES_PER_BLOCK*4);  // casted as int, so 4 bytes * number of samples
+		file.write(&micBuffer[0],BYTES_PER_BLOCK*4); //casted as int, so 4 bytes * number of samples
+		file.write(&envTime[0],4);  // 4 bytes total for one unsigned long
 
 	}
 	file.close();
+	return true;
 }
 
 // String MicLogger::printState(void){
