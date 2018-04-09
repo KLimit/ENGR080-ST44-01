@@ -1,18 +1,14 @@
 #include "MicLogger.h"
 #include <stdio.h>
 #include "Printer.h"
+#include "MicrophoneADC.h"
 extern Printer printer;
+extern MicrophoneADC mic;
 String message;
 
-MicLogger::MicLogger(void)
-	: num_datasources(0)
-{
+MicLogger::MicLogger(void){
 }
 
-void MicLogger::include(MicrophoneDataSource * source_p) {
-	sources[num_datasources] = source_p;
-	++num_datasources;
-}
 
 // void MicLogger::includeInt(int * target)
 // void MicLogger::includeBool(bool * target)
@@ -57,14 +53,8 @@ void MicLogger::init(void) {
 	message = "MicLogger: Using log file name " + String(logfilename);
 	printer.printMessage(message,30);
 
-	String headingStr = sources[0]->csvVarNames;
-	String dataTypeStr = sources[0]->csvDataTypes;
-	for(size_t i = 1; i < num_datasources; ++i) {
-		headingStr += ",";
-		headingStr += sources[i]->csvVarNames;
-		dataTypeStr += ",";
-		dataTypeStr += sources[i]->csvDataTypes;
-	}
+	String headingStr = "time, voltage, envTime";
+	String dataTypeStr = "unsigned long, unsigned char, unsigned char";
 	headingStr += "\n"+dataTypeStr;
 
 	file = SD.open(headingfilename, FILE_WRITE);
@@ -91,13 +81,11 @@ void MicLogger::init(void) {
 bool MicLogger::log(void){
 	// record data from sources
 
-	unsigned char timeBuffer[4*BYTES_PER_BLOCK]; //4 bytes for unsigned longs
-	unsigned char micBuffer[BYTES_PER_BLOCK];
-	unsigned char envTime[4]; // Four bytes
+	unsigned char buffer[BUFFER_BLOCK_COUNT*BYTES_PER_BLOCK];
 
 
 	//sources[0] should be a microphone object
-	sources[0]->writeDataBytes(timeBuffer, micBuffer, envTime);
+	mic.writeDataBytes(&buffer[0]);
 
 
 	// // write data to SD
@@ -109,9 +97,7 @@ bool MicLogger::log(void){
 	file = SD.open(logfilename, FILE_WRITE);
 	if (file) {
 		// write time
-		file.write(&timeBuffer[0],BYTES_PER_BLOCK*4);  // casted as int, so 4 bytes * number of samples
-		file.write(&micBuffer[0],BYTES_PER_BLOCK*4); //casted as int, so 4 bytes * number of samples
-		file.write(&envTime[0],4);  // 4 bytes total for one unsigned long
+		file.write(&buffer[0], BUFFER_BLOCK_COUNT*BYTES_PER_BLOCK);
 
 	}
 	file.close();

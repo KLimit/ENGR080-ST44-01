@@ -37,6 +37,7 @@ SensorIMU imu;
 Logger logger;
 Printer printer;
 LED led;
+MicrophoneADC mic;
 
 // loop start recorder
 int loopStartTime;
