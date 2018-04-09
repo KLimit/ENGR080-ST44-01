@@ -26,9 +26,9 @@ public:
   MicrophoneADC(void);
 
 	// Check pboard for both of these
-	int micPin = 17;
-	int envPin = 14;
-
+	// int micPin = 17;
+	// int envPin = 14;
+	
 
   // data to be stored
   mic_sample_t samples[NUM_SAMPLES];

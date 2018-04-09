@@ -15,7 +15,10 @@
 
 
 /* TOF */
-#define SPEAKER_PIN 20
-#define MIC_PIN 23
+// #define SPEAKER_PIN 20
+// #define MIC_PIN 23
+
+#define MIC_PIN 14
+#define ENV_PIN 17
 
 #endif

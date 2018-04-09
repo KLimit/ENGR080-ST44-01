@@ -1,9 +1,11 @@
 #include "MicrophoneADC.h"
 #include <math.h>
 #include "Printer.h"
+#include "Pinouts.h"
 extern Printer printer;
 
 MicrophoneADC::MicrophoneADC(void){}
+
 
 
 void MicrophoneADC::updateSample(void)
@@ -11,9 +13,9 @@ void MicrophoneADC::updateSample(void)
 	bool triggered = false;
    // for checking the threshold envelope value
   for (int i=0; i<NUM_SAMPLES; i++){
-     // Record time and analog values of micPin
+     // Record time and analog values of MIC_PIN
 		 samples[i].time  =  micros();  // casting to be safe
-		 samples[i].mic = (unsigned char) analogRead(micPin); //CHANGE THE ANALOG PIN RESOLUTION TO 8 BITS
+		 samples[i].mic = (unsigned char) analogRead(MIC_PIN); //CHANGE THE ANALOG PIN RESOLUTION TO 8 BITS
 		 if (samples[i].mic > ENV_THRESHOLD && !triggered) {
 			 samples[i].envtime = 1;
 			 triggered = true;
@@ -50,13 +52,13 @@ void MicrophoneADC::writeDataBytes(unsigned char * buffer)
 //   for (int i=0; i<NUM_SAMPLES; i++) {
 
 // 		//Casting an unsigned long as an unsigned char takes the 8 least significant bits and truncates the rest.
-// 			data_time[4i] = (unsigned char) sampTime[i]>>24; 
+// 			data_time[4i] = (unsigned char) sampTime[i]>>24;
 // 			data_time[4i+1] = (unsigned char) sampTime[i]>>16;
 // 			data_time[4i+2] = (unsigned char) sampTime[i]>>8;
 // 			data_time[4i+3] = (unsigned char) sampTime[i];
 // 			data_mic[i] = mic[i];
 // 	}
-	
+
 // 	for(int i = 4; i > 0; i--){
 // 		data_env[i] = (unsigned char) envBuffer>>(i-1)*8;
 // 	}

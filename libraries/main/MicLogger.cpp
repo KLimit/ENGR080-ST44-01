@@ -3,8 +3,8 @@
 #include "Printer.h"
 #include "MicrophoneADC.h"
 extern Printer printer;
-extern MicrophoneADC mic;
-String message;
+extern MicrophoneADC mic;  // assumes that there's an object in memory named mic
+// String message;
 
 MicLogger::MicLogger(void){
 }
@@ -50,10 +50,10 @@ void MicLogger::init(void) {
 	finalname = HEADINGS_FILENAME_BASE + numstr + ".txt";
 	finalname.toCharArray(headingfilename, LOG_FILENAME_BUFFERLEN);
 
-	message = "MicLogger: Using log file name " + String(logfilename);
-	printer.printMessage(message,30);
+	// message = "MicLogger: Using log file name " + String(logfilename);
+	// printer.printMessage(message,30);
 
-	String headingStr = "time, voltage, envTime";
+	String headingStr = "time, amplitude, envTime";
 	String dataTypeStr = "unsigned long, unsigned char, unsigned char";
 	headingStr += "\n"+dataTypeStr;
 
@@ -65,11 +65,11 @@ void MicLogger::init(void) {
     file.close();
 	}
 
-	printer.printMessage("Creating log file",10);
+	// printer.printMessage("Creating log file",10);
 	file = SD.open(logfilename, FILE_WRITE);
 	if(!file) {
-		message = "MicLogger: error creating " + String(logfilename);
-		printer.printMessage(message,0);
+		// message = "MicLogger: error creating " + String(logfilename);
+		// printer.printMessage(message,0);
 	} else {
 		file.close();
 	}
