@@ -1,0 +1,2 @@
+time, amplitude, envTime
+ulong, uint8, uint8
