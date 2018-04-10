@@ -54,7 +54,7 @@ void MicLogger::init(void) {
 	// printer.printMessage(message,30);
 
 	String headingStr = "time, amplitude, envTime";
-	String dataTypeStr = "unsigned long, unsigned char, unsigned char";
+	String dataTypeStr = "ulong, uint8, uint8";
 	headingStr += "\n"+dataTypeStr;
 
 	file = SD.open(headingfilename, FILE_WRITE);
