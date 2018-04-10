@@ -33,6 +33,7 @@ public:
 
 	// records all data at the time it's called to the SD
 	bool log(void);
+	bool envLog(void);
 
 	String printState(void);
 	int lastExecutionTime = -1;

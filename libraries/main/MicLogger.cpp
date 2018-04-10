@@ -104,6 +104,20 @@ bool MicLogger::log(void){
 	return true;
 }
 
+bool MicLogger::envLog(void){
+	int buffer;
+
+	env.writeDataBytes(&buffer);
+	file = SD.open(logfilename, FILE_WRITE);
+	if (file) {
+		// write time
+		file.write(&buffer, 4); //4 bytes in an int
+
+	}
+	file.close();
+	return true;
+	
+}
 // String MicLogger::printState(void){
 // 	String printString = "MicLogger: ";
 // 	if(keepLogging) {
