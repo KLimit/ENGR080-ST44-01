@@ -13,16 +13,19 @@ void MicrophoneADC::updateSample(void)
 	bool triggered = false;
    // for checking the threshold envelope value
   for (int i=0; i<NUM_SAMPLES; i++){
-     // Record time and analog values of MIC_PIN
-		 samples[i].time  =  micros();  // casting to be safe
-		 samples[i].mic = (unsigned char) analogRead(MIC_PIN); //CHANGE THE ANALOG PIN RESOLUTION TO 8 BITS
-		 if (samples[i].mic > ENV_THRESHOLD && !triggered) {
-			 samples[i].envtime = 1;
-			 triggered = true;
-		 }
-		 else{
-			 samples[i].envtime = 0;
-		 }
+	 // Record time and analog values of MIC_PIN
+	samples[i].time  =  micros();  // casting to be safe
+	samples[i].mic = (unsigned char) analogRead(MIC_PIN); //CHANGE THE ANALOG PIN RESOLUTION TO 8 BITS
+	if (samples[i].mic > ENV_THRESHOLD && !triggered) {
+		samples[i].envtime = 1;
+		triggered = true;
+	}
+	else{
+		samples[i].envtime = 0;
+	}
+	while(micros() - samples[i].time < 67){
+		//This while loop holds the code until 67 us have passed. This ensures that the sampling frequency is 15 kHz.
+	}
   }
 }
 

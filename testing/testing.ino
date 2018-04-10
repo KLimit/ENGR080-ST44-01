@@ -9,8 +9,9 @@ void setup() {
   unsigned long currentTime = startTime;
   for(int i = 0; i < 512; i++){
     analogRead(18);
-    while(micros()-currentTime < 67){ 
+    while(micros()-currentTime < 67){ //makes sure that it samples every 67 us.
     }
+    currentTime = micros();
   }
   unsigned long endTime = micros();
   delay(1000);
