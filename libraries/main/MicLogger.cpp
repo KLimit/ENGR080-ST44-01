@@ -26,6 +26,7 @@ void MicLogger::padding(int number, byte width, String & str) {
 }
 
 void MicLogger::init(void) {
+	pinMode(MIC_PIN, INPUT);
 	Serial.print("Initializing SD Card... ");
   if (!SD.begin()) {
     Serial.println("failed!");
@@ -101,6 +102,7 @@ bool MicLogger::log(void){
 
 	}
 	file.close();
+	Serial.println("Done logging!");
 	return true;
 }
 
