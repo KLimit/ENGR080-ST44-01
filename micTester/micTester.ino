@@ -34,7 +34,7 @@ void setup() {
     // take one recording
     // mic.updateSample();
     // micLogger.log();
->>>>>>> 1e89aa98a5598234ec52578c7c417ef4388e09c3
+// >>>>>>> 1e89aa98a5598234ec52578c7c417ef4388e09c3
 
 }
 
