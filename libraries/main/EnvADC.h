@@ -1,5 +1,5 @@
-#ifndef __MICROPHONE_ADC_H__
-#define __MICROPHONE_ADC_H__
+#ifndef __ENV_ADC_H__
+#define __ENV_ADC_H__
 
 #include <Arduino.h>
 #include "MotorDriver.h"
@@ -7,7 +7,7 @@
 #include "Pinouts.h"
 
 /*
- * MicrophoneADC implements SD logging for the ADC channels
+ * EnvADC implements SD logging for the ADC channels
  */
 
 #define NUM_SAMPLES 512
@@ -15,15 +15,15 @@
 
 
 
-class MicrophoneADC {
+class EnvADC {
 public:
 
-  MicrophoneADC(void);
+  EnvADC(void);
 
 	// Check pboard for both of these
 	// int micPin = 17;
 	// int envPin = 14;
-	
+
 
   // data to be stored
   int sample;
@@ -40,6 +40,6 @@ public:
   void writeDataBytes(unsigned char * buffer);
   // void writeDataBytes(unsigned char * timeBuffer, unsigned char * micBuffer, unsigned char * envBuffer);
 
-  int lastExecutionTime = -1;
+  int lastExecutionTime = -1; //Not used so far.
 };
 #endif
