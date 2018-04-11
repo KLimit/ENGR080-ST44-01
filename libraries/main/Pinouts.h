@@ -18,7 +18,7 @@
 // #define SPEAKER_PIN 20
 // #define MIC_PIN 23
 
-#define MIC_PIN 14
-#define ENV_PIN 17
+#define MIC_PIN 28
+#define ENV_PIN 28
 
 #endif

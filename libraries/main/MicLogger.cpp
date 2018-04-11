@@ -38,7 +38,7 @@ void MicLogger::init(void) {
 
 	unsigned int number = 0;
 	String numstr = "";
-	\(number, 3, numstr);
+	padding(number, 3, numstr);
 	String finalname = LOG_FILENAME_BASE + numstr + ".bin";
 	finalname.toCharArray(logfilename, LOG_FILENAME_BUFFERLEN);
 

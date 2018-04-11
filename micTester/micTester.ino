@@ -6,8 +6,6 @@
 #include <EnvADC.h>
 #include <Printer.h>
 #include <Logger.h>
-#include <ADCSampler.h>
-
 
 MicLogger micLogger;
 // MicrophoneADC mic;
@@ -33,11 +31,7 @@ void setup() {
 
     // take one recording
     // mic.updateSample();
-    // micLogger.log();
-// >>>>>>> 1e89aa98a5598234ec52578c7c417ef4388e09c3
-
-}
-
+	}
 void loop() {
     delay(1000);
    Serial.println(counting);
@@ -47,8 +41,8 @@ void loop() {
 }
 
 void isrEnvelope(){
-   int startTime = micros();
+		env.updateSample();
     micLogger.envLog();
-    Serial.println(micros() - startTime);
+    Serial.println("Data Recorded!");
 
 }
