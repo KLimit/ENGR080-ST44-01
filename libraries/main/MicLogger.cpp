@@ -2,9 +2,11 @@
 #include <stdio.h>
 #include "Printer.h"
 #include "MicrophoneADC.h"
+#include "EnvADC.h"
 extern Printer printer;
 extern MicrophoneADC mic;  // assumes that there's an object in memory named mic
 // String message;
+extern EnvADC env;
 
 MicLogger::MicLogger(void){
 }
@@ -105,13 +107,13 @@ bool MicLogger::log(void){
 }
 
 bool MicLogger::envLog(void){
-	int buffer;
+	unsigned char * buffer;
 
-	env.writeDataBytes(&buffer);
+	env.writeDataBytes(&buffer[0]);
 	file = SD.open(logfilename, FILE_WRITE);
 	if (file) {
 		// write time
-		file.write(&buffer, 4); //4 bytes in an int
+		file.write(&buffer[0], 4); //4 bytes in an int
 
 	}
 	file.close();

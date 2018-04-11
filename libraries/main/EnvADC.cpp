@@ -21,12 +21,10 @@ void EnvADC::updateSample(){
 //   return printString; //printer.printValue(0, printString);
 // }
 
-void EnvADC::writeDataBytes(unsigned char * buffer)
+void EnvADC::writeDataBytes(unsigned char* buffer)
 {
-  mic_sample_t* data_slot = (mic_sample_t*) &buffer[0];
-  for (int i=0; i<NUM_SAMPLES; i++) {
-		data_slot[i] = samples[i];
-	}
+  int* data_slot = (int*) &buffer;
+  data_slot[0] = sample;
 }
 
 // void EnvADC::writeDataBytes(unsigned char * timeBuffer, unsigned char * micBuffer, unsigned char * envBuffer)
