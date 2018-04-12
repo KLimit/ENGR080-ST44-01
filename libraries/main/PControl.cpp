@@ -11,14 +11,31 @@ inline float angleDiff(float a) {
 PControl::PControl(void) {
 }
 
-void PControl::init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in) {
-  totalWayPoints = totalWayPoints_in;
-  stateDims = stateDims_in;
-  wayPoints = wayPoints_in;
+void PControl::init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in, bool isLeader) {
+  if (isLeader) {
+    // when the PControl object is tied to the leader, initialize as normal
+    totalWayPoints = totalWayPoints_in;
+    stateDims = stateDims_in;
+    wayPoints = wayPoints_in;
+  } else {
+    // when initialized for the follower, don't worry about totalWayPoints or
+    // anything like that; instead just use the updatable doubles
+    fwpX = 0;
+    fwpY = 0;
+  }
 }
 
 int PControl::getWayPoint(int dim) {
+  // basically for getting the x and y coordinates of the current waypoint
+  // not sure if it's better that x and y are in the same array now and we have
+  // to multiply by the number of dimensions to move by coordinate set.
+  // I guess it's more flexible this way.
   return wayPoints[currentWayPoint*stateDims+dim];
+}
+
+void PControl::updateFollowerWaypoint() {
+  // will primarily be used for updating the follower's waypoints
+  // changes fwpX and fwpY
 }
 
 void PControl::calculateControl(state_t * state) {
@@ -38,12 +55,23 @@ void PControl::calculateControl(state_t * state) {
 
 }
 
+void PControl::calculateNominal(state_t * fState) {
+  // for controlling the follower's thrust
+  // DISTANCE TO LEADER
+
+}
+
+void PControl::calculateSteering(state_t * fState) {
+  // for controlling the follower's Steering
+  // ANGLE TOWARD LEADER
+}
+
 String PControl::printString(void) {
   String printString = "PControl: Yaw_Des: " + String(yaw_des*180.0/PI)
     + " Yaw: " + String(yaw*180.0/PI)
     + " u: " + String(u);
 
-  return printString; 
+  return printString;
 }
 
 String PControl::printWaypointUpdate(void) {
@@ -57,6 +85,8 @@ void PControl::updatePoint(float x, float y) {
 
   int x_des = getWayPoint(0);
   int y_des = getWayPoint(1);
+
+  // distance from current position to current waypoint
   dist = sqrt(pow(x-x_des,2) + pow(y-y_des,2));
 
   if (dist < SUCCESS_RADIUS && currentWayPoint < totalWayPoints) {

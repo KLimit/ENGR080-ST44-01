@@ -15,8 +15,14 @@ public:
   // defines the waypoints used for pControl
   void init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in);
 
+  // updates the set of waypoint values that the follower uses
+  void updateFollowerWaypoint();
+
   // sets the motor speeds using P-Control
   void calculateControl(state_t * state);
+
+  void calculateNominal(state_t* fState);
+  void caclculateSteering(state_t* fState);
 
   String printString(void);
   String printWaypointUpdate(void);
@@ -46,6 +52,12 @@ private:
   int totalWayPoints, stateDims;
   double * wayPoints;
   int currentWayPoint = 0;
+
+  // THESE ARE TO BE USED EXCLUSIVELY FOR THE FOLLOWER SO THAT IT HAS A SINGLE
+  // SET OF WAYPOINTS THAT ARE CONTINUOUSLY UPDATED
+  // "Follower WayPoint X/Y"
+  double fwpX;
+  double fwpY;
 
 };
 
