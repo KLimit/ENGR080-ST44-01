@@ -19,7 +19,7 @@ Previous Contributors:  Josephine Wong (jowong@hmc.edu) '18 (contributed in 2016
 #include <Logger.h>
 #include <Printer.h>
 #include <PControl.h>
-#include <SendGPS.h>
+//#include <SendGPS.h>
 #define mySerial Serial1
 #include <LED.h>  // A template of a data soruce library
 #define BTSerial Serial3
@@ -68,7 +68,7 @@ void setup() {
   logger.include(&gps);
   logger.include(&state_estimator);
   logger.include(&motor_driver);
-  logger.include(&sendGPS);
+//  logger.include(&sendGPS);
   logger.init();
 
   printer.init();

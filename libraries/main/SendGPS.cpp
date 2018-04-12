@@ -21,8 +21,8 @@ SendGPS::SendGPS(void)
 
 void SendGPS::updateState(float lat, float lon)
 {
-  state.lat = lat;
-  state.lon = lon;
+  receiveState.lat = lat;
+  receiveState.lon = lon;
   
 }
 
@@ -34,8 +34,8 @@ void SendGPS::updateState(float lat, float lon)
 size_t SendGPS::writeDataBytes(unsigned char * buffer, size_t idx)
 {
   float * float_slot = (float *) (buffer + idx);
-  float_slot[0] = state.lat;
-  float_slot[1] = state.lon;
+  float_slot[0] = receiveState.lat;
+  float_slot[1] = receiveState.lon;
   idx += 2*sizeof(float);
   return idx;
 }

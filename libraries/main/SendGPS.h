@@ -15,18 +15,16 @@
 typedef struct {
   float lat;
   float lon;
-  uint32_t age;
-  uint16_t hdop;
-  uint8_t num_sat;
-} gps_state_t;
+} receive_state_t;
 
 class SendGPS : public DataSource {
 public:
 	SendGPS(void);
   
-
+  receive_state_t receiveState;
   void updateState(float lat, float lon);
   
+
 
 
   size_t writeDataBytes(unsigned char * buffer, size_t idx);
