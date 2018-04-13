@@ -14,7 +14,7 @@ public:
   PControl(void);
 
   // defines the waypoints used for pControl
-  void init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in, float followDist);
+  void init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in, double followDist);
 
   void setAvgPower(float speedConstant);
 

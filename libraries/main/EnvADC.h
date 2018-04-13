@@ -41,6 +41,5 @@ public:
   size_t writeDataBytes(unsigned char * buffer, size_t idx);
   // void writeDataBytes(unsigned char * timeBuffer, unsigned char * micBuffer, unsigned char * envBuffer);
 
-  int lastExecutionTime = -1; //Not used so far.
 };
 #endif

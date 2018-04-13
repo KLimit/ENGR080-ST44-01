@@ -5,11 +5,7 @@
 #include "SendGPS.h"
 
 
-int kek = 0;
-int numBytes;
-byte buffAll[8]; // looking for lat float, separator char, lon float for 9 bytes total
-byte buffLat[4];
-byte buffLon[4];
+
 
 
 class SlaveBT {
@@ -17,6 +13,12 @@ public:
   SlaveBT(void);
 
   void recieveCoords();
+
+  int kek = 0;
+  int numBytes;
+  byte buffAll[8]; // looking for lat float, separator char, lon float for 9 bytes total
+  byte buffLat[4];
+  byte buffLon[4];
 
 private:
 }
