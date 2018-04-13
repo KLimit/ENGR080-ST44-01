@@ -2,7 +2,6 @@
 #define __MICROPHONE_ADC_H__
 
 #include <Arduino.h>
-#include "MotorDriver.h"
 // #include "MicrophoneDataSource.h"
 #include "Pinouts.h"
 

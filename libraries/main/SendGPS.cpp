@@ -2,8 +2,8 @@
 #include "Printer.h"
 extern Printer printer;
 #include <Adafruit_GPS.h>
-  
-SendGPS::SendGPS(void) 
+
+SendGPS::SendGPS(void)
 : DataSource("sentLat,sentLon","int32, int32") {
 
   //HardwareSerial Uart = HardwareSerial();
@@ -12,21 +12,20 @@ SendGPS::SendGPS(void)
 }
 
 
-  
-  
-  
-  
-  
+
+
+
+
+
 
 
 void SendGPS::updateState(float lat, float lon)
 {
   receiveState.lat = lat;
   receiveState.lon = lon;
-  
+
 }
 
-//convertDegMinToDecDeg (
 
 
 

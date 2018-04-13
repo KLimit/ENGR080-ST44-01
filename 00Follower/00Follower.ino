@@ -9,8 +9,12 @@
 #include<MotorDriver.h>
 #include <StateEstimator.h>
 #include <Printer.h>
+#include <EnvADC.h>
+#include <SlaveBT.h>
+#include <SendGPS.h>
 
 #define mySerial Serial1
+#define BT_SERIAL Serial3
 #define notLeader false
 
 SensorGPS gps;
@@ -19,7 +23,11 @@ Adafruit_GPS GPS(&mySerial);
 PControl pcont;
 MotorDriver md;
 StateEstimator stateEst;
+EnvADC envADC;
 Printer printer;
+SlaveBT slaveBT;
+SendGPS sendGPS;
+
 
 
 
@@ -41,5 +49,18 @@ void setup() {
 }
 
 void loop(){
+  //Very rudimentary control scheme:
+  PControl.calculateControl(&stateEst.state);
+  md.driveForward(PControl.ul, PControl.ur); //This line is subject to change.
+
+  envADC.updateSample();
+  imu.read();
+  gps.read(&GPS);
+  stateEst.updateState(&imu.state, &gps.state);
+  slaveBT.receiveCoords();
+
+
+  //Convert the received coordinates into x-y coordinates
+  float x = stateEst
 
 }

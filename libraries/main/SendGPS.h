@@ -20,10 +20,10 @@ typedef struct {
 class SendGPS : public DataSource {
 public:
 	SendGPS(void);
-  
+
   receive_state_t receiveState;
   void updateState(float lat, float lon);
-  
+
 
 
 
@@ -32,7 +32,7 @@ public:
   int lastExecutionTime = -1;
 
 
-  
+
 };
 
 #endif

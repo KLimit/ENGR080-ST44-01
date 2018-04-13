@@ -39,7 +39,7 @@ String StateEstimator::printState(void) {
   String currentState = "State: x: " + String(state.x,decimals)
     + " y: " + String(state.y,decimals)
     + " h: " + String(state.heading,decimals);
-  return currentState; 
+  return currentState;
 }
 
 size_t StateEstimator::writeDataBytes(unsigned char * buffer, size_t idx) {
@@ -48,4 +48,8 @@ size_t StateEstimator::writeDataBytes(unsigned char * buffer, size_t idx) {
   data_slot[1] = state.y;
   data_slot[2] = state.heading;
   return idx + 3*sizeof(float);
+}
+
+void latlonToXY(double lat, double lon, float* x_p, float* y_p){
+  
 }

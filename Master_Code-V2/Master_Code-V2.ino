@@ -1,5 +1,5 @@
 /********
-Default E80 Lab 01 
+Default E80 Lab 01
 Current Author: Christopher McElroy (cmcelroy@g.hmc.edu) '19 (contributed in 2017)
 Previous Contributors:  Josephine Wong (jowong@hmc.edu) '18 (contributed in 2016)
                         Apoorva Sharma (asharma@hmc.edu) '17 (contributed in 2016)
@@ -82,10 +82,10 @@ void setup() {
   const int waypoint_dimensions = 2;       // waypoints have two pieces of information, x then y.
   double waypoints [] = { 0, 10, 0, 0 };   // listed as x0,y0,x1,y1, ... etc.
   pcontrol.init(number_of_waypoints, waypoint_dimensions, waypoints);
-  
+
   const float origin_lat = 34.106465;
   const float origin_lon = -117.712488;
-  state_estimator.init(origin_lat, origin_lon); 
+  state_estimator.init(origin_lat, origin_lon);
 
   printer.printMessage("Starting main loop",10);
   loopStartTime = millis();
@@ -104,17 +104,17 @@ void setup() {
 
 void loop() {
   currentTime=millis();
-  
+
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
     printer.printValue(0,adc.printSample());
     printer.printValue(1,logger.printState());
-    printer.printValue(2,gps.printState());   
-    printer.printValue(3,state_estimator.printState());     
+    printer.printValue(2,gps.printState());
+    printer.printValue(3,state_estimator.printState());
     printer.printValue(4,pcontrol.printWaypointUpdate());
     printer.printValue(5,pcontrol.printString());
     printer.printValue(6,motor_driver.printState());
-    printer.printValue(7,imu.printRollPitchHeading());        
+    printer.printValue(7,imu.printRollPitchHeading());
     printer.printValue(8,imu.printAccels());
     printer.printToSerial();  // To stop printing, just comment this line out
   }
@@ -127,14 +127,14 @@ void loop() {
 
   if ( currentTime-adc.lastExecutionTime > LOOP_PERIOD ) {
     adc.lastExecutionTime = currentTime;
-    adc.updateSample(); 
+    adc.updateSample();
   }
 
   if ( currentTime-imu.lastExecutionTime > LOOP_PERIOD ) {
     imu.lastExecutionTime = currentTime;
     imu.read();     // blocking I2C calls
   }
-  
+
   if (true){//(gps.loopTime(loopStartTime)) {
     gps.lastExecutionTime = currentTime;
     gps.read(&GPS); // blocking UART calls
@@ -144,29 +144,30 @@ void loop() {
     state_estimator.lastExecutionTime = currentTime;
     state_estimator.updateState(&imu.state, &gps.state);
   }
-  
+
   // uses the LED library to flash LED -- use this as a template for new libraries!
+  // also bluetooth I guess
   if (currentTime-led.lastExecutionTime > LOOP_PERIOD) {
     led.lastExecutionTime = currentTime;
     //led.flashLED();
-     int sent;
+    int sent;
     int ledStart = millis();
     float2Bytes(gps.state.lat,&latBytes[0]);
     float2Bytes(gps.state.lon,&lonBytes[0]);
-       for(int i=0;i<1;i++){
-       sent = BTSerial.write(latBytes,4);
-       BTSerial.write(63);
-       BTSerial.write(lonBytes,4);
-       BTSerial.write(47);
-       }
-       BTSerial.flush();
-     int ledEnd = millis() - ledStart;
-     float lat = *(float *)&latBytes; 
-     float lon = *(float *)&lonBytes;
-     printer.printMessage("Sent bytes: " + String(sent),10);
-     printer.printMessage("Lat is = " + String(lat,5),10);
-     printer.printMessage("Lon is = " + String(lon,5),10);
-     printer.printMessage("LED loop time is: " + String(ledEnd),10);
+    for(int i=0;i<1;i++){
+      sent = BTSerial.write(latBytes,4);
+      BTSerial.write(63); // '?'
+      BTSerial.write(lonBytes,4);
+      BTSerial.write(47); // '/'
+    }
+    BTSerial.flush();
+    int ledEnd = millis() - ledStart;
+    float lat = *(float *)&latBytes;
+    float lon = *(float *)&lonBytes;
+    printer.printMessage("Sent bytes: " + String(sent),10);
+    printer.printMessage("Lat is = " + String(lat,5),10);
+    printer.printMessage("Lon is = " + String(lon,5),10);
+    printer.printMessage("LED loop time is: " + String(ledEnd),10);
   }
 
   if (currentTime- logger.lastExecutionTime > LOOP_PERIOD && logger.keepLogging) {
@@ -200,7 +201,7 @@ void sendPulse(){
 //      x = BTSerial.read();
 //      BTSerial.clear();
 //      break;
-//      } 
+//      }
 //      else if(digitalRead(2)==LOW){
 //        break;
 //      }
@@ -213,4 +214,3 @@ void sendPulse(){
         //x = 0;
       }
 }
-
