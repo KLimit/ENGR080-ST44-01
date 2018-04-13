@@ -2,7 +2,7 @@
 #define __ENV_ADC_H__
 
 #include <Arduino.h>
-#include "MotorDriver.h"
+// #include "MotorDriver.h"
 // #include "MicrophoneDataSource.h"
 #include "Pinouts.h"
 
@@ -26,7 +26,7 @@ public:
 
 
   // data to be stored
-  volatile int sample;
+  volatile int sample = 0;
 
 	// unsigned long sampTime [NUM_SAMPLES];  // range: 0-(2^32-1), 4 bytes per item
   // unsigned char mic [NUM_SAMPLES];  // range: 0-255, 1 byte per item

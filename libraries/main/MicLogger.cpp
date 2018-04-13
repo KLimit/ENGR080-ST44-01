@@ -1,10 +1,10 @@
 #include "MicLogger.h"
 #include <stdio.h>
 #include "Printer.h"
-#include "MicrophoneADC.h"
+// #include "MicrophoneADC.h"
 #include "EnvADC.h"
 extern Printer printer;
-extern MicrophoneADC mic;  // assumes that there's an object in memory named mic
+// extern MicrophoneADC mic;  // assumes that there's an object in memory named mic
 // String message;
 extern EnvADC env;
 
@@ -80,33 +80,33 @@ void MicLogger::init(void) {
 	// if exiting without error
 	keepLogging = true;
 }
+//Remnants of the old micLogger code.
+// bool MicLogger::log(void){
+// 	// record data from sources
 
-bool MicLogger::log(void){
-	// record data from sources
-
-	unsigned char buffer[BUFFER_BLOCK_COUNT*BYTES_PER_BLOCK];
-
-
-	//sources[0] should be a microphone object
-	mic.writeDataBytes(&buffer[0]);
+// 	unsigned char buffer[BUFFER_BLOCK_COUNT*BYTES_PER_BLOCK];
 
 
-	// // write data to SD
-	// if (writtenBlocks >= FILE_BLOCK_COUNT) {
-	// 	printer.printMessage("Current file size limit reached. Change FILE_BLOCK_COUNT to fix. Stopping logging for now.",0);
-	// 	keepLogging = false;
-	// }
+// 	//sources[0] should be a microphone object
+// 	mic.writeDataBytes(&buffer[0]);
 
-	file = SD.open(logfilename, FILE_WRITE);
-	if (file) {
-		// write time
-		file.write(&buffer[0], BUFFER_BLOCK_COUNT*BYTES_PER_BLOCK);
 
-	}
-	file.close();
-	Serial.println("Done logging!");
-	return true;
-}
+// 	// // write data to SD
+// 	// if (writtenBlocks >= FILE_BLOCK_COUNT) {
+// 	// 	printer.printMessage("Current file size limit reached. Change FILE_BLOCK_COUNT to fix. Stopping logging for now.",0);
+// 	// 	keepLogging = false;
+// 	// }
+
+// 	file = SD.open(logfilename, FILE_WRITE);
+// 	if (file) {
+// 		// write time
+// 		file.write(&buffer[0], BUFFER_BLOCK_COUNT*BYTES_PER_BLOCK);
+
+// 	}
+// 	file.close();
+// 	Serial.println("Done logging!");
+// 	return true;
+// }
 
 bool MicLogger::envLog(void){
 	unsigned char * buffer;

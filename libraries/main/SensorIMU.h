@@ -12,9 +12,9 @@
 #include "Pinouts.h"
 #include "TimingOffsets.h"
 
-#define NUMBER_TO_AVERAGE 10
+#define NUM_TO_AVERAGE 10
 
-float headingArray[NUM_TO_AVERAGE]
+float headingArray[NUM_TO_AVERAGE];
 float runningAverage = 0;
 
 class SensorIMU : public DataSource {

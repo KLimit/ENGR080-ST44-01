@@ -29,6 +29,11 @@ SlaveBT slaveBT;
 SendGPS sendGPS;
 
 
+//loop start recorder
+int loopStartTime;
+
+int currentTime;
+
 
 
 void setup() {
@@ -49,6 +54,17 @@ void setup() {
   const float origin_lat = 34.106465;
   const float origin_lon = -117.712488;
 
+
+//TIMING STUFF: We may wish to change this later.
+ printer.printMessage("Starting main loop",10);
+  loopStartTime = millis();
+  printer.lastExecutionTime         = loopStartTime - LOOP_PERIOD + PRINTER_LOOP_OFFSET ;
+  imu.lastExecutionTime             = loopStartTime - LOOP_PERIOD + IMU_LOOP_OFFSET;
+  gps.lastExecutionTime             = loopStartTime - LOOP_PERIOD + GPS_LOOP_OFFSET;
+  adc.lastExecutionTime             = loopStartTime - LOOP_PERIOD + ADC_LOOP_OFFSET;
+  state_estimator.lastExecutionTime = loopStartTime - LOOP_PERIOD + STATE_ESTIMATOR_LOOP_OFFSET;
+  pcontrol.lastExecutionTime        = loopStartTime - LOOP_PERIOD + P_CONTROL_LOOP_OFFSET;
+  logger.lastExecutionTime          = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
 
 
 }
