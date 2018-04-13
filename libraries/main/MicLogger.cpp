@@ -6,7 +6,7 @@
 extern Printer printer;
 // extern MicrophoneADC mic;  // assumes that there's an object in memory named mic
 // String message;
-extern EnvADC env;
+// extern EnvADC env;
 
 MicLogger::MicLogger(void){
 }
@@ -108,20 +108,20 @@ void MicLogger::init(void) {
 // 	return true;
 // }
 
-bool MicLogger::envLog(void){
-	unsigned char * buffer;
+// bool MicLogger::envLog(void){
+// 	unsigned char * buffer;
 
-	env.writeDataBytes(&buffer[0]);
-	file = SD.open(logfilename, FILE_WRITE);
-	if (file) {
-		// write time
-		file.write(&buffer[0], 4); //4 bytes in an int
+// 	env.writeDataBytes(&buffer[0]);
+// 	file = SD.open(logfilename, FILE_WRITE);
+// 	if (file) {
+// 		// write time
+// 		file.write(&buffer[0], 4); //4 bytes in an int
 
-	}
-	file.close();
-	return true;
+// 	}
+// 	file.close();
+// 	return true;
 
-}
+// }
 // String MicLogger::printState(void){
 // 	String printString = "MicLogger: ";
 // 	if(keepLogging) {

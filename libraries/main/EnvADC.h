@@ -5,6 +5,7 @@
 // #include "MotorDriver.h"
 // #include "MicrophoneDataSource.h"
 #include "Pinouts.h"
+#include "DataSource.h"
 
 /*
  * EnvADC implements SD logging for the ADC channels
@@ -15,7 +16,7 @@
 
 
 
-class EnvADC {
+class EnvADC :public DataSource {
 public:
 
   EnvADC(void);
@@ -37,7 +38,7 @@ public:
   String printSample(void);
 
   // Write out
-  void writeDataBytes(unsigned char * buffer);
+  size_t writeDataBytes(unsigned char * buffer, size_t idx);
   // void writeDataBytes(unsigned char * timeBuffer, unsigned char * micBuffer, unsigned char * envBuffer);
 
   int lastExecutionTime = -1; //Not used so far.
