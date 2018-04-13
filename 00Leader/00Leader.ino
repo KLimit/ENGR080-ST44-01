@@ -22,6 +22,7 @@ PControl pcont;
 MotorDriver md;
 StateEstimator stateEst;
 Printer printer
+MasterBT masterBT
 
 float runningAverage = 0; // Used for smoothing the heading readings
 float headings[]
@@ -43,4 +44,14 @@ void setup() {
 
 
 
+}
+
+void loop(){
+  pcont.calculateControl(&stateEst.state);
+  md.driveForward(pcont.ul, pcont.ur);
+
+  imu.read();
+  gps.read(&GPS);
+  stateEst.updateState(%imu.state, &gps.state);
+  masterBT.sendCoords();
 }

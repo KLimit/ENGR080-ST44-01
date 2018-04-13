@@ -55,8 +55,8 @@ void setup() {
 
 void loop(){
   //Very rudimentary control scheme:
-  PControl.calculateControl(&stateEst.state);
-  md.driveForward(PControl.ul, PControl.ur); //This line is subject to change.
+  pcont.calculateControl(&stateEst.state);
+  md.driveForward(pcont.ul, pcont.ur); //This line is subject to change.
 
   imu.read();
   gps.read(&GPS);
