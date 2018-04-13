@@ -16,7 +16,7 @@ public:
   void init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in);
 
   // updates the set of waypoint values that the follower uses
-  void updateFollowerWaypoint();
+  void updateFollowerWaypoint(state_t* gpsCoordinates);
 
   // sets the motor speeds using P-Control
   void calculateControl(state_t * state);
@@ -45,7 +45,7 @@ public:
 private:
 
   // updates the current waypoint if necessary
-  void updatePoint(float x, float y);
+  void updateFollowerWaypoint(float x, float y, bool isLeader);
 
   int getWayPoint(int dim);
 

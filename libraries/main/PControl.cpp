@@ -33,9 +33,13 @@ int PControl::getWayPoint(int dim) {
   return wayPoints[currentWayPoint*stateDims+dim];
 }
 
-void PControl::updateFollowerWaypoint() {
+void PControl::updateFollowerWaypoint(state_t * gpsCoordinates) {
   // will primarily be used for updating the follower's waypoints
   // changes fwpX and fwpY
+
+int x_des = gpsCoordinates->x;
+int y_des = gpsCoordinates->y;
+
 }
 
 void PControl::calculateControl(state_t * state) {
@@ -58,7 +62,7 @@ void PControl::calculateControl(state_t * state) {
 void PControl::calculateNominal(state_t * fState) {
   // for controlling the follower's thrust
   // DISTANCE TO LEADER
-
+  
 }
 
 void PControl::calculateSteering(state_t * fState) {
@@ -80,7 +84,7 @@ String PControl::printWaypointUpdate(void) {
   return wayPointUpdate;
 }
 
-void PControl::updatePoint(float x, float y) {
+void PControl::updatePoint(float x, float y, bool isLeader) {
   if (currentWayPoint == totalWayPoints) return; // don't check if finished
 
   int x_des = getWayPoint(0);
