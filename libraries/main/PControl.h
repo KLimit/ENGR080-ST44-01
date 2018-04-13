@@ -13,7 +13,7 @@ public:
   PControl(void);
 
   // defines the waypoints used for pControl
-  void init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in);
+  void init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in, bool isLeader);
 
   // updates the set of waypoint values that the follower uses
   void updateFollowerWaypoint(state_t* gpsCoordinates);
@@ -23,6 +23,7 @@ public:
 
   void calculateNominal(state_t* fState);
   void caclculateSteering(state_t* fState);
+  void updatePoint(float x, float y, bool isLeader);
 
   String printString(void);
   String printWaypointUpdate(void);
@@ -51,6 +52,7 @@ private:
 
   int totalWayPoints, stateDims;
   double * wayPoints;
+  double * followerPoints;
   int currentWayPoint = 0;
 
   // THESE ARE TO BE USED EXCLUSIVELY FOR THE FOLLOWER SO THAT IT HAS A SINGLE

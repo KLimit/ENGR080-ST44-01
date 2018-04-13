@@ -60,8 +60,10 @@ void PControl::calculateControl(state_t * state) {
 }
 
 void PControl::calculateNominal(state_t * fState) {
-  // for controlling the follower's thrust
-  // DISTANCE TO LEADER
+  int x = fState->x;
+  int y = fState->y;
+
+  int dist = sqrt((x_dex-x))
   
 }
 
