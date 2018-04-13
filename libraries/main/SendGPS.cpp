@@ -11,24 +11,12 @@ SendGPS::SendGPS(void)
   //Uart_p = &Uart;
 }
 
-
-
-
-
-
-
-
-
 void SendGPS::updateState(float lat, float lon)
 {
   receiveState.lat = lat;
   receiveState.lon = lon;
 
 }
-
-
-
-
 
 size_t SendGPS::writeDataBytes(unsigned char * buffer, size_t idx)
 {

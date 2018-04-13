@@ -11,7 +11,7 @@
 #include <Printer.h>
 
 #define mySerial Serial1
-#define isLeader true
+#define followDist 0F
 
 SensorGPS gps;
 SensorIMU imu;
@@ -33,7 +33,7 @@ void setup() {
   const int waypointDimensions = 2;
   double waypoints[] = {0, 10, 0, 0};
   const int numberWaypoints = 2; // The length of waypoints divided by dimension
-  pcontrol.init(numberWaypoints, waypointDimensions, waypoints, isLeader);
+  pcontrol.init(numberWaypoints, waypointDimensions, waypoints, followDist);
 
   const float origin_lat = 34.106465;
   const float origin_lon = -117.712488;

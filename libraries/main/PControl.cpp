@@ -1,5 +1,6 @@
 #include "PControl.h"
 #include "Printer.h"
+#include <math.h>
 extern Printer printer;
 
 inline float angleDiff(float a) {
@@ -11,18 +12,24 @@ inline float angleDiff(float a) {
 PControl::PControl(void) {
 }
 
-void PControl::init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in, bool isLeader) {
-  if (isLeader) {
+void PControl::init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in, float followDist) {
+  if (followDist > 0) {
+    // we are saying that the pcontrol is a follower if it has a nonzero followdistance
+    x_des = 0;
+    y_des = 0;
+    dist_des = followDist;
+  } else {
     // when the PControl object is tied to the leader, initialize as normal
     totalWayPoints = totalWayPoints_in;
     stateDims = stateDims_in;
     wayPoints = wayPoints_in;
-  } else {
-    // when initialized for the follower, don't worry about totalWayPoints or
-    // anything like that; instead just use the updatable doubles
-    fwpX = 0;
-    fwpY = 0;
   }
+}
+
+void PControl::setAvgPower(float speedConstant) {
+  // can be used to set the nominal speeds of individual PControl objects (robots)
+  // default is still 5.0
+  avgPower = speedConstant;
 }
 
 int PControl::getWayPoint(int dim) {
@@ -33,13 +40,11 @@ int PControl::getWayPoint(int dim) {
   return wayPoints[currentWayPoint*stateDims+dim];
 }
 
-void PControl::updateFollowerWaypoint(state_t * gpsCoordinates) {
+void PControl::updateFollowerWaypoint(recieve_state_t * currentLeaderState) {
   // will primarily be used for updating the follower's waypoints
-  // changes fwpX and fwpY
-
-int x_des = gpsCoordinates->x;
-int y_des = gpsCoordinates->y;
-
+  // changes x_des and y_des
+  x_des = currentLeaderState->x;
+  y_des = currentLeaderState->y;
 }
 
 void PControl::calculateControl(state_t * state) {
@@ -60,11 +65,16 @@ void PControl::calculateControl(state_t * state) {
 }
 
 void PControl::calculateNominal(state_t * fState) {
-  int x = fState->x;
-  int y = fState->y;
+  // follower robot's state
+  float x = fState->x;
+  float y = fState->y;
+  float h = fState->heading;
 
-  int dist = sqrt((x_dex-x))
-  
+  distFromLeader = sqrt( (x-x_des)^2 + (y-y_des)^2);
+
+  distError = dist_des - distFromLeader;
+  u = Kp*distError;
+
 }
 
 void PControl::calculateSteering(state_t * fState) {

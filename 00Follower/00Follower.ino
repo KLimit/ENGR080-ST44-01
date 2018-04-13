@@ -15,7 +15,7 @@
 
 #define mySerial Serial1
 #define BT_SERIAL Serial3
-#define notLeader false
+#define followDist 2.0F
 
 SensorGPS gps;
 SensorIMU imu;
@@ -39,7 +39,7 @@ void setup() {
 
   // x0, y0, x1, y1, ...
 
-  pcontrol.init(NULL, NULL, NULL, notLeader);
+  pcont.init(NULL, NULL, NULL, followDist);
 
   const float origin_lat = 34.106465;
   const float origin_lon = -117.712488;

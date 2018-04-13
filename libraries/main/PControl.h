@@ -6,6 +6,7 @@
 #include <Arduino.h>
 #include "MotorDriver.h"
 #include "StateEstimator.h"
+#include "SendGPS.h"
 extern MotorDriver motorDriver;
 
 class PControl {
@@ -17,6 +18,8 @@ public:
 
   // updates the set of waypoint values that the follower uses
   void updateFollowerWaypoint(state_t* gpsCoordinates);
+
+  void setAvgPower(float speedConstant);
 
   // sets the motor speeds using P-Control
   void calculateControl(state_t * state);
@@ -58,9 +61,9 @@ private:
   // THESE ARE TO BE USED EXCLUSIVELY FOR THE FOLLOWER SO THAT IT HAS A SINGLE
   // SET OF WAYPOINTS THAT ARE CONTINUOUSLY UPDATED
   // "Follower WayPoint X/Y"
-  double fwpX;
-  double fwpY;
-
+  double x_des;
+  double y_des;
+  double dist_des;
 };
 
 #endif
