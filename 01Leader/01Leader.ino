@@ -9,6 +9,7 @@
 #include<MotorDriver.h>
 #include<StateEstimator.h>
 #include<Printer.h>
+#include<MasterBT.h>
 
 #define mySerial Serial1
 
@@ -58,7 +59,7 @@ void setup(){
   stateEst.lastExecutionTim   = loopStartTime - LOOP_PERIOD + STATE_ESTIMATOR_LOOP_OFFSET;
   pcont.lastExecutionTime     = loopStartTime - LOOP_PERIOD + P_CONTROL_LOOP_OFFSET;
   logger.lastExecutionTime    = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
-  masterBT.lastExeuctionTime  = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
+  masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
 
 }
 

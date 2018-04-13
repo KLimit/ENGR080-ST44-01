@@ -8,7 +8,7 @@ SlaveBT::SlaveBT(){
   // no construction necessary
 }
 
-void recieveCoords(){
+void receiveCoords(){
   int startTime = micros();
   numBytes = BT_SERIAL.available() + 1; //there may or may not be an imaginary 1 byte character at the start of the serial.
   if (numBytes > 1) {

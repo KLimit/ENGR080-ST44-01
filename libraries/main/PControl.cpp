@@ -3,7 +3,7 @@
 #include <math.h>
 #include "StateEstimator.h"
 extern Printer printer;
-
+extern SendGPS sendGPS;
 extern StateEstimator stateEst;
 
 inline float angleDiff(float a) {
@@ -43,11 +43,11 @@ int PControl::getWayPoint(int dim) {
   return wayPoints[currentWayPoint*stateDims+dim];
 }
 
-void PControl::updateFollowerWaypoint(receive_state_t * currentLeaderState) {
+void PControl::updateFollowerWaypoint() {
   // will primarily be used for updating the follower's waypoints
   // changes x_des and y_des
   // x_des and y_des are the properties of
-  stateEst.latlonToXY(currentLeaderState->lat, currentLeaderState->lon, x_des, y_des);
+  stateEst.latlonToXY((double) endGPS.receiveState.lat, (double)sendGPS.receiveState.lon, x_des, y_des);
   // x_des = currentLeaderState->x;
   // y_des = currentLeaderState->y;
 }
