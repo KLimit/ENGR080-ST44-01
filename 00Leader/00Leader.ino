@@ -13,7 +13,7 @@
 #define NUMBER_TO_AVERAGE 10 //Used for smoothing the heading readings
 
 #define mySerial Serial1
-#define followDist 0F
+#define followDist -1F
 
 SensorGPS gps;
 SensorIMU imu;

@@ -47,7 +47,8 @@ void PControl::updateFollowerWaypoint(recieve_state_t * currentLeaderState) {
   y_des = currentLeaderState->y;
 }
 
-void PControl::calculateControl(state_t * state) {
+void PControl::calculateLeaderControl(state_t * state) {
+  // USE ONLY WITH LEADER
   updatePoint(state->x, state->y);
   if (currentWayPoint == totalWayPoints) return; // stops motors at final point
 
@@ -55,7 +56,7 @@ void PControl::calculateControl(state_t * state) {
   int x_des = getWayPoint(0);
   int y_des = getWayPoint(1);
 
-  yaw_des = atan2(y_des - state->y, x_des - state->x);
+  yaw_des = calcDesiredHeading(y_des, state->y, x_des, state->x);
   yaw = state->heading;
   u = Kp*angleDiff(yaw_des - yaw);
 
@@ -64,22 +65,35 @@ void PControl::calculateControl(state_t * state) {
 
 }
 
-void PControl::calculateNominal(state_t * fState) {
-  // follower robot's state
-  float x = fState->x;
-  float y = fState->y;
-  float h = fState->heading;
+void PControl::calculateFollowerControl(state_t * state) {
+  float fx = fState->x;
+  float fy = fState->y;
+  float fh = fState->heading;
 
+  calculateNominal(fx, fy);
+  calculateSteering(fx, fy, fh);
+}
+
+void PControl::calculateNominal(float x, float y) {
+  // FOLLOWER
+  // follower robot's state
   distFromLeader = sqrt( (x-x_des)^2 + (y-y_des)^2);
 
   distError = dist_des - distFromLeader;
-  u = Kp*distError;
+  avgPower = Kp*distError;
+}
+
+void PControl::calculateSteering(float x, float y, float h) {
+  // FOLLOWER
+  // ANGLE TOWARD LEADER
+
+  h_des = calcDesiredHeading(y_des, y, x_des, x);
 
 }
 
-void PControl::calculateSteering(state_t * fState) {
-  // for controlling the follower's Steering
-  // ANGLE TOWARD LEADER
+float pControl::calcDesiredHeading(float y_des, float y, float x_des, float x) {
+  // Taken from the PControl that we implemented long ago for Lab 7
+  return atan2(y_des - y, x_des - x);
 }
 
 String PControl::printString(void) {
