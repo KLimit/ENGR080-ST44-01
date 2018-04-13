@@ -3,7 +3,6 @@
 
 // #define GPS_READ_INTERVAL 3
 
-// #define RADIUS_OF_EARTH_M 6371000
 
 #include <Arduino.h>
 //#include <TinyGPS.h>
@@ -22,6 +21,8 @@ public:
 	SendGPS(void);
 
   receive_state_t receiveState;
+  receiveState.lat = 0;
+  receiveState.lon = 0;
   void updateState(float lat, float lon);
 
 
