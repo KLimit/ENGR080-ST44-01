@@ -24,6 +24,10 @@ MasterBT masterBT;
 
 PControl pcont;
 
+int loopStartTime;
+int currentTime;
+int current_way_point = 0;
+
 
 void setup(){
 
@@ -59,7 +63,7 @@ void setup(){
   stateEst.lastExecutionTim   = loopStartTime - LOOP_PERIOD + STATE_ESTIMATOR_LOOP_OFFSET;
   pcont.lastExecutionTime     = loopStartTime - LOOP_PERIOD + P_CONTROL_LOOP_OFFSET;
   logger.lastExecutionTime    = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
-  masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
+  masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET; //Change this offset later.
 
 }
 

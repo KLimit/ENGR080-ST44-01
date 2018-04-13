@@ -27,7 +27,11 @@ EnvADC env;
 
 PControl pcont;
 
+int loopStartTime;
+int currentTime;
 
+
+int 
 void setup(){
 
   mySerial.begin(9600);
@@ -62,13 +66,18 @@ void setup(){
   stateEst.lastExecutionTim   = loopStartTime - LOOP_PERIOD + STATE_ESTIMATOR_LOOP_OFFSET;
   pcont.lastExecutionTime     = loopStartTime - LOOP_PERIOD + P_CONTROL_LOOP_OFFSET;
   logger.lastExecutionTime    = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
-  masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
+  masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET; //Change this offset later
 
 }
 
 void loop(){
   currentTime=millis();
 
+  if (currentTime-slaveBT.lastExecutionTime > LOOP_PERIOD) {
+	slaveBT.lastExecutionTime = currentTime;
+    slaveBT.receiveCoords();
+  }
+  
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
     printer.printValue(0,adc.printSample());
@@ -85,7 +94,8 @@ void loop(){
 
   if ( currentTime-pcont.lastExecutionTime > LOOP_PERIOD ) {
     pcont.lastExecutionTime = currentTime;
-    pcont.calculateControl(&stateEst.state);
+    pcont.updateFollowerWaypoint();
+	pcont.calculateFollowerControl(&stateEst.state);
     md.driveForward(pcont.uL,pcont.uR);
   }
 
@@ -105,10 +115,6 @@ void loop(){
   }
 
   // uses the LED library to flash LED -- use this as a template for new libraries!
-  if (currentTime-slaveBT.lastExecutionTime > LOOP_PERIOD) {
-    slaveBT.lastExecutionTime = currentTime;
-    slaveBT.receiveCoords();
-  }
 
   if (currentTime- logger.lastExecutionTime > LOOP_PERIOD && logger.keepLogging) {
     logger.lastExecutionTime = currentTime;
