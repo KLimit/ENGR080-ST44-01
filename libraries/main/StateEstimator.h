@@ -31,12 +31,15 @@ public:
   // init
   void init(double orig_lat, double orig_lon);
 
+  double orig_lat;
+  double orig_lon;
+
   // State Access
   state_t state;
   void updateState(sensors_vec_t * imu_state_p, gps_state_t * gps_state_p);
   String printState(void);
 
-  void latlonToXY(double lat, double lon, float* x_p, float* y_p);
+  void latlonToXY(double lat, double lon, double &x_p, double &y_p);
 
   // from DataSource
   size_t writeDataBytes(unsigned char * buffer, size_t idx);
@@ -47,8 +50,7 @@ public:
 
 private:
   double loop_period;
-  double orig_lat;
-  double orig_lon;
+
   float cosOrigLat;
 
 

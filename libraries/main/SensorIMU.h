@@ -14,8 +14,6 @@
 
 #define NUM_TO_AVERAGE 10
 
-float headingArray[NUM_TO_AVERAGE];
-float runningAverage = 0;
 
 class SensorIMU : public DataSource {
 public:
@@ -27,12 +25,14 @@ public:
   // Reads data from the sensor
   void read(void);
 
-  void getOrientation(float ax, float ay, float az, float mx, float my, float mz); // float gx, float gy, float gz, 
+  void getOrientation(float ax, float ay, float az, float mx, float my, float mz); // float gx, float gy, float gz,
 
   // Latest reported orientation data is stored here
   sensors_vec_t state;
   sensors_vec_t simple;  // simple state calculation
   sensors_vec_t acceleration;
+  float headingArray[NUM_TO_AVERAGE];
+  float runningAverage = 0;
 
   // prints state to serial
   String printRollPitchHeading(void);

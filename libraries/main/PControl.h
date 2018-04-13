@@ -14,10 +14,7 @@ public:
   PControl(void);
 
   // defines the waypoints used for pControl
-  void init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in, bool isLeader);
-
-  // updates the set of waypoint values that the follower uses
-  void updateFollowerWaypoint(receive_state_t * currentLeaderState);
+  void init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in, float followDist);
 
   void setAvgPower(float speedConstant);
 
@@ -26,10 +23,10 @@ public:
 
   void calculateFollowerControl(state_t * state);
   void calculateNominal(float x, float y);
-  void caclculateSteering(float x, float y, float h);
+  void calculateSteering(float x, float y, float h);
 
 
-  void updatePoint(float x, float y, bool isLeader);
+  void updatePoint(float x, float y);
 
   String printString(void);
   String printWaypointUpdate(void);
@@ -52,8 +49,8 @@ public:
 
 private:
 
-  // updates the current waypoint if necessary
-  void updateFollowerWaypoint(float x, float y, bool isLeader);
+  // updates the current follower waypoint if necessary
+  void updateFollowerWaypoint(receive_state_t* currentLeaderState);
 
   int getWayPoint(int dim);
 

@@ -50,7 +50,7 @@ size_t StateEstimator::writeDataBytes(unsigned char * buffer, size_t idx) {
   return idx + 3*sizeof(float);
 }
 
-void latlonToXY(double lat, double lon, float* x_p, float* y_p){
+void StateEstimator::latlonToXY(double lat, double lon, double &x_p, double &y_p){
   x_p = RADIUS_OF_EARTH_M * (-lon + orig_lon) * M_PI/180 * cos(orig_lat*M_PI/180);
   y_p = RADIUS_OF_EARTH_M * (lat - orig_lat) * M_PI/180;
 }

@@ -1,18 +1,17 @@
-#include <PControl.h>
-#include <Logger.h>
-#include <EnvADC.h>
+#include<PControl.h>
+#include<StateEstimator.h>
 
-Logger logger;
-EnvADC env;
+StateEstimator stateEst;
+const float origin_lat = 34.106465;
+const float origin_lon = -117.712488;
 
 void setup() {
   // put your setup code here, to run once:
+  stateEst.init(origin_lat, origin_lon);
 
-  logger.include(&env);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
 
 }

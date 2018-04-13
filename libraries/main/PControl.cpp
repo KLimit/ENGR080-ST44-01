@@ -1,7 +1,10 @@
 #include "PControl.h"
 #include "Printer.h"
 #include <math.h>
+#include "StateEstimator.h"
 extern Printer printer;
+
+extern StateEstimator stateEst;
 
 inline float angleDiff(float a) {
   while (a<-PI) a += 2*PI;
@@ -40,11 +43,13 @@ int PControl::getWayPoint(int dim) {
   return wayPoints[currentWayPoint*stateDims+dim];
 }
 
-void PControl::updateFollowerWaypoint(recieve_state_t * currentLeaderState) {
+void PControl::updateFollowerWaypoint(receive_state_t * currentLeaderState) {
   // will primarily be used for updating the follower's waypoints
   // changes x_des and y_des
-  x_des = currentLeaderState->x;
-  y_des = currentLeaderState->y;
+  // x_des and y_des are the properties of
+  stateEst.latlonToXY(currentLeaderState->lat, currentLeaderState->lon, x_des, y_des);
+  // x_des = currentLeaderState->x;
+  // y_des = currentLeaderState->y;
 }
 
 void PControl::calculateLeaderControl(state_t * state) {
@@ -52,11 +57,11 @@ void PControl::calculateLeaderControl(state_t * state) {
   updatePoint(state->x, state->y);
   if (currentWayPoint == totalWayPoints) return; // stops motors at final point
 
-  // set up variables
-  int x_des = getWayPoint(0);
-  int y_des = getWayPoint(1);
+  // set up variables (crappy practice but I took out the underscores to separate these from the object variables of the same name)
+  float xdes = getWayPoint(0);
+  float ydes = getWayPoint(1);
 
-  yaw_des = calcDesiredHeading(y_des, state->y, x_des, state->x);
+  yaw_des = calcDesiredHeading(ydes, state->y, xdes, state->x);
   yaw = state->heading;
   u = Kp*angleDiff(yaw_des - yaw);
 
@@ -65,7 +70,7 @@ void PControl::calculateLeaderControl(state_t * state) {
 
 }
 
-void PControl::calculateFollowerControl(state_t * state) {
+void PControl::calculateFollowerControl(state_t * fState) {
   float fx = fState->x;
   float fy = fState->y;
   float fh = fState->heading;
@@ -77,9 +82,10 @@ void PControl::calculateFollowerControl(state_t * state) {
 void PControl::calculateNominal(float x, float y) {
   // FOLLOWER
   // follower robot's state
-  distFromLeader = sqrt( (x-x_des)^2 + (y-y_des)^2);
+  float distFromLeader = sqrt( pow(x-x_des, 2) + pow(y-y_des, 2));
 
-  distError = dist_des - distFromLeader;
+  float distError = dist_des - distFromLeader;
+
   avgPower = Kp*distError;
 }
 
@@ -87,14 +93,14 @@ void PControl::calculateSteering(float x, float y, float h) {
   // FOLLOWER
   // ANGLE TOWARD LEADER
 
-  h_des = calcDesiredHeading(y_des, y, x_des, x);
+  float h_des = calcDesiredHeading(y_des, y, x_des, x);
   u = Kp * angleDiff(h_des - h);
   uL = max(0.0, min(255.0, (avgPower - u) * Kl));
   uR = max(0.0, min(255.0, (avgPower - u) * Kl));
 
 }
 
-float pControl::calcDesiredHeading(float y_des, float y, float x_des, float x) {
+float PControl::calcDesiredHeading(float y_des, float y, float x_des, float x) {
   // Taken from the PControl that we implemented long ago for Lab 7
   return atan2(y_des - y, x_des - x);
 }
@@ -113,7 +119,7 @@ String PControl::printWaypointUpdate(void) {
   return wayPointUpdate;
 }
 
-void PControl::updatePoint(float x, float y, bool isLeader) {
+void PControl::updatePoint(float x, float y) {
   if (currentWayPoint == totalWayPoints) return; // don't check if finished
 
   int x_des = getWayPoint(0);
