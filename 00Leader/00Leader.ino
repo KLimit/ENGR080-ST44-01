@@ -11,7 +11,7 @@
 #include <Printer.h>
 
 #define mySerial Serial1
-#define followDist 0F
+#define followDist -1F
 
 SensorGPS gps;
 SensorIMU imu;
