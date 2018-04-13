@@ -10,6 +10,8 @@
 #include <StateEstimator.h>
 #include <Printer.h>
 
+#define NUMBER_TO_AVERAGE 10 //Used for smoothing the heading readings
+
 #define mySerial Serial1
 #define followDist 0F
 
@@ -21,7 +23,8 @@ MotorDriver md;
 StateEstimator stateEst;
 Printer printer
 
-
+float runningAverage = 0; // Used for smoothing the heading readings
+float headings[]
 
 void setup() {
   gps.init(&GPS);

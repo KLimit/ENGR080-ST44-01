@@ -5,6 +5,7 @@
 
 #define RADIUS_OF_EARTH_M 6371000
 
+
 #include <Arduino.h>
 //#include <TinyGPS.h>
 #include "DataSource.h"
@@ -51,6 +52,7 @@ private:
   void updateState(Adafruit_GPS* GPS);
 
   float convertDegMinToDecDeg (float degMin);
+  
 
   
 };

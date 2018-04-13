@@ -30,34 +30,41 @@ void SensorIMU::read(void) {
 
   // Try with no filter
   //simple()
+  for(int i = 0; i < NUM_TO_AVERAGE; i++){
+    // Get new data samples
+    gyro.getEvent(&gyro_event);
+    accelmag.getEvent(&accel_event, &mag_event);
 
-  // Get new data samples
-  gyro.getEvent(&gyro_event);
-  accelmag.getEvent(&accel_event, &mag_event);
+      // Apply mag offset compensation (base values in uTesla)
+    float x = mag_event.magnetic.x - mag_offsets[0];
+    float y = mag_event.magnetic.y - mag_offsets[1];
+    float z = mag_event.magnetic.z - mag_offsets[2];
 
-    // Apply mag offset compensation (base values in uTesla)
-  float x = mag_event.magnetic.x - mag_offsets[0];
-  float y = mag_event.magnetic.y - mag_offsets[1];
-  float z = mag_event.magnetic.z - mag_offsets[2];
+    // Apply mag soft iron error compensation
+    float mx = x * mag_ironcomp[0][0] + y * mag_ironcomp[0][1] + z * mag_ironcomp[0][2];
+    float my = x * mag_ironcomp[1][0] + y * mag_ironcomp[1][1] + z * mag_ironcomp[1][2];
+    float mz = x * mag_ironcomp[2][0] + y * mag_ironcomp[2][1] + z * mag_ironcomp[2][2];
 
-  // Apply mag soft iron error compensation
-  float mx = x * mag_ironcomp[0][0] + y * mag_ironcomp[0][1] + z * mag_ironcomp[0][2];
-  float my = x * mag_ironcomp[1][0] + y * mag_ironcomp[1][1] + z * mag_ironcomp[1][2];
-  float mz = x * mag_ironcomp[2][0] + y * mag_ironcomp[2][1] + z * mag_ironcomp[2][2];
+    // Apply gyro zero-rate error compensation, convert to degrees/s from rad/s
+    float gx = (gyro_event.gyro.x + gyro_zero_offsets[0]) * 57.2958F;
+    float gy = (gyro_event.gyro.y + gyro_zero_offsets[1]) * 57.2958F;
+    float gz = (gyro_event.gyro.z + gyro_zero_offsets[2]) * 57.2958F;
 
-  // Apply gyro zero-rate error compensation, convert to degrees/s from rad/s
-  float gx = (gyro_event.gyro.x + gyro_zero_offsets[0]) * 57.2958F;
-  float gy = (gyro_event.gyro.y + gyro_zero_offsets[1]) * 57.2958F;
-  float gz = (gyro_event.gyro.z + gyro_zero_offsets[2]) * 57.2958F;
+    float ax = accel_event.acceleration.x;
+    float ay = accel_event.acceleration.y;
+    float az = accel_event.acceleration.z;
 
-  float ax = accel_event.acceleration.x;
-  float ay = accel_event.acceleration.y;
-  float az = accel_event.acceleration.z;
-
-  getOrientation(ax,ay,az,mx,my,mz);  // populate the this->simple field with simple orientation calcs
+    getOrientation(ax,ay,az,mx,my,mz);  // populate the this->simple field with simple orientation calcs
+    state.roll = simple.roll;
+    state.pitch = simple.pitch;
+    headingArray[i] = simple.heading * 57.2958F;
+    runningAverage += headingArray[i];
+  }
   state.roll = simple.roll;
   state.pitch = simple.pitch;
-  state.heading = simple.heading * 57.2958F; 
+  state.heading = runningAverage/NUM_TO_AVERAGE;
+  runningAverage = 0; //reset the running average
+  
 
   /////////// Old orientation estiamtion code from v1 ///////////////
   // // Update the filter
