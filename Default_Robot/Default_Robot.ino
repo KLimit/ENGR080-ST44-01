@@ -23,7 +23,8 @@ Previous Contributors:  Josephine Wong (jowong@hmc.edu) '18 (contributed in 2016
 #include <LED.h>  // A template of a data soruce library
 
 #include <MicrophoneADC.h>
-#include <MicLogger.h>
+#include <
+>
 
 /////////////////////////* Global Variables *////////////////////////
 

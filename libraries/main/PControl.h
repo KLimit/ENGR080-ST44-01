@@ -17,15 +17,18 @@ public:
   void init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in, bool isLeader);
 
   // updates the set of waypoint values that the follower uses
-  void updateFollowerWaypoint(state_t* gpsCoordinates);
+  void updateFollowerWaypoint(receive_state_t * currentLeaderState);
 
   void setAvgPower(float speedConstant);
 
   // sets the motor speeds using P-Control
-  void calculateControl(state_t * state);
+  void calculateLeaderControl(state_t * state);
 
-  void calculateNominal(state_t* fState);
-  void caclculateSteering(state_t* fState);
+  void calculateFollowerControl(state_t * state);
+  void calculateNominal(float x, float y);
+  void caclculateSteering(float x, float y, float h);
+
+
   void updatePoint(float x, float y, bool isLeader);
 
   String printString(void);
@@ -53,6 +56,8 @@ private:
   void updateFollowerWaypoint(float x, float y, bool isLeader);
 
   int getWayPoint(int dim);
+
+  float calcDesiredHeading(float y_des, float y, float x_des, float x);
 
   int totalWayPoints, stateDims;
   double * wayPoints;
