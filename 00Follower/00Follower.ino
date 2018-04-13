@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <Pinouts.h>
 #include <Wire.h>
-
+#include <analogComp.h>
 #include<SensorGPS.h>
 #include<SensorIMU.h>
 #include<Adafruit_GPS.h>
@@ -32,6 +32,11 @@ SendGPS sendGPS;
 
 
 void setup() {
+  pinMode(A16, INPUT);
+  analogWriteResolution(12);
+  analogWrite(A14, 0.18*4096/3.3); //Sets the comparator voltage
+  analogComparator.setOn(3,2);
+  analogcomparator.enableInterrupt(pulse, RISING);
   gps.init(&GPS);
   imu.init();
   // mySerial.begin(9600);
@@ -53,7 +58,6 @@ void loop(){
   PControl.calculateControl(&stateEst.state);
   md.driveForward(PControl.ul, PControl.ur); //This line is subject to change.
 
-  envADC.updateSample();
   imu.read();
   gps.read(&GPS);
   stateEst.updateState(&imu.state, &gps.state);
@@ -62,5 +66,12 @@ void loop(){
 
   //Convert the received coordinates into x-y coordinates
   float x = stateEst
+
+}
+
+
+void pulse(){
+  st = 1;
+  envADC.updateSample();
 
 }
