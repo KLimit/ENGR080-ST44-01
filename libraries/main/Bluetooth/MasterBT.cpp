@@ -21,8 +21,10 @@ void MasterBT::float2Bytes(float floatVal, byte * bytes_array){
 }
 
 void sendCoords(SensorGPS * currentGPS) {
+  float2bytes(micros(), &timeBytes[0]);  // send the time sent first
   float2bytes(currentGPS->state.lat, &latBytes[0]);
   float2bytes(currentGPS->state.lon, &lonBytes[0]);
+  sentBytes += BT_SERIAL.write(timeBytes, 4)
   sentBytes = BT_SERIAL.write(latBytes, 4);
   sentBytes += BT_SERIAL.write(lonBytes, 4);
   sentBytes += BT_SERIAL.write(47);

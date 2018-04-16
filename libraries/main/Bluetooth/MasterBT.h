@@ -16,6 +16,7 @@ public:
 
   byte latBytes[4];
   byte lonBytes[4];
+  byte timeBytes[4];
 
   int lastExecutionTime = -1;
   // constructor
