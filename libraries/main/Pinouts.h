@@ -1,6 +1,10 @@
 #ifndef __PINOUTS_H__
 #define __PINOUTS_H__
 
+
+// GLOBAL NAMES TO TEENSY PIN VALUES
+
+
 #define LOOP_LED 5
 #define USER_SWITCH 2
 
@@ -19,6 +23,6 @@
 // #define MIC_PIN 23
 
 #define MIC_PIN 28
-#define ENV_PIN 28
+#define ENV_PIN 16  // pin A2
 
 #endif
