@@ -13,15 +13,21 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> parent of 6b66017... fidx send jps
 typedef struct {
   float lat;
   float lon;
   float leaderTime;
   float followTime;
 } receive_state_t;
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 6b66017... fidx send jps
 
 class SendGPS : public DataSource {
 public:
@@ -29,10 +35,16 @@ public:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   float lat = 0
   float lon = 0
   float leaderTime;
   float followTime;
+=======
+  receive_state_t receiveState;
+  receiveState.lat = 0;
+  receiveState.lon = 0;
+>>>>>>> parent of 6b66017... fidx send jps
 =======
   receive_state_t receiveState;
   receiveState.lat = 0;
