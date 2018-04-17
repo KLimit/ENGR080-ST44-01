@@ -51,14 +51,11 @@ void setup(){
   gps.init(&GPS);
   md.init();
 
-  const int numWaypoints = 2;
-  const int wayPointDim = 2;
-  const double waypoints[] = {0, 10, 0, 0};
-  const double followDist = -1.0;
-  pcont.init(numWaypoints, wayPointDim, waypoints, followDist);
-
-
-
+  // const int numWaypoints = 2;
+  // const int wayPointDim = 2;
+  // const double waypoints[] = {0, 10, 0, 0};
+  const double followDist = 5.0;
+  pcont.init(NULL, NULL, NULL, followDist);
 
   printer.printMessage("Starting main loop",10);
   loopStartTime = millis();
@@ -99,7 +96,7 @@ void loop(){
   if ( currentTime-pcont.lastExecutionTime > LOOP_PERIOD ) {
     pcont.lastExecutionTime = currentTime;
     pcont.updateFollowerWaypoint();
-	pcont.calculateFollowerControl(&stateEst.state);
+	  pcont.calculateFollowerControl(&stateEst.state);
     md.driveForward(pcont.uL,pcont.uR);
   }
 
