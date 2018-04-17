@@ -14,8 +14,8 @@
 typedef struct {
   float lat;
   float lon;
-  float leaderTime
-  float followTime
+  float leaderTime;
+  float followTime;
 } receive_state_t;
 
 class SendGPS : public DataSource {
