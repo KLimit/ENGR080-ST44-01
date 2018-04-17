@@ -1,4 +1,4 @@
-#include <Arduino.h>
+#include <Arduinoh>
 #include <Pinouts.h>
 #include <TimingOffsets.h>
 #include <EnvADC.h>
@@ -11,7 +11,6 @@
 #include<Printer.h>
 #include<SendGPS.h>
 #include<SlaveBT.h>
-#include<Logger.h>
 
 #define mySerial Serial1
 
@@ -82,7 +81,7 @@ void loop(){
 
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
-    printer.printValue(0,env.printSample());
+    printer.printValue(0,adc.printSample());
     printer.printValue(1,logger.printState());
     printer.printValue(2,gps.printState());
     printer.printValue(3,stateEst.printState());

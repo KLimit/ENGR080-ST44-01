@@ -12,25 +12,32 @@
 #include <Adafruit_GPS.h>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
-=======
+
 typedef struct {
   float lat;
   float lon;
-  unsigned long leaderTime;
-  unsigned long followTime;
+  float leaderTime;
+  float followTime;
 } receive_state_t;
->>>>>>> c7e6f6446ec343b1bcdba23e4129dd411952899c
+
 
 class SendGPS : public DataSource {
 public:
 	SendGPS(void);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   float lat = 0
   float lon = 0
   float leaderTime;
   float followTime;
+=======
+  receive_state_t receiveState;
+  receiveState.lat = 0;
+  receiveState.lon = 0;
+>>>>>>> parent of 6b66017... fidx send jps
   void updateState(float lat, float lon, float leaderTime, float followTime);
 =======
   receive_state_t receiveState;
