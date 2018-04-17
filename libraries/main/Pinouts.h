@@ -19,6 +19,6 @@
 // #define MIC_PIN 23
 
 #define MIC_PIN 28
-#define ENV_PIN 28
+#define ENV_PIN 16  // pin A2
 
 #endif
