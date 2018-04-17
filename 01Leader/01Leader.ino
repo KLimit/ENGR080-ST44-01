@@ -14,19 +14,24 @@
 #define mySerial Serial1
 
 Printer printer;
+Logger logger;
+
 MotorDriver md;
 StateEstimator stateEst;
 SensorGPS gps;
 Adafruit_GPS GPS(&mySerial);
-Logger logger;
 SensorIMU imu;
 MasterBT masterBT;
 
 PControl pcont;
+double waypoints[] = {0, 10, 0, 0};
+
 
 int loopStartTime;
 int currentTime;
-int current_way_point = 0;
+
+
+
 
 
 void setup(){
@@ -48,7 +53,6 @@ void setup(){
 
   const int numWaypoints = 2;
   const int wayPointDim = 2;
-  double waypoints[] = {0, 10, 0, 0};
   const double followDist = -1.0;
   pcont.init(numWaypoints, wayPointDim, waypoints, followDist);
 
