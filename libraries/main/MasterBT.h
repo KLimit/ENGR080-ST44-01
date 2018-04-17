@@ -27,3 +27,6 @@ public:
 private:
   void float2Bytes(float val, byte * bytes_array);
 }
+
+
+#endif
