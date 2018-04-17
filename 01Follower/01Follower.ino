@@ -37,6 +37,7 @@ int currentTime;
 void setup(){
 
   mySerial.begin(9600);
+  BT_SERIAL.setTimeout(500);
 
   logger.include(&imu);
   logger.include(&gps);
@@ -51,12 +52,11 @@ void setup(){
   gps.init(&GPS);
   md.init();
 
-  const int numWaypoints = 2;
-  const int wayPointDim = 2;
-  const double waypoints[] = {0, 10, 0, 0};
-  const double followDist = -1.0;
-  pcont.init(numWaypoints, wayPointDim, waypoints, followDist);
-
+  // const int numWaypoints = 2;
+  // const int wayPointDim = 2;
+  // const double waypoints[] = {0, 10, 0, 0};
+  const double followDist = 5.0;
+  pcont.init(NULL, NULL, NULL, followDist);
 
 
 
