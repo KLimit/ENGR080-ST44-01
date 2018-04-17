@@ -1,4 +1,4 @@
-#include <Arduinoh>
+#include <Arduino.h>
 #include <Pinouts.h>
 #include <TimingOffsets.h>
 
