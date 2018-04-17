@@ -3,7 +3,7 @@
 #include <math.h>
 #include "StateEstimator.h"
 extern Printer printer;
-
+extern SendGPS sendGPS;
 extern StateEstimator stateEst;
 
 inline float angleDiff(float a) {
@@ -15,7 +15,7 @@ inline float angleDiff(float a) {
 PControl::PControl(void) {
 }
 
-void PControl::init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in, float followDist) {
+void PControl::init(const int totalWayPoints_in, const int stateDims_in, double * wayPoints_in, double followDist) {
   if (followDist > 0) {
     // we are saying that the pcontrol is a follower if it has a nonzero followdistance
     x_des = 0;
@@ -43,11 +43,11 @@ int PControl::getWayPoint(int dim) {
   return wayPoints[currentWayPoint*stateDims+dim];
 }
 
-void PControl::updateFollowerWaypoint(receive_state_t * currentLeaderState) {
+void PControl::updateFollowerWaypoint() {
   // will primarily be used for updating the follower's waypoints
   // changes x_des and y_des
   // x_des and y_des are the properties of
-  stateEst.latlonToXY(currentLeaderState->lat, currentLeaderState->lon, x_des, y_des);
+  stateEst.latlonToXY((double) endGPS.receiveState.lat, (double)sendGPS.receiveState.lon, x_des, y_des);
   // x_des = currentLeaderState->x;
   // y_des = currentLeaderState->y;
 }
@@ -63,7 +63,7 @@ void PControl::calculateLeaderControl(state_t * state) {
 
   yaw_des = calcDesiredHeading(ydes, state->y, xdes, state->x);
   yaw = state->heading;
-  u = Kp*angleDiff(yaw_des - yaw);
+  u = Kp * angleDiff(yaw_des - yaw);
 
   uL = max(0.0,min(255.0,(avgPower - u)*Kl));
   uR = max(0.0,min(255.0,(avgPower + u)*Kr));
@@ -109,6 +109,9 @@ String PControl::printString(void) {
   String printString = "PControl: Yaw_Des: " + String(yaw_des*180.0/PI)
     + " Yaw: " + String(yaw*180.0/PI)
     + " u: " + String(u);
+    + " dist: " + String(dist);
+    + " uPower: " + String(uPower);
+    + " avgPower: " + String(avgPower);
 
   return printString;
 }

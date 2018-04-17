@@ -4,17 +4,19 @@ extern Printer printer;
 #include <Adafruit_GPS.h>
 
 SendGPS::SendGPS(void)
-: DataSource("sentLat,sentLon","int32, int32") {
+: DataSource("sentLat,sentLon, leaderTime, followTime","int32, int32, int32, int32") {
 
   //HardwareSerial Uart = HardwareSerial();
 
   //Uart_p = &Uart;
 }
 
-void SendGPS::updateState(float lat, float lon)
+void SendGPS::updateState(float lat, float lon, float leaderTime, float followTime)
 {
   receiveState.lat = lat;
   receiveState.lon = lon;
+  receiveState.leaderTime = leaderTime;
+  receiveState.followTime = followTime;
 
 }
 
