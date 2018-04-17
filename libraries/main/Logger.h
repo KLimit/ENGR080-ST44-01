@@ -35,6 +35,8 @@ public:
 	String printState(void);
 	int lastExecutionTime = -1;
 	bool keepLogging = false;
+	String message;
+
 
 private:
 	void padding(int number, byte width, String & str);

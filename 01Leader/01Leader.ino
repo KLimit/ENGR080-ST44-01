@@ -2,16 +2,17 @@
 #include <Pinouts.h>
 #include <TimingOffsets.h>
 
+#include<Logger.h>
 #include<SensorGPS.h>
 #include<SensorIMU.h>
-#include<Adafruit_GPS.H>
+#include<Adafruit_GPS.h>
 #include<PControl.h>
 #include<MotorDriver.h>
 #include<StateEstimator.h>
 #include<Printer.h>
 #include<MasterBT.h>
-#include <Logger.h>
-#include <SendGPS.h>
+
+#include<SendGPS.h>
 
 
 #define mySerial Serial1

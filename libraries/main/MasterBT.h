@@ -23,10 +23,10 @@ public:
   MasterBT(void);
 
   void sendCoords(SensorGPS * currentGPS);
+  void float2Bytes(float val, byte * bytes_array);
 
 private:
-  void float2Bytes(float val, byte * bytes_array);
-}
+};  
 
 
 #endif

@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include "Printer.h"
 extern Printer printer;
-String message;
-
+// String message;
 Logger::Logger(void)
 	: num_datasources(0)
 {

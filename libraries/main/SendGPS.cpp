@@ -11,7 +11,7 @@ SendGPS::SendGPS(void)
   //Uart_p = &Uart;
 }
 
-void SendGPS::updateState(float lat, float lon, float leaderTime, float followTime)
+void SendGPS::updateState(float lat, float lon, unsigned long leaderTime, unsigned long followTime)
 {
   lat = lat;
   lon = lon;
@@ -23,8 +23,10 @@ void SendGPS::updateState(float lat, float lon, float leaderTime, float followTi
 size_t SendGPS::writeDataBytes(unsigned char * buffer, size_t idx)
 {
   float * float_slot = (float *) (buffer + idx);
-  float_slot[0] = receiveState.lat;
-  float_slot[1] = receiveState.lon;
-  idx += 2*sizeof(float);
+  float_slot[0] = lat;
+  float_slot[1] = lon;
+  float_slot[2] = leaderTime;
+  float_slot[3] = followTime;
+  idx += 4*sizeof(float); //floats and unsigned longs are the same size
   return idx;
 }

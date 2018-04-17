@@ -12,7 +12,7 @@ class SlaveBT {
 public:
   SlaveBT(void);
 
-  void recieveCoords();
+  void receiveCoords();
   float followTime;
   int kek = 0;
   int numBytes;
@@ -21,6 +21,7 @@ public:
   byte buffLon[4];
   byte buffLeadTime[4];
 
+  int lastExecutionTime = 0;
 private:
-}
+};
 #endif
