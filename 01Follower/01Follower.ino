@@ -15,23 +15,25 @@
 #define mySerial Serial1
 
 Printer printer;
+Logger logger;
+
 MotorDriver md;
-StateEstimator stateEst;
+
 SensorGPS gps;
 Adafruit_GPS GPS(&mySerial);
-Logger logger;
 SensorIMU imu;
-SlaveBT slaveBT;
-SendGPS sendGPS;
 EnvADC env;
 
+StateEstimator stateEst;
+SlaveBT slaveBT;
+SendGPS sendGPS;
 PControl pcont;
 
 int loopStartTime;
 int currentTime;
 
 
-int 
+
 void setup(){
 
   mySerial.begin(9600);
@@ -51,7 +53,7 @@ void setup(){
 
   const int numWaypoints = 2;
   const int wayPointDim = 2;
-  double waypoints[] = {0, 10, 0, 0};
+  const double waypoints[] = {0, 10, 0, 0};
   const double followDist = -1.0;
   pcont.init(numWaypoints, wayPointDim, waypoints, followDist);
 
@@ -70,6 +72,8 @@ void setup(){
 
 }
 
+
+
 void loop(){
   currentTime=millis();
 
@@ -77,7 +81,7 @@ void loop(){
 	slaveBT.lastExecutionTime = currentTime;
     slaveBT.receiveCoords();
   }
-  
+
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
     printer.printValue(0,adc.printSample());
