@@ -11,20 +11,16 @@
 //#define GPSECHO  true
 #include <Adafruit_GPS.h>
 
-typedef struct {
-  float lat;
-  float lon;
-  float leaderTime;
-  float followTime;
-} receive_state_t;
+
 
 class SendGPS : public DataSource {
 public:
 	SendGPS(void);
 
-  receive_state_t receiveState;
-  receiveState.lat = 0;
-  receiveState.lon = 0;
+  float lat = 0
+  float lon = 0
+  float leaderTime;
+  float followTime;
   void updateState(float lat, float lon, float leaderTime, float followTime);
 
 

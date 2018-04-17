@@ -11,12 +11,12 @@ SendGPS::SendGPS(void)
   //Uart_p = &Uart;
 }
 
-void SendGPS::updateState(float lat, float lon, float leaderTime, float followTime)
+void SendGPS::updateState(float leaderLat, float leaderLon, float lTime, float fTime)
 {
-  receiveState.lat = lat;
-  receiveState.lon = lon;
-  receiveState.leaderTime = leaderTime;
-  receiveState.followTime = followTime;
+  lat = leaderLat;
+  lon = leaderLon;
+  leaderTime = lTime;
+  followTime = fTime;
 
 }
 
