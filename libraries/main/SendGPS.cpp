@@ -13,10 +13,10 @@ SendGPS::SendGPS(void)
 
 void SendGPS::updateState(float lat, float lon, float leaderTime, float followTime)
 {
-  receiveState.lat = lat;
-  receiveState.lon = lon;
-  receiveState.leaderTime = leaderTime;
-  receiveState.followTime = followTime;
+  lat = lat;
+  lon = lon;
+  leaderTime = leaderTime;
+  followTime = followTime;
 
 }
 

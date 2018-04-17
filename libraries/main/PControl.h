@@ -50,7 +50,7 @@ public:
 private:
 
   // updates the current follower waypoint if necessary
-  void updateFollowerWaypoint(receive_state_t* currentLeaderState);
+  void updateFollowerWaypoint(SendGPS sendGPS);
 
   int getWayPoint(int dim);
 

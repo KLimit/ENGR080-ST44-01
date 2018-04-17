@@ -90,7 +90,7 @@ void loop(){
 
   if ( currentTime-pcont.lastExecutionTime > LOOP_PERIOD ) {
     pcont.lastExecutionTime = currentTime;
-    pcont.calculateControl(&stateEst.state);
+    pcont.calculateLeaderControl(&stateEst.state);
     md.driveForward(pcont.uL,pcont.uR);
   }
 
@@ -112,7 +112,7 @@ void loop(){
   // uses the LED library to flash LED -- use this as a template for new libraries!
   if (currentTime-masterBT.lastExecutionTime > LOOP_PERIOD) {
     masterBT.lastExecutionTime = currentTime;
-    masterBT.sendCoords();
+    masterBT.sendCoords(&gps);
   }
 
   if (currentTime- logger.lastExecutionTime > LOOP_PERIOD && logger.keepLogging) {

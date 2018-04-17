@@ -43,11 +43,11 @@ int PControl::getWayPoint(int dim) {
   return wayPoints[currentWayPoint*stateDims+dim];
 }
 
-void PControl::updateFollowerWaypoint() {
+void PControl::updateFollowerWaypoint(SendGPS sendGPS) {
   // will primarily be used for updating the follower's waypoints
   // changes x_des and y_des
   // x_des and y_des are the properties of
-  stateEst.latlonToXY((double) endGPS.receiveState.lat, (double)sendGPS.receiveState.lon, x_des, y_des);
+  stateEst.latlonToXY((double) sendGPS.lat, (double)sendGPS.lon, x_des, y_des);
   // x_des = currentLeaderState->x;
   // y_des = currentLeaderState->y;
 }
