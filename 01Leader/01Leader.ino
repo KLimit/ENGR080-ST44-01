@@ -10,6 +10,9 @@
 #include<StateEstimator.h>
 #include<Printer.h>
 #include<MasterBT.h>
+#include <Logger.h>
+#include <SendGPS.h>
+
 
 #define mySerial Serial1
 
@@ -42,8 +45,6 @@ void setup(){
   logger.include(&gps);
   logger.include(&stateEst);
   logger.include(&md);
-  logger.include(&env);
-
   logger.init();
 
   printer.init();
@@ -64,7 +65,7 @@ void setup(){
   printer.lastExecutionTime   = loopStartTime - LOOP_PERIOD + PRINTER_LOOP_OFFSET ;
   imu.lastExecutionTime       = loopStartTime - LOOP_PERIOD + IMU_LOOP_OFFSET;
   gps.lastExecutionTime       = loopStartTime - LOOP_PERIOD + GPS_LOOP_OFFSET;
-  stateEst.lastExecutionTim   = loopStartTime - LOOP_PERIOD + STATE_ESTIMATOR_LOOP_OFFSET;
+  stateEst.lastExecutionTime   = loopStartTime - LOOP_PERIOD + STATE_ESTIMATOR_LOOP_OFFSET;
   pcont.lastExecutionTime     = loopStartTime - LOOP_PERIOD + P_CONTROL_LOOP_OFFSET;
   logger.lastExecutionTime    = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
   masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET; //Change this offset later.
@@ -76,7 +77,6 @@ void loop(){
 
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
-    printer.printValue(0,adc.printSample());
     printer.printValue(1,logger.printState());
     printer.printValue(2,gps.printState());
     printer.printValue(3,stateEst.printState());
