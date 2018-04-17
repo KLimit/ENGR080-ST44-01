@@ -1,7 +1,15 @@
 #ifndef __PINOUTS_H__
 #define __PINOUTS_H__
 
+<<<<<<< HEAD
 #define LOOP_LED 7
+=======
+
+// GLOBAL NAMES TO TEENSY PIN VALUES
+
+
+#define LOOP_LED 5
+>>>>>>> Microphone
 #define USER_SWITCH 2
 
 #define MOTOR_L_FORWARD 3		// M4: pins 3,4
@@ -19,6 +27,6 @@
 // #define MIC_PIN 23
 
 #define MIC_PIN 28
-#define ENV_PIN 28
+#define ENV_PIN 16  // pin A2
 
 #endif

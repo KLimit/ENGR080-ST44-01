@@ -1,48 +1,38 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <Pinouts.h>
-#include <MicLogger.h>
-// #include <MicrophoneADC.h>
+#include <Logger.h>
 #include <EnvADC.h>
 #include <Printer.h>
-#include <Logger.h>
 
-MicLogger micLogger;
-// MicrophoneADC mic;
-Printer printer;
+Logger logger;
 EnvADC env;
+Printer printer;
 
-    // take one recording
-    // miclog.log();
-=======
-int counting = 0;
 void setup() {
     // prepare stuff
     Serial.begin(9600);
     Serial.println("Serial Initialized");
+
+    logger.include(&env);
+
     pinMode(ENV_PIN, INPUT_PULLDOWN); //Should I use pulldown? Probably
     Serial.println("pinMode set up");
+
     attachInterrupt(ENV_PIN, isrEnvelope, RISING ); //This code is kind of weird. Depends on reaching 60% of input voltage.
     Serial.println("Interrupt complete!");
-    micLogger.init();
-    Serial.println("MicLogger complete!");
-    // analogReadRes(8); // set to 8 bit resolution--No need if using the envelope method?
-    delay(1000);
 
-    // take one recording
-    // mic.updateSample();
+    logger.init();
+    Serial.println("Logger Initialized!");
+    delay(1000);
 	}
+
 void loop() {
-    delay(1000);
-   Serial.println(counting);
-   counting++;
-
-
+  delay(1000);
+  logger.log();
 }
 
 void isrEnvelope(){
-		env.updateSample();
-    micLogger.envLog();
-    Serial.println("Data Recorded!");
-
+    env.updateSample();
+    Serial.println("INTERRUPT TRIGGERED");
 }

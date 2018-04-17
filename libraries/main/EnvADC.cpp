@@ -4,7 +4,7 @@
 #include "Pinouts.h"
 extern Printer printer;
 
-EnvADC::EnvADC(void) 
+EnvADC::EnvADC(void)
   : DataSource("EnvelopeTime", "int"){
 
 }
@@ -12,14 +12,14 @@ EnvADC::EnvADC(void)
 
 
 void EnvADC::updateSample(){
-  sample = micros();
+  interruptTime = micros();
 }
 // String EnvADC::printSample(void)
 // {
 //   String printString = "ADC:";
 //   for (int i=0; i<NUM_PINS; i++) {
 //     printString += " ";
-//     printString += String(sample[i]);
+//     printString += String(interruptTime[i]);
 //   }
 //   return printString; //printer.printValue(0, printString);
 // }
@@ -27,7 +27,7 @@ void EnvADC::updateSample(){
 size_t EnvADC::writeDataBytes(unsigned char* buffer, size_t idx)
 {
   int* data_slot = (int*) &buffer[idx];
-  data_slot[0] = sample;
+  data_slot[0] = interruptTime;
   return idx + sizeof(int);
 }
 
