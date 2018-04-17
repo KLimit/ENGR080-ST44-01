@@ -9,7 +9,7 @@
 
 
 
-int sentBytes;
+
 
 class MasterBT {
 public:
@@ -17,6 +17,7 @@ public:
   byte latBytes[4];
   byte lonBytes[4];
   byte timeBytes[4];
+  // int sentBytes;
 
   int lastExecutionTime = -1;
   // constructor
