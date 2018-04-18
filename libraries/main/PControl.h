@@ -27,6 +27,7 @@ public:
 
 
   void updatePoint(float x, float y);
+  void updateFollowerWaypoint(SendGPS sendGPS);
 
   String printString(void);
   String printWaypointUpdate(void);
@@ -50,7 +51,6 @@ public:
 private:
 
   // updates the current follower waypoint if necessary
-  void updateFollowerWaypoint(SendGPS sendGPS);
 
   int getWayPoint(int dim);
 

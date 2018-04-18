@@ -3,6 +3,7 @@
 #define BT_SERIAL Serial3
 
 extern SendGPS sendGPS;
+extern Printer printer;
 
 SlaveBT::SlaveBT(){
   // no construction necessary
@@ -26,6 +27,24 @@ void SlaveBT::receiveCoords(){
 
   float lat = * (float*) &buffLat;
   float lon = * (float*) &buffLon;
-  float leadTime = * (float*) &buffLeadTime;
-  sendGPS.updateState(lat, lon, leadTime, followTime);
+  leaderTime = * (float*) &buffLeadTime;
+
+  sendGPS.updateState(lat, lon, leaderTime, followTime); //Writes into sendGPS object.
+}
+
+String SlaveBT::printCoordinates(void)
+{
+  // String printString = "Lat:";
+  // printString += String(sendGPS.lat);
+  // printString += "Lon:";
+  // printString += String(sendGPS.lon);
+  // printString += "Follower Time:";
+  // printString += String(sendGPS.followTime);
+  // printString += "Leader Time";
+  // printString += String(sendGPS.leaderTime);
+
+  String printString = "Leader Time:";
+  printString += String(leaderTime);
+
+  return printString; //printer.printValue(0, printString);
 }

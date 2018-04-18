@@ -86,6 +86,7 @@ void loop(){
     printer.printValue(6,md.printState());
     printer.printValue(7,imu.printRollPitchHeading());
     printer.printValue(8,imu.printAccels());
+    printer.printValue(9, masterBT.printBytesSent());
     printer.printToSerial();  // To stop printing, just comment this line out
   }
 
@@ -111,11 +112,12 @@ void loop(){
   }
 
   // uses the LED library to flash LED -- use this as a template for new libraries!
-  if (currentTime-masterBT.lastExecutionTime > LOOP_PERIOD) {
-    masterBT.lastExecutionTime = currentTime;
-    masterBT.sendCoords(&gps);
-  }
-
+//  if (currentTime-masterBT.lastExecutionTime > LOOP_PERIOD) {
+//    masterBT.lastExecutionTime = currentTime;
+//    masterBT.sendCoords(&gps);
+//  }
+  masterBT.sendCoords(&gps);
+  
   if (currentTime- logger.lastExecutionTime > LOOP_PERIOD && logger.keepLogging) {
     logger.lastExecutionTime = currentTime;
     logger.log();

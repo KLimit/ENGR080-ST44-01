@@ -90,12 +90,14 @@ void loop(){
     printer.printValue(6,md.printState());
     printer.printValue(7,imu.printRollPitchHeading());
     printer.printValue(8,imu.printAccels());
+    printer.printValue(9, slaveBT.printCoordinates());
     printer.printToSerial();  // To stop printing, just comment this line out
+    
   }
 
   if ( currentTime-pcont.lastExecutionTime > LOOP_PERIOD ) {
     pcont.lastExecutionTime = currentTime;
-    pcont.updateFollowerWaypoint();
+    pcont.updateFollowerWaypoint(sendGPS);
 	  pcont.calculateFollowerControl(&stateEst.state);
     md.driveForward(pcont.uL,pcont.uR);
   }
@@ -122,3 +124,5 @@ void loop(){
     logger.log();
   }
 }
+
+

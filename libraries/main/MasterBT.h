@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <SensorGPS.h>
 #include <Adafruit_GPS.h>
-
+#include "Printer.h"
 
 
 
@@ -17,7 +17,7 @@ public:
   byte latBytes[4];
   byte lonBytes[4];
   byte timeBytes[4];
-  // int sentBytes;
+  int sentBytes;
 
   int lastExecutionTime = -1;
   // constructor
@@ -25,6 +25,7 @@ public:
 
   void sendCoords(SensorGPS * currentGPS);
   void float2Bytes(float val, byte * bytes_array);
+  String printBytesSent();
 
 private:
 };  

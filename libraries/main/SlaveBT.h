@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include "SendGPS.h"
+#include "Printer.h"
 
 
 
@@ -21,7 +22,11 @@ public:
   byte buffLon[4];
   byte buffLeadTime[4];
 
+  float leaderTime = 0;
+
   int lastExecutionTime = 0;
+
+  String printCoordinates();
 private:
 };
 #endif
