@@ -1,34 +1,42 @@
 #include <Arduino.h>
 #include <Pinouts.h>
 #include <TimingOffsets.h>
-#include <EnvADC.h>
+
+#include<Printer.h>
+#include<Logger.h>
+
+#include<Adafruit_GPS.H>
 #include<SensorGPS.h>
 #include<SensorIMU.h>
-#include<Adafruit_GPS.H>
+
+#include<StateEstimator.h>
 #include<PControl.h>
 #include<MotorDriver.h>
-#include<StateEstimator.h>
-#include<Printer.h>
-#include<SendGPS.h>
+
 #include<SlaveBT.h>
-#include <Logger.h>
+#include<SendGPS.h>
+
+#include<EnvADC.h>
 
 #define mySerial Serial1
 
 Printer printer;
 Logger logger;
 
-MotorDriver md;
-
-SensorGPS gps;
 Adafruit_GPS GPS(&mySerial);
+SensorGPS gps;
 SensorIMU imu;
-EnvADC env;
 
 StateEstimator stateEst;
+PControl pcont;
+MotorDriver md;
+
 SlaveBT slaveBT;
 SendGPS sendGPS;
-PControl pcont;
+
+EnvADC env;
+
+// GLOBALS (?)
 
 int loopStartTime;
 int currentTime;
@@ -38,23 +46,20 @@ int currentTime;
 void setup(){
 
   mySerial.begin(9600);
+  printer.init();
 
-  logger.include(&imu);
   logger.include(&gps);
+  logger.include(&imu);
   logger.include(&stateEst);
   logger.include(&md);
+  logger.include(&sendGPS);
   logger.include(&env);
-
   logger.init();
 
-  printer.init();
-  imu.init();
   gps.init(&GPS);
+  imu.init();
   md.init();
 
-  // const int numWaypoints = 2;
-  // const int wayPointDim = 2;
-  // const double waypoints[] = {0, 10, 0, 0};
   const double followDist = 5.0;
   pcont.init(NULL, NULL, NULL, followDist);
 
@@ -92,7 +97,7 @@ void loop(){
     printer.printValue(8,imu.printAccels());
     printer.printValue(9, slaveBT.printCoordinates());
     printer.printToSerial();  // To stop printing, just comment this line out
-    
+
   }
 
   if ( currentTime-pcont.lastExecutionTime > LOOP_PERIOD ) {
@@ -124,5 +129,3 @@ void loop(){
     logger.log();
   }
 }
-
-

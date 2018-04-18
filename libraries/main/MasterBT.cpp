@@ -21,12 +21,21 @@ void MasterBT::float2Bytes(float floatVal, byte* bytes_array){
   memcpy(bytes_array, u.temp_array, 4);
 }
 
-
-
 void MasterBT::sendCoords(SensorGPS * currentGPS) {
   float2Bytes(micros(), &timeBytes[0]);  // send the time sent first
-  // float2Bytes(currentGPS->state.lat, &latBytes[0]);
-  // float2Bytes(currentGPS->state.lon, &lonBytes[0]);
+  float2Bytes(currentGPS->state.lat, &latBytes[0]);
+  float2Bytes(currentGPS->state.lon, &lonBytes[0]);
+  loat2Bytes(floatLatBytes, &latBytes[0]);
+  float2Bytes(floatLonBytes, &lonBytes[0]);
+  sentBytes = BT_SERIAL.write(timeBytes, 4);
+  sentBytes += BT_SERIAL.write(latBytes, 4);
+  sentBytes += BT_SERIAL.write(lonBytes, 4);
+  sentBytes += BT_SERIAL.write(47);
+
+  BT_SERIAL.flush();
+}
+
+void MasterBT::sendTest() {
   float floatLatBytes = 12.3456; //testing
   float floatLonBytes = 45.6789;//testing
   float2Bytes(floatLatBytes, &latBytes[0]);
@@ -40,6 +49,7 @@ void MasterBT::sendCoords(SensorGPS * currentGPS) {
 }
 
 
+
 String MasterBT::printBytesSent(void)
 {
   String printString = "Bytes sent:";
@@ -47,4 +57,3 @@ String MasterBT::printBytesSent(void)
 
   return printString; //printer.printValue(0, printString);
 }
-

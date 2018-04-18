@@ -23,12 +23,15 @@ public:
   // constructor
   MasterBT(void);
 
-  void sendCoords(SensorGPS * currentGPS);
   void float2Bytes(float val, byte * bytes_array);
+  void sendCoords(SensorGPS * currentGPS);
+  void sendTest();
+
   String printBytesSent();
 
 private:
-};  
+
+};
 
 
 #endif

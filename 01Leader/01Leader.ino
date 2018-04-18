@@ -2,64 +2,62 @@
 #include <Pinouts.h>
 #include <TimingOffsets.h>
 
+#include<Printer.h>
 #include<Logger.h>
+
+#include<Adafruit_GPS.h>
 #include<SensorGPS.h>
 #include<SensorIMU.h>
-#include<Adafruit_GPS.h>
+
+#include<StateEstimator.h>
 #include<PControl.h>
 #include<MotorDriver.h>
-#include<StateEstimator.h>
-#include<Printer.h>
+
 #include<MasterBT.h>
-
-#include<SendGPS.h>
-
 
 #define mySerial Serial1
 
 Printer printer;
 Logger logger;
 
-MotorDriver md;
-StateEstimator stateEst;
-SensorGPS gps;
 Adafruit_GPS GPS(&mySerial);
+SensorGPS gps;
 SensorIMU imu;
+
+StateEstimator stateEst;
+PControl pcont;
+MotorDriver md;
+
 MasterBT masterBT;
 
-PControl pcont;
-double waypoints[] = {0, 10, 0, 0};
+// GLOBALS (?)
 
+double waypoints[] = {0, 10, 0, 0};
 
 int loopStartTime;
 int currentTime;
 
 
 
-
-
 void setup(){
 
   mySerial.begin(9600);
+  printer.init();
 
-  logger.include(&imu);
   logger.include(&gps);
+  logger.include(&imu);
   logger.include(&stateEst);
   logger.include(&md);
   logger.init();
 
-  printer.init();
-  imu.init();
   gps.init(&GPS);
+  imu.init();
   md.init();
 
   const int numWaypoints = 2;
   const int wayPointDim = 2;
   const double followDist = -1.0;
   pcont.init(numWaypoints, wayPointDim, waypoints, followDist);
-
-
-
 
   printer.printMessage("Starting main loop",10);
   loopStartTime = millis();
@@ -72,6 +70,8 @@ void setup(){
   masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET; //Change this offset later.
 
 }
+
+
 
 void loop(){
   currentTime=millis();
@@ -111,15 +111,16 @@ void loop(){
     stateEst.updateState(&imu.state, &gps.state);
   }
 
-  // uses the LED library to flash LED -- use this as a template for new libraries!
-//  if (currentTime-masterBT.lastExecutionTime > LOOP_PERIOD) {
-//    masterBT.lastExecutionTime = currentTime;
-//    masterBT.sendCoords(&gps);
-//  }
-  masterBT.sendCoords(&gps);
-  
+  // Bluetooth timer
+  if (currentTime-masterBT.lastExecutionTime > LOOP_PERIOD) {
+    masterBT.lastExecutionTime = currentTime;
+    masterBT.sendTest(&gps);
+  }
+  // masterBT.sendTest();
+
   if (currentTime- logger.lastExecutionTime > LOOP_PERIOD && logger.keepLogging) {
     logger.lastExecutionTime = currentTime;
     logger.log();
   }
+
 }
