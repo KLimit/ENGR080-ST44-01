@@ -36,7 +36,7 @@ void SlaveBT::receiveCoords(){
 
   lat = * (float*) &buffLat;
   lon = * (float*) &buffLon;
-  unsigned long leaderTime = * (unsigned long*) &buffLeadTime;
+  leaderTime = * (unsigned long*) &buffLeadTime;
 
   sendGPS.updateState(lat, lon, leaderTime, followTime); // Writes into sendGPS object.
 
