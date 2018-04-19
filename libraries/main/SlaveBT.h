@@ -11,7 +11,6 @@ class SlaveBT {
 public:
   SlaveBT(void);
 
-  void receiveCoords();
   unsigned long followTime;
   int kek = 0;
   int numBytes;
@@ -22,12 +21,14 @@ public:
   byte buffLeadTime[4];
   float lat;
   float lon;
- 
+
+  void receiveCoords();
 
   // unsigned long leaderTime = 0;
 
   int lastExecutionTime = -1;
 
+  // for diagnostics
   String printCoordinates();
   String printCoordinates2();
   String printCoordinates3();
