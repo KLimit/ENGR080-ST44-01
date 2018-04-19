@@ -31,8 +31,7 @@ public:
   String printBytesSent();
 
 private:
-
+  int testCounter = 0;
 };
-
 
 #endif

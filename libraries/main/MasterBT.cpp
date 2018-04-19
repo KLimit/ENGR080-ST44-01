@@ -34,16 +34,24 @@ void MasterBT::sendCoords(SensorGPS * currentGPS) {
 }
 
 bool MasterBT::sendTest() {
-  //unsigned long x = 123456789; //sending: 0-11000101-1 0-10011110-1 0-11010111-1 0-00110010-1  
+  //unsigned long x = 123456789; //sending: 0-11000101-1 0-10011110-1 0-11010111-1 0-00110010-1
   //byte y[4] = {32,16,8,4}; // sends: 0-00000100-1 0-00001000-1 0-00010000-1 0-00100000-1
+
   us2Bytes(micros(), &timeBytes[0]);
-  float floatLatBytes = 12.3456; //testing
-  float floatLonBytes = 45.6789;//testing
+
+  float floatLatBytes = 12.3456;
+  float floatLonBytes = 45.6789;
+  if (testCounter % 2 == 0) {
+    float floatLatBytes = 45.6789;
+    float floatLonBytes = 12.3456;
+  }
+  testCounter ++;
+
   float2Bytes(floatLatBytes, &latBytes[0]);
   float2Bytes(floatLonBytes, &lonBytes[0]);
   //BT_SERIAL.write(y,4);
   sentBytes = BT_SERIAL.write(63);  // ASCII for '?' 0-11111100-1
-  sentBytes += BT_SERIAL.write(timeBytes, 4); // 0-10101000-1 0-10110011-1 0-11011010-1 0-11100000-1 
+  sentBytes += BT_SERIAL.write(timeBytes, 4); // 0-10101000-1 0-10110011-1 0-11011010-1 0-11100000-1
   // sentBytes = BT_SERIAL.write(63);
   sentBytes += BT_SERIAL.write(latBytes, 4);
   sentBytes += BT_SERIAL.write(lonBytes, 4);
