@@ -101,6 +101,7 @@ void loop(){
     printer.printValue(2, slaveBT.printCoordinates());
     printer.printValue(3, slaveBT.printCoordinates2());
     printer.printValue(4, slaveBT.printCoordinates3());
+    printer.printValue(5, sendGPS.printReceivedStates());
     printer.printToSerial();  // To stop printing, just comment this line out
 
   }

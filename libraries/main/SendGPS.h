@@ -22,8 +22,10 @@ public:
   void updateState(float lat, float lon, unsigned long leaderT, unsigned long followT);
 
   size_t writeDataBytes(unsigned char * buffer, size_t idx);
+  String printReceivedStates();
 
   int lastExecutionTime = -1;
+  String printString = "";
 
 };
 

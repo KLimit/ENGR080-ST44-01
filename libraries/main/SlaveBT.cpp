@@ -8,11 +8,11 @@ SlaveBT::SlaveBT(){
 }
 
 void SlaveBT::receiveCoords(){
-  int startTime = micros();
+  // int startTime = micros();
   numBytes = BT_SERIAL.available() + 1; //there may or may not be an imaginary 1 byte character at the start of the serial.
   if (numBytes > 1) {
     followTime = micros(); //Want to record the time immediately after the slave receives the bluetooth signal.
-    buffAllSize = BT_SERIAL.readBytesUntil(47, buffAll, 50);
+    buffAllSize = BT_SERIAL.readBytesUntil(47, buffAll, 50); //Arbitrarily set the byte limit to 50.
     bool inMessage = false;
     int startOfMessage = 0;
     for (int i = 0; i < buffAllSize; i++) {

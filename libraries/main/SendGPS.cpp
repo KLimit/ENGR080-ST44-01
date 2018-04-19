@@ -20,6 +20,19 @@ void SendGPS::updateState(float lat, float lon, unsigned long leaderT, unsigned 
 
 }
 
+String SendGPS::printReceivedStates(){
+  printString = "SendGPS Coordinates: \n";
+  printString += "Lat: ";
+  printString += String(leaderLat);
+  printString += "Lon: ";
+  printString += String(leaderLon);
+  printString += "Leader Time: ";
+  printString += String(leaderTime);
+  printString += "Follower Time: ";
+  printString += String(followerTime);
+  return printString;
+}
+
 size_t SendGPS::writeDataBytes(unsigned char * buffer, size_t idx)
 {
   //This section writes the floats in
