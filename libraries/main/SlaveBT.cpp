@@ -1,7 +1,5 @@
 #include "SlaveBT.h"
 
-#define BT_SERIAL Serial3
-
 extern SendGPS sendGPS;
 extern Printer printer;
 
@@ -14,37 +12,71 @@ void SlaveBT::receiveCoords(){
   numBytes = BT_SERIAL.available() + 1; //there may or may not be an imaginary 1 byte character at the start of the serial.
   if (numBytes > 1) {
     followTime = micros(); //Want to record the time immediately after the slave receives the bluetooth signal.
-    BT_SERIAL.readBytesUntil(47, buffAll, 13);
+    buffAllSize = BT_SERIAL.readBytesUntil(47, buffAll, 128);
+    bool inMessage = false;
+    int startOfMessage = 0;
+    for (int i = 0; i < buffAllSize; i++) {
+      if (inMessage) {
+        messageBuff[i - startOfMessage] = buffAll[i];
+      }
+      if (buffAll[i] == '?') {
+        inMessage = true;
+        startOfMessage = i + 1;
+      }
+    }
     BT_SERIAL.clear();
   }
 
   for(int i = 0; i <4; i++){
-    buffLat[i] = buffAll[i];
-    buffLon[i] = buffAll[5+i];
-    buffLeadTime[i] = buffAll[9+i];
+    buffLat[i] = messageBuff[i];
+    buffLon[i] = messageBuff[5+i];
+    buffLeadTime[i] = messageBuff[9+i];
   }
-
 
   float lat = * (float*) &buffLat;
   float lon = * (float*) &buffLon;
-  leaderTime = * (float*) &buffLeadTime;
+  unsigned long leaderTime = * (unsigned long*) &buffLeadTime;
+
+// PRINTING
+
+  // String buffString = String(buffAllSize) + "; ";
+  // for (int i = 0; i < 12; i++) {
+  //   buffString += messageBuff[i];
+  // }
+  // printString += buffString;
+  //
+  // printString += "LatBytes: ";
+  // for (int j = 0; j < 4; j++) {
+  //   printString += buffLat[j];
+  // }
+  //
+  // printString += "\nLon Bytes: ";
+  // for (int i = 0; i < 4; i++) {
+  //   printString += buffLon[i];
+  // }
+  //
+  // printString += "\nTime Bytes: ";
+  // for (int i = 0; i < 4; i++) {
+  //   printString += buffLeadTime[i];
+  // }
+
+  printString += "\nlat: " + String(lat) + "\nlon: " + String(lon) + "\nleaderTime: " + String(leaderTime) + "\nfollowerTime: " + String(followTime);
 
   sendGPS.updateState(lat, lon, leaderTime, followTime); //Writes into sendGPS object.
 }
 
 String SlaveBT::printCoordinates(void)
 {
-  // String printString = "Lat:";
-  // printString += String(sendGPS.lat);
-  // printString += "Lon:";
-  // printString += String(sendGPS.lon);
-  // printString += "Follower Time:";
-  // printString += String(sendGPS.followTime);
-  // printString += "Leader Time";
-  // printString += String(sendGPS.leaderTime);
 
-  String printString = "Leader Time:";
-  printString += String(leaderTime);
+  // printString += buffString;
+  // String printString = "Lat: ";
+  // printString += String(sendGPS.lat);
+  // printString += "\nLon: ";
+  // printString += String(sendGPS.lon);
+  // printString += "\nFollower Time: ";
+  // printString += String(sendGPS.followTime);
+  // printString += "\nLeader Time ";
+  // printString += String(sendGPS.leaderTime);
 
   return printString; //printer.printValue(0, printString);
 }

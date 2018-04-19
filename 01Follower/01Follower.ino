@@ -5,7 +5,7 @@
 #include<Printer.h>
 #include<Logger.h>
 
-#include<Adafruit_GPS.H>
+#include<Adafruit_GPS.h>
 #include<SensorGPS.h>
 #include<SensorIMU.h>
 
@@ -46,6 +46,7 @@ int currentTime;
 void setup(){
 
   mySerial.begin(9600);
+  BT_SERIAL.begin(38400);
   printer.init();
 
   logger.include(&gps);
@@ -81,21 +82,22 @@ void loop(){
   currentTime=millis();
 
   if (currentTime-slaveBT.lastExecutionTime > LOOP_PERIOD) {
-	slaveBT.lastExecutionTime = currentTime;
+    slaveBT.lastExecutionTime = currentTime;
     slaveBT.receiveCoords();
   }
 
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
-    printer.printValue(1,logger.printState());
-    printer.printValue(2,gps.printState());
-    printer.printValue(3,stateEst.printState());
-    printer.printValue(4,pcont.printWaypointUpdate());
-    printer.printValue(5,pcont.printString());
-    printer.printValue(6,md.printState());
-    printer.printValue(7,imu.printRollPitchHeading());
-    printer.printValue(8,imu.printAccels());
-    printer.printValue(9, slaveBT.printCoordinates());
+    // printer.printValue(1,logger.printState());
+    // printer.printValue(2,gps.printState());
+    // printer.printValue(3,stateEst.printState());
+    // printer.printValue(4,pcont.printWaypointUpdate());
+    // printer.printValue(5,pcont.printString());
+    // printer.printValue(6,md.printState());
+    // printer.printValue(7,imu.printRollPitchHeading());
+    // printer.printValue(8,imu.printAccels());
+    printer.printValue(1, slaveBT.printCoordinates());
+
     printer.printToSerial();  // To stop printing, just comment this line out
 
   }

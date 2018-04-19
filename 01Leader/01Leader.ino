@@ -42,6 +42,7 @@ int currentTime;
 void setup(){
 
   mySerial.begin(9600);
+  BT_SERIAL.begin(38400);
   printer.init();
 
   logger.include(&gps);
@@ -112,11 +113,12 @@ void loop(){
   }
 
   // Bluetooth timer
+  // printer.printMessage("bluetooth? " + String(currentTime-masterBT.lastExecutionTime > LOOP_PERIOD), 1);
   if (currentTime-masterBT.lastExecutionTime > LOOP_PERIOD) {
     masterBT.lastExecutionTime = currentTime;
-    masterBT.sendTest(&gps);
+    bool sentOrNot = masterBT.sendTest();
+    printer.printMessage("bluetooth sent: " + String(sentOrNot), 1);
   }
-  // masterBT.sendTest();
 
   if (currentTime- logger.lastExecutionTime > LOOP_PERIOD && logger.keepLogging) {
     logger.lastExecutionTime = currentTime;

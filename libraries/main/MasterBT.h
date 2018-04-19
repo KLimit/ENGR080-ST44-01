@@ -6,10 +6,10 @@
 #include <Adafruit_GPS.h>
 #include "Printer.h"
 
+#define BT_SERIAL Serial3
 
 
-
-
+// NOTE: MUST HAVE THE BT_SERIAL.begin(38400) IN THE ARDUINO setup()
 
 class MasterBT {
 public:
@@ -25,7 +25,7 @@ public:
 
   void float2Bytes(float val, byte * bytes_array);
   void sendCoords(SensorGPS * currentGPS);
-  void sendTest();
+  bool sendTest();
 
   String printBytesSent();
 

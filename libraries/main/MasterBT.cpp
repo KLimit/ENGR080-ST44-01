@@ -1,12 +1,12 @@
 #include "MasterBT.h"
 
-#define BT_SERIAL Serial3
 extern SensorGPS gps;
 extern Printer printer;
 
 
+
 MasterBT::MasterBT(){
-  // no construction necessary
+  // none needed
 }
 
 void MasterBT::float2Bytes(float floatVal, byte* bytes_array){
@@ -25,26 +25,29 @@ void MasterBT::sendCoords(SensorGPS * currentGPS) {
   float2Bytes(micros(), &timeBytes[0]);  // send the time sent first
   float2Bytes(currentGPS->state.lat, &latBytes[0]);
   float2Bytes(currentGPS->state.lon, &lonBytes[0]);
-  loat2Bytes(floatLatBytes, &latBytes[0]);
-  float2Bytes(floatLonBytes, &lonBytes[0]);
-  sentBytes = BT_SERIAL.write(timeBytes, 4);
+  sentBytes = BT_SERIAL.write(63);  // ASCII for '?'
+  sentBytes += BT_SERIAL.write(timeBytes, 4);
   sentBytes += BT_SERIAL.write(latBytes, 4);
   sentBytes += BT_SERIAL.write(lonBytes, 4);
-  sentBytes += BT_SERIAL.write(47);
-
+  sentBytes += BT_SERIAL.write(47);  // ASCII for '/'
   BT_SERIAL.flush();
 }
 
-void MasterBT::sendTest() {
+bool MasterBT::sendTest() {
   float floatLatBytes = 12.3456; //testing
   float floatLonBytes = 45.6789;//testing
   float2Bytes(floatLatBytes, &latBytes[0]);
   float2Bytes(floatLonBytes, &lonBytes[0]);
-  sentBytes = BT_SERIAL.write(timeBytes, 4);
+  sentBytes = BT_SERIAL.write(63);  // ASCII for '?'
+  sentBytes += BT_SERIAL.write(timeBytes, 4);
   sentBytes += BT_SERIAL.write(latBytes, 4);
   sentBytes += BT_SERIAL.write(lonBytes, 4);
-  sentBytes += BT_SERIAL.write(47);
-
+  sentBytes += BT_SERIAL.write(47);  // ASCII for '/'
+  if (sentBytes == 13) {
+    return true;
+  } else {
+    return false;
+  }
   BT_SERIAL.flush();
 }
 

@@ -5,9 +5,7 @@
 #include "SendGPS.h"
 #include "Printer.h"
 
-
-
-
+#define BT_SERIAL Serial3
 
 class SlaveBT {
 public:
@@ -17,16 +15,19 @@ public:
   float followTime;
   int kek = 0;
   int numBytes;
-  byte buffAll[12]; // looking for lat float, separator char, lon float for 9 bytes total
+  byte buffAll[128]; // looking for lat float, separator char, lon float for 9 bytes total
+  byte messageBuff[12];
   byte buffLat[4];
   byte buffLon[4];
   byte buffLeadTime[4];
 
-  float leaderTime = 0;
+  // unsigned long leaderTime = 0;
 
   int lastExecutionTime = 0;
 
   String printCoordinates();
+  String printString = "";
 private:
+  int buffAllSize = 0;
 };
 #endif
