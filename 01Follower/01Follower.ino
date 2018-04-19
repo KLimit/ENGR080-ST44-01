@@ -49,12 +49,12 @@ void setup(){
   BT_SERIAL.begin(38400);
   printer.init();
 
-  logger.include(&gps);
-  logger.include(&imu);
-  logger.include(&stateEst);
+  // logger.include(&gps);
+  // logger.include(&imu);
+  // logger.include(&stateEst);
   logger.include(&md);
   logger.include(&sendGPS);
-  logger.include(&env);
+  // logger.include(&env);
   logger.init();
 
   gps.init(&GPS);
@@ -97,7 +97,7 @@ void loop(){
     // printer.printValue(6,md.printState());
     // printer.printValue(7,imu.printRollPitchHeading());
     // printer.printValue(8,imu.printAccels());
-    printer.printMessage("002", 1);
+    printer.printMessage("MotorDriver Fix 001", 1);
     printer.printValue(2, slaveBT.printCoordinates());
     printer.printValue(3, slaveBT.printCoordinates2());
     printer.printValue(4, slaveBT.printCoordinates3());
