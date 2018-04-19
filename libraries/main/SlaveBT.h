@@ -19,6 +19,8 @@ public:
   byte buffLat[4];
   byte buffLon[4];
   byte buffLeadTime[4];
+
+  unsigned long leaderTime;
   float lat;
   float lon;
 
