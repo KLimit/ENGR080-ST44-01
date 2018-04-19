@@ -16,8 +16,8 @@ public:
 
   float lat = 0;
   float lon = 0;
-  float leaderTime;
-  float followTime;
+  unsigned long leaderTime;
+  unsigned long  followTime;
 
   void updateState(float lat, float lon, unsigned long leaderTime, unsigned long followTime);
 
