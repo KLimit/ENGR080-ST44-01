@@ -24,14 +24,13 @@ public:
   MasterBT(void);
 
   void float2Bytes(float val, byte * bytes_array);
+  void us2Bytes(unsigned long val, byte * bytes_array1);
   void sendCoords(SensorGPS * currentGPS);
   bool sendTest();
 
   String printBytesSent();
-
 private:
-
+  int testCounter = 0;
 };
-
 
 #endif

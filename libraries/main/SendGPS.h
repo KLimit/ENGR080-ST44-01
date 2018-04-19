@@ -14,16 +14,18 @@ class SendGPS : public DataSource {
 public:
 	SendGPS(void);
 
-  float lat = 0;
-  float lon = 0;
-  float leaderTime;
-  float followTime;
+  float leaderLat = 0;
+  float leaderLon = 0;
+  unsigned long leaderTime;
+  unsigned long  followerTime;
 
-  void updateState(float lat, float lon, unsigned long leaderTime, unsigned long followTime);
+  void updateState(float lat, float lon, unsigned long leaderT, unsigned long followT);
 
   size_t writeDataBytes(unsigned char * buffer, size_t idx);
+  String printReceivedStates();
 
   int lastExecutionTime = -1;
+  String printString = "";
 
 };
 

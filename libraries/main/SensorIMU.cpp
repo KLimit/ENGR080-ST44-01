@@ -3,7 +3,7 @@
 extern Printer printer;
 
 SensorIMU::SensorIMU(void)
-  : DataSource("rollIMU,pitchIMU,headingIMU,accelX,accelY,accelZ","float,float,float,float,float,float") {
+  : DataSource("headingIMU,accelX,accelY,accelZ","float,float,float,float") {
 }
 
 void SensorIMU::init(void) {
@@ -133,13 +133,13 @@ String SensorIMU::printAccels(void) {
 
 size_t SensorIMU::writeDataBytes(unsigned char * buffer, size_t idx) {
   float * data_slot = (float *) &buffer[idx];
-  data_slot[0] = state.roll;
-  data_slot[1] = state.pitch;
-  data_slot[2] = state.heading;
-  data_slot[3] = acceleration.x;
-  data_slot[4] = acceleration.y;
-  data_slot[5] = acceleration.z;
-  return idx + 6*sizeof(float);
+  // data_slot[0] = state.roll;
+  // data_slot[1] = state.pitch;
+  data_slot[0] = state.heading;
+  data_slot[1] = acceleration.x;
+  data_slot[2] = acceleration.y;
+  data_slot[3] = acceleration.z;
+  return idx + 4*sizeof(float);
 }
 
 void SensorIMU::getOrientation(float ax, float ay, float az, float mx, float my, float mz) {

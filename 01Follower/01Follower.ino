@@ -72,7 +72,7 @@ void setup(){
   stateEst.lastExecutionTime  = loopStartTime - LOOP_PERIOD + STATE_ESTIMATOR_LOOP_OFFSET;
   pcont.lastExecutionTime     = loopStartTime - LOOP_PERIOD + P_CONTROL_LOOP_OFFSET;
   logger.lastExecutionTime    = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
-  slaveBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET; //Change this offset later
+  slaveBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + BT_LOOP_OFFSET; //Change this offset later
 
 }
 
@@ -84,6 +84,7 @@ void loop(){
   if (currentTime-slaveBT.lastExecutionTime > LOOP_PERIOD) {
     slaveBT.lastExecutionTime = currentTime;
     slaveBT.receiveCoords();
+    //printer.printMessage(String(slaveBT.lat,4),1);
   }
 
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
@@ -96,9 +97,11 @@ void loop(){
     // printer.printValue(6,md.printState());
     // printer.printValue(7,imu.printRollPitchHeading());
     // printer.printValue(8,imu.printAccels());
-    printer.printValue(1, slaveBT.printCoordinates());
-    printer.printValue(2, slaveBT.printCoordinates2());
-
+    printer.printMessage("002", 1);
+    printer.printValue(2, slaveBT.printCoordinates());
+    printer.printValue(3, slaveBT.printCoordinates2());
+    printer.printValue(4, slaveBT.printCoordinates3());
+    printer.printValue(5, sendGPS.printReceivedStates());
     printer.printToSerial();  // To stop printing, just comment this line out
 
   }
@@ -131,4 +134,5 @@ void loop(){
     logger.lastExecutionTime = currentTime;
     logger.log();
   }
+
 }
