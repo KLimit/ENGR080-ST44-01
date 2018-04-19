@@ -97,9 +97,10 @@ void loop(){
     // printer.printValue(6,md.printState());
     // printer.printValue(7,imu.printRollPitchHeading());
     // printer.printValue(8,imu.printAccels());
-    printer.printValue(1, slaveBT.printCoordinates());
-    printer.printValue(2, slaveBT.printCoordinates2());
-    printer.printValue(3, slaveBT.printCoordinates3());
+    printer.printMessage("001", 1)
+    printer.printValue(2, slaveBT.printCoordinates());
+    printer.printValue(3, slaveBT.printCoordinates2());
+    printer.printValue(4, slaveBT.printCoordinates3());
     printer.printToSerial();  // To stop printing, just comment this line out
 
   }
@@ -132,5 +133,5 @@ void loop(){
     logger.lastExecutionTime = currentTime;
     logger.log();
   }
-  
+
 }
