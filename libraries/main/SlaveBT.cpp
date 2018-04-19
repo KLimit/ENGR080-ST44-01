@@ -12,6 +12,7 @@ void SlaveBT::receiveCoords(){
   numBytes = BT_SERIAL.available() + 1; //there may or may not be an imaginary 1 byte character at the start of the serial.
   if (numBytes > 1) {
     followTime = micros(); //Want to record the time immediately after the slave receives the bluetooth signal.
+
     buffAllSize = BT_SERIAL.readBytesUntil(47, buffAll, 128);
     bool inMessage = false;
     int startOfMessage = 0;
@@ -28,9 +29,9 @@ void SlaveBT::receiveCoords(){
   }
 
   for(int i = 0; i <4; i++){
-    buffLat[i] = messageBuff[i];
-    buffLon[i] = messageBuff[5+i];
-    buffLeadTime[i] = messageBuff[9+i];
+    buffLeadTime[i] = messageBuff[i];
+    buffLat[i] = messageBuff[5+i];
+    buffLon[i] = messageBuff[9+i];
   }
 
   float lat = * (float*) &buffLat;
@@ -44,23 +45,23 @@ void SlaveBT::receiveCoords(){
   //   buffString += messageBuff[i];
   // }
   // printString += buffString;
-  //
-  // printString += "LatBytes: ";
-  // for (int j = 0; j < 4; j++) {
-  //   printString += buffLat[j];
-  // }
-  //
-  // printString += "\nLon Bytes: ";
-  // for (int i = 0; i < 4; i++) {
-  //   printString += buffLon[i];
-  // }
-  //
-  // printString += "\nTime Bytes: ";
-  // for (int i = 0; i < 4; i++) {
-  //   printString += buffLeadTime[i];
-  // }
 
-  printString += "\nlat: " + String(lat) + "\nlon: " + String(lon) + "\nleaderTime: " + String(leaderTime) + "\nfollowerTime: " + String(followTime);
+  printString += "\nTime Bytes: ";
+  for (int i = 0; i < 4; i++) {
+    printString += buffLeadTime[i];
+  }
+
+  printString += "\nLatBytes: ";
+  for (int j = 0; j < 4; j++) {
+    printString += buffLat[j];
+  }
+
+  printString += "\nLon Bytes: ";
+  for (int i = 0; i < 4; i++) {
+    printString += buffLon[i];
+  }
+
+  // printString += "\nlat: " + String(lat) + "\nlon: " + String(lon) + "\nleaderTime: " + String(leaderTime) + "\nfollowerTime: " + String(followTime);
 
   sendGPS.updateState(lat, lon, leaderTime, followTime); //Writes into sendGPS object.
 }
