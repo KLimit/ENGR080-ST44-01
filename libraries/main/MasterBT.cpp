@@ -42,8 +42,8 @@ bool MasterBT::sendTest() {
   float floatLatBytes;
   float floatLonBytes;
   if (testCounter % 2 == 0) {
-    floatLatBytes = 45.6789;
-    floatLonBytes = 12.3456;
+    floatLatBytes = 11.1111;
+    floatLonBytes = 22.2222;
   }
   else{
     floatLatBytes = 12.3456;
@@ -60,12 +60,14 @@ bool MasterBT::sendTest() {
   sentBytes += BT_SERIAL.write(latBytes, 4);
   sentBytes += BT_SERIAL.write(lonBytes, 4);
   sentBytes += BT_SERIAL.write(47);  // ASCII for '/'
-  if (sentBytes == 13) {
-    return true;
-  } else {
-    return false;
-  }
+  // if (sentBytes == 13) {
+  //   return true;
+  // } else {
+  //   return false;
+  // }
+   
   BT_SERIAL.flush();
+  return true;
 }
 
 
