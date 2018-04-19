@@ -34,6 +34,7 @@ void MasterBT::sendCoords(SensorGPS * currentGPS) {
 }
 
 bool MasterBT::sendTest() {
+  float2Bytes(micros(), &timeBytes[0]);
   float floatLatBytes = 12.3456; //testing
   float floatLonBytes = 45.6789;//testing
   float2Bytes(floatLatBytes, &latBytes[0]);

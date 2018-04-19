@@ -97,6 +97,7 @@ void loop(){
     // printer.printValue(7,imu.printRollPitchHeading());
     // printer.printValue(8,imu.printAccels());
     printer.printValue(1, slaveBT.printCoordinates());
+    printer.printValue(2, slaveBT.printCoordinates2());
 
     printer.printToSerial();  // To stop printing, just comment this line out
 

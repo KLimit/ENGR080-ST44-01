@@ -13,11 +13,11 @@ void SlaveBT::receiveCoords(){
   if (numBytes > 1) {
     followTime = micros(); //Want to record the time immediately after the slave receives the bluetooth signal.
 
-    buffAllSize = BT_SERIAL.readBytesUntil(47, buffAll, 128);
+    buffAllSize = BT_SERIAL.readBytesUntil(47, buffAll, 50);
     bool inMessage = false;
     int startOfMessage = 0;
     for (int i = 0; i < buffAllSize; i++) {
-      if (inMessage) {
+      if (inMessage && (i-startOfMessage <12)) {
         messageBuff[i - startOfMessage] = buffAll[i];
       }
       if (buffAll[i] == '?') {
@@ -25,13 +25,14 @@ void SlaveBT::receiveCoords(){
         startOfMessage = i + 1;
       }
     }
+    inMessage = false;
     BT_SERIAL.clear();
   }
 
   for(int i = 0; i <4; i++){
     buffLeadTime[i] = messageBuff[i];
-    buffLat[i] = messageBuff[5+i];
-    buffLon[i] = messageBuff[9+i];
+    buffLat[i] = messageBuff[4+i];
+    buffLon[i] = messageBuff[8+i];
   }
 
   float lat = * (float*) &buffLat;
@@ -39,29 +40,29 @@ void SlaveBT::receiveCoords(){
   unsigned long leaderTime = * (unsigned long*) &buffLeadTime;
 
 // PRINTING
-
-  // String buffString = String(buffAllSize) + "; ";
-  // for (int i = 0; i < 12; i++) {
-  //   buffString += messageBuff[i];
-  // }
-  // printString += buffString;
+  String buffString;
+  printString2 = "Message Buff:  ";
+  for (int i = 0; i < 12; i++) {
+    buffString += String(char(messageBuff[i])) + " ";
+  }
+  printString2 += buffString;
 
   printString += "\nTime Bytes: ";
   for (int i = 0; i < 4; i++) {
-    printString += buffLeadTime[i];
+    printString += String(char(buffLeadTime[i])) + " ";
   }
 
   printString += "\nLatBytes: ";
   for (int j = 0; j < 4; j++) {
-    printString += buffLat[j];
+    printString += String(char(buffLat[j])) + " ";
   }
 
   printString += "\nLon Bytes: ";
   for (int i = 0; i < 4; i++) {
-    printString += buffLon[i];
+    printString += String(char(buffLon[i])) + " ";
   }
 
-  // printString += "\nlat: " + String(lat) + "\nlon: " + String(lon) + "\nleaderTime: " + String(leaderTime) + "\nfollowerTime: " + String(followTime);
+  //printString += "\nlat: " + String(lat) + "\nlon: " + String(lon) + "\nleaderTime: " + String(leaderTime) + "\nfollowerTime: " + String(followTime);
 
   sendGPS.updateState(lat, lon, leaderTime, followTime); //Writes into sendGPS object.
 }
@@ -80,4 +81,10 @@ String SlaveBT::printCoordinates(void)
   // printString += String(sendGPS.leaderTime);
 
   return printString; //printer.printValue(0, printString);
+}
+
+String SlaveBT::printCoordinates2(void)
+{
+
+  return printString2; //printer.printValue(0, printString);
 }

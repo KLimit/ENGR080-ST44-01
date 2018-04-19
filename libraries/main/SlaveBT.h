@@ -26,7 +26,9 @@ public:
   int lastExecutionTime = 0;
 
   String printCoordinates();
+  String printCoordinates2();
   String printString = "";
+  String printString2 = "";
 private:
   int buffAllSize = 0;
 };
