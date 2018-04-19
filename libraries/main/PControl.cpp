@@ -47,7 +47,7 @@ void PControl::updateFollowerWaypoint(SendGPS sendGPS) {
   // will primarily be used for updating the follower's waypoints
   // changes x_des and y_des
   // x_des and y_des are the properties of
-  stateEst.latlonToXY((double) sendGPS.leaderLat, (double) sendGPS.leanLon, x_des, y_des);
+  stateEst.latlonToXY((double) sendGPS.leaderLat, (double) sendGPS.leaderLon, x_des, y_des);
   // x_des = currentLeaderState->x;
   // y_des = currentLeaderState->y;
 }
