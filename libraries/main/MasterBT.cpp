@@ -39,11 +39,15 @@ bool MasterBT::sendTest() {
 
   us2Bytes(micros(), &timeBytes[0]);
 
-  float floatLatBytes = 12.3456;
-  float floatLonBytes = 45.6789;
+  float floatLatBytes;
+  float floatLonBytes;
   if (testCounter % 2 == 0) {
-    float floatLatBytes = 45.6789;
-    float floatLonBytes = 12.3456;
+    floatLatBytes = 45.6789;
+    floatLonBytes = 12.3456;
+  }
+  else{
+    floatLatBytes = 12.3456;
+    floatLonBytes = 45.6789;
   }
   testCounter ++;
 

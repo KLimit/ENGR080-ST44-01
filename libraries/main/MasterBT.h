@@ -29,7 +29,6 @@ public:
   bool sendTest();
 
   String printBytesSent();
-
 private:
   int testCounter = 0;
 };
