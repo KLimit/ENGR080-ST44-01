@@ -42,7 +42,8 @@ public:
   float Kp=10.0;         // proportional control gain
   float Kr=1.0;          // right motor gain correction
   float Kl=1.0;          // left motor gain correction
-  float uPower = 10.0;   // average power proportional control gain (FOLLOWER)
+  float Kpower = 10.0;   // average power proportional control gain (FOLLOWER)
+  float Ksteering = 10.0 // steering proportional control gain (FOLLOWER)
   float avgPower = 5.0;  // average forward thrust
   double uR;             // right motor effort
   double uL;             // left motor effort
