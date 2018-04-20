@@ -9,20 +9,30 @@ SpeakerControl::SpeakerControl(void)
 
 void SpeakerControl::init(void){
     pinMode(SPEAKER_PIN, OUTPUT);
+    digitalWrite(SPEAKER_PIN, LOW);
 }
 
 
 void SpeakerControl::sendPulse(void){
-    if(loopCounter%20 == 0){
+    if(loopCounter%100 == 0 && playSwitch == false){
         speakerTime = micros();
         digitalWrite(SPEAKER_PIN, HIGH);
-        delay(delayTime);
-        digitalWrite(SPEAKER_PIN, LOW);
+        playSwitch = true;
+        
     }
     else{
+        if(playTimeCounter>10){
+            digitalWrite(SPEAKER_PIN, LOW);
+            playTimeCounter = 0;
+            playSwitch = false; 
+        }
         delay(delayTime);
     }
+    if(playSwitch == true){
+        playTimeCounter++;  
+    }
     loopCounter++;
+    
 }
 
 size_t SpeakerControl::writeDataBytes(unsigned char* buffer, size_t idx){

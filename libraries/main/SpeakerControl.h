@@ -18,6 +18,8 @@ class SpeakerControl : public DataSource{
         
         const int delayTime = 20;
         int loopCounter = 0;
+        int playTimeCounter = 0;
+        bool playSwitch = false;
         unsigned long speakerTime;
 
 
