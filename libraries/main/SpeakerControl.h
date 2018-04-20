@@ -11,10 +11,15 @@ class SpeakerControl : public DataSource{
     public:
         SpeakerControl(void);
 
-        init();
-        sendPulse();
+        void init();
+        void sendPulse();
+        void writeDataBytes(unsigned char* buffer, size_t idx);
 
+        
         const int delayTime = 20;
         int loopCounter = 0;
+        unsigned long speakerTime;
 
-}
+
+};
+#endif

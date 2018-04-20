@@ -19,6 +19,9 @@ void SpeakerControl::sendPulse(void){
         delay(delayTime);
         digitalWrite(SPEAKER_PIN, LOW);
     }
+    else{
+        delay(delayTime);
+    }
     loopCounter++;
 }
 
