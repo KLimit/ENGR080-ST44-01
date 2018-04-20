@@ -29,6 +29,7 @@ public:
   void updatePoint(float x, float y);
   void updateFollowerWaypoint(SendGPS sendGPS);
 
+  String printLeaderString(void);
   String printFollowerString(void);
   String printWaypointUpdate(void);
 
@@ -47,7 +48,7 @@ public:
   float avgPower = 5.0;  // average forward thrust
   double uR;             // right motor effort
   double uL;             // left motor effort
-  
+
 
 
 private:

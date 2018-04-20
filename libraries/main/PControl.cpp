@@ -109,12 +109,24 @@ float PControl::calcDesiredHeading(float y_des, float y, float x_des, float x) {
   return atan2(y_des - y, x_des - x);
 }
 
+String PControl::printLeaderString(void() {
+  String printString = "PControl: Yaw_Des: " + String(yaw_des*180.0/PI)
+    + " Yaw: " + String(yaw*180.0/PI)
+    + " u: " + String(u);
+    + " uL " + String(uL);
+    + " uR: " + String(uR);
+
+  return printString;
+}
+
 String PControl::printFollowerString(void) {
   String printString = "PControl: Yaw_Des: " + String(yaw_des*180.0/PI)
     + " Yaw: " + String(yaw*180.0/PI)
     + " u: " + String(u);
     + " dist: " + String(dist);
     + " avgPower: " + String(avgPower);
+    + " uL: " + String(uL);
+    + " uR: " + String(uR);
 
   return printString;
 }
