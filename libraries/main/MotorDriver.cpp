@@ -39,9 +39,7 @@ void MotorDriver::apply(void)
 String MotorDriver::printState(void) {
   String printString =
     "Motors: M1: " + String(pwmDir[LEFT_MOTOR_INDEX]*pwmValues[LEFT_MOTOR_INDEX])
-    + " M2: " + String(pwmDir[RIGHT_MOTOR_INDEX]*pwmValues[RIGHT_MOTOR_INDEX])
-    + " M3: " + String(pwmDir[X_MOTOR_INDEX]*pwmValues[X_MOTOR_INDEX])
-    + " M4: " + String(pwmDir[VERT_MOTOR_INDEX]*pwmValues[VERT_MOTOR_INDEX]);
+    + " M2: " + String(pwmDir[RIGHT_MOTOR_INDEX]*pwmValues[RIGHT_MOTOR_INDEX]);
 
   return printString; //printer.printValue(4,printString);
 }
@@ -72,8 +70,8 @@ void MotorDriver::stopDriving(void) {
 void MotorDriver::driveUp(int power) {
   motorValues[LEFT_MOTOR_INDEX] = 0; //M1
   motorValues[RIGHT_MOTOR_INDEX] =0; //M2
-  motorValues[VERT_MOTOR_INDEX] = 0; //M4
-  motorValues[X_MOTOR_INDEX] = -power; //M3
+  // motorValues[VERT_MOTOR_INDEX] = 0; //M4
+  // motorValues[X_MOTOR_INDEX] = -power; //M3
   apply();
   printState();
 }
@@ -87,7 +85,7 @@ void MotorDriver::driveDown(int power) {
 void MotorDriver::driveForward(int leftPower, int rightPower) {
   motorValues[LEFT_MOTOR_INDEX] = leftPower;
   motorValues[RIGHT_MOTOR_INDEX] = rightPower;
-  motorValues[VERT_MOTOR_INDEX] = 0;
+  // motorValues[VERT_MOTOR_INDEX] = 0;
   apply();
   printState();
 }
@@ -101,7 +99,7 @@ void MotorDriver::driveBack(int leftPower, int rightPower) {
 void MotorDriver::turnRight(int power) {
   motorValues[LEFT_MOTOR_INDEX] = power;
   motorValues[RIGHT_MOTOR_INDEX] = -power;
-  motorValues[VERT_MOTOR_INDEX] = 0;
+  // motorValues[VERT_MOTOR_INDEX] = 0;
   apply();
   printState();
 }
@@ -115,8 +113,8 @@ void MotorDriver::turnLeft(int power) {
 void MotorDriver::drive(int m1_power,int m2_power,int m3_power,int m4_power) {
   motorValues[LEFT_MOTOR_INDEX] = m1_power; //M1
   motorValues[RIGHT_MOTOR_INDEX] = m2_power; //M2
-  motorValues[VERT_MOTOR_INDEX] = m4_power; //M4
-  motorValues[X_MOTOR_INDEX] = m3_power; //M3
+  // motorValues[VERT_MOTOR_INDEX] = m4_power; //M4
+  // motorValues[X_MOTOR_INDEX] = m3_power; //M3
   apply();
   printState();
 }
