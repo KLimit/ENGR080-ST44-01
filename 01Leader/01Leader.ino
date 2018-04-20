@@ -27,6 +27,7 @@ SensorIMU imu;
 StateEstimator stateEst;
 PControl pcont;
 MotorDriver md;
+SpeakerControl speaker;
 
 MasterBT masterBT;
 
@@ -49,11 +50,13 @@ void setup(){
   logger.include(&imu);
   logger.include(&stateEst);
   logger.include(&md);
+  logger.include(&speaker);
   logger.init();
 
   gps.init(&GPS);
   imu.init();
   md.init();
+  speaker.init();
 
   const int numWaypoints = 2;
   const int wayPointDim = 2;
@@ -67,8 +70,9 @@ void setup(){
   gps.lastExecutionTime       = loopStartTime - LOOP_PERIOD + GPS_LOOP_OFFSET;
   stateEst.lastExecutionTime   = loopStartTime - LOOP_PERIOD + STATE_ESTIMATOR_LOOP_OFFSET;
   pcont.lastExecutionTime     = loopStartTime - LOOP_PERIOD + P_CONTROL_LOOP_OFFSET;
+  masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + SEND_DATA_OFFSET;
   logger.lastExecutionTime    = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
-  masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + ; //Change this offset later.
+   
 
 }
 
@@ -76,7 +80,7 @@ void setup(){
 
 void loop(){
   currentTime=millis();
-  
+  speaker.sendPulse();
 
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
@@ -107,6 +111,7 @@ void loop(){
     gps.lastExecutionTime = currentTime;
     gps.read(&GPS); // blocking UART calls
   }
+
   
 
   if ( currentTime-stateEst.lastExecutionTime > LOOP_PERIOD ) {
@@ -122,6 +127,7 @@ void loop(){
     masterBT.lastExecutionTime = currentTime;
     masterBT.sendCoords(&gps);
   }
+
 
 
   if (currentTime- logger.lastExecutionTime > LOOP_PERIOD && logger.keepLogging) {
