@@ -82,11 +82,15 @@ void PControl::calculateFollowerControl(state_t * fState) {
 void PControl::calculateNominal(float x, float y) {
   // FOLLOWER
   // follower robot's state
-  float distFromLeader = sqrt( pow(x-x_des, 2) + pow(y-y_des, 2));
+  float distFromLeader = sqrt(pow(x-x_des, 2) + pow(y-y_des, 2));
 
   float distError = dist_des - distFromLeader;
-
-  avgPower = Kp*distError;
+  if (distError >= 0) {
+    // if the follower is closer than it should be, wait
+    avgPower = 0;
+  } else {
+    avgPower = abs(Kpower*distError);
+  }
 }
 
 void PControl::calculateSteering(float x, float y, float h) {
@@ -95,7 +99,7 @@ void PControl::calculateSteering(float x, float y, float h) {
   float h_des = calcDesiredHeading(y_des, y, x_des, x);
   u = Kp * angleDiff(h_des - h);
   uL = max(0.0, min(255.0, (avgPower - u) * Kl));
-  uR = max(0.0, min(255.0, (avgPower - u) * Kl));
+  uR = max(0.0, min(255.0, (avgPower + u) * Kr));
 
 }
 

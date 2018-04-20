@@ -65,7 +65,7 @@ bool MasterBT::sendTest() {
   // } else {
   //   return false;
   // }
-   
+
   BT_SERIAL.flush();
   return true;
 }
