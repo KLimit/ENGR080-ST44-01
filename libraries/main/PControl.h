@@ -47,6 +47,7 @@ public:
   float avgPower = 5.0;  // average forward thrust
   double uR;             // right motor effort
   double uL;             // left motor effort
+  
 
 
 private:

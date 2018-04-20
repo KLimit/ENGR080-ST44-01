@@ -13,7 +13,7 @@ class SpeakerControl : public DataSource{
 
         void init();
         void sendPulse();
-        void writeDataBytes(unsigned char* buffer, size_t idx);
+        size_t writeDataBytes(unsigned char* buffer, size_t idx);
 
         
         const int delayTime = 20;
