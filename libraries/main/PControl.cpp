@@ -92,7 +92,6 @@ void PControl::calculateNominal(float x, float y) {
 void PControl::calculateSteering(float x, float y, float h) {
   // FOLLOWER
   // ANGLE TOWARD LEADER
-
   float h_des = calcDesiredHeading(y_des, y, x_des, x);
   u = Kp * angleDiff(h_des - h);
   uL = max(0.0, min(255.0, (avgPower - u) * Kl));
