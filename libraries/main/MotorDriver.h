@@ -1,7 +1,7 @@
 #ifndef __MOTOR_DRIVER_H__
 #define __MOTOR_DRIVER_H__
 
-#define NUM_MOTORS 4
+#define NUM_MOTORS 3
 
 #define LEFT_MOTOR_INDEX 0
 #define RIGHT_MOTOR_INDEX 1
@@ -57,9 +57,7 @@ private:
   // pins for the motors
   int motorPins[NUM_MOTORS][2] = {{MOTOR_L_FORWARD,MOTOR_L_REVERSE},
                                   {MOTOR_R_FORWARD,MOTOR_R_REVERSE},
-                                  {MOTOR_V_FORWARD,MOTOR_V_REVERSE},
-                                  {MOTOR_X_FORWARD,MOTOR_X_REVERSE}};
-
+                                  {MOTOR_V_FORWARD,MOTOR_V_REVERSE}};
   // pwm data
   unsigned int pwmValues[NUM_MOTORS]; // absolute value
   bool pwmDir[NUM_MOTORS]; // direction
