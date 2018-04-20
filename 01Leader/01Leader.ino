@@ -21,8 +21,8 @@
 Printer printer;
 Logger logger;
 
-Adafruit_GPS GPS(&mySerial);
 SensorGPS gps;
+Adafruit_GPS GPS(&mySerial);
 SensorIMU imu;
 
 StateEstimator stateEst;
@@ -104,7 +104,8 @@ void loop(){
     printer.printValue(6,md.printState());
     printer.printValue(7,imu.printRollPitchHeading());
     printer.printValue(8,imu.printAccels());
-    printer.printValue(9, masterBT.printBytesSent());
+    // printer.printValue(9, masterBT.printBytesSent());
+
     printer.printToSerial();  // To stop printing, just comment this line out
   }
 
@@ -123,6 +124,7 @@ void loop(){
   if (true){//(gps.loopTime(loopStartTime)) {
     gps.lastExecutionTime = currentTime;
     gps.read(&GPS); // blocking UART calls
+    printer.printMessage(gps.state.lat, 10);
   }
 
 
@@ -138,7 +140,8 @@ void loop(){
   //The runtime of this code is extremely short
   if (currentTime-masterBT.lastExecutionTime > LOOP_PERIOD) {
     masterBT.lastExecutionTime = currentTime;
-    masterBT.sendCoords(&gps);
+    // masterBT.sendCoords(&gps);
+    masterBT.sendTest();
   }
 
 
