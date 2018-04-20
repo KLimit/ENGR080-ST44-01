@@ -44,7 +44,7 @@ int currentTime;
 
 
 void setup(){
-  
+
   pinMode(16,INPUT_PULLUP);  // was set to PULLDOWN in the past
   pinMode(17, OUTPUT);
   digitalWrite(17,LOW);
@@ -63,6 +63,12 @@ void setup(){
 
   gps.init(&GPS);
   imu.init();
+
+  // PARSONS COURTYARD
+  const float origin_lat = 34.106111;
+  const float origin_lon = 117.711667;
+  stateEst.init(origin_lat, origin_lon);
+  
   md.init();
 
   const double followDist = 5.0;
@@ -147,4 +153,3 @@ void isrEnvelope() {
   digitalWrite(17,HIGH);
   digitalWrite(17,LOW);
 }
-

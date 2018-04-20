@@ -55,6 +55,12 @@ void setup(){
 
   gps.init(&GPS);
   imu.init();
+
+  // PARSONS COURTYARD
+  const float origin_lat = 34.106111;
+  const float origin_lon = 117.711667;
+  stateEst.init(origin_lat, origin_lon);
+
   md.init();
   speaker.init();
 
