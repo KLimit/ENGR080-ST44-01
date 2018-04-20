@@ -22,9 +22,6 @@ Previous Contributors:  Josephine Wong (jowong@hmc.edu) '18 (contributed in 2016
 #define mySerial Serial1
 #include <LED.h>  // A template of a data soruce library
 
-#include <MicrophoneADC.h>
-#include <
->
 
 /////////////////////////* Global Variables *////////////////////////
 
@@ -38,7 +35,6 @@ SensorIMU imu;
 Logger logger;
 Printer printer;
 LED led;
-MicrophoneADC mic;
 
 // loop start recorder
 int loopStartTime;
@@ -48,17 +44,18 @@ int current_way_point = 0;
 ////////////////////////* Setup *////////////////////////////////
 
 void setup() {
-
+  
+  
   logger.include(&imu);
   logger.include(&gps);
   logger.include(&state_estimator);
   logger.include(&motor_driver);
   logger.include(&adc);
-  logger.init();
+    logger.init();
 
   printer.init();
   imu.init();
-  mySerial.begin(9600);
+mySerial.begin(9600);
   gps.init(&GPS);
   motor_driver.init();
   led.init();
@@ -66,7 +63,7 @@ void setup() {
   const int number_of_waypoints = 2;
   const int waypoint_dimensions = 2;       // waypoints have two pieces of information, x then y.
   double waypoints [] = { 0, 10, 0, 0 };   // listed as x0,y0,x1,y1, ... etc.
-  pcontrol.init(number_of_waypoints, waypoint_dimensions, waypoints);
+  //pcontrol.init(number_of_waypoints, waypoint_dimensions, waypoints);
 
   const float origin_lat = 34.106465;
   const float origin_lon = 117.712488;
@@ -89,15 +86,16 @@ void setup() {
 
 void loop() {
   currentTime=millis();
-
+  
+  
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
-    printer.printValue(0,adc.printSample());
+   //printer.printValue(0,adc.printSample());
     printer.printValue(1,logger.printState());
     printer.printValue(2,gps.printState());
     printer.printValue(3,state_estimator.printState());
     printer.printValue(4,pcontrol.printWaypointUpdate());
-    printer.printValue(5,pcontrol.printString());
+    printer.printValue(5,pcontrol.printLeaderString());
     printer.printValue(6,motor_driver.printState());
     printer.printValue(7,imu.printRollPitchHeading());
     printer.printValue(8,imu.printAccels());
@@ -106,8 +104,9 @@ void loop() {
 
   if ( currentTime-pcontrol.lastExecutionTime > LOOP_PERIOD ) {
     pcontrol.lastExecutionTime = currentTime;
-    pcontrol.calculateControl(&state_estimator.state);
-    motor_driver.driveForward(pcontrol.uL,pcontrol.uR);
+    //pcontrol.calculateControl(&state_estimator.state);
+    //motor_driver.driveForward(pcontrol.uL,pcontrol.uR);
+    motor_driver.driveForward(0,0);
   }
 
   if ( currentTime-adc.lastExecutionTime > LOOP_PERIOD ) {

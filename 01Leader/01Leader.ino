@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <Pinouts.h>
 #include <TimingOffsets.h>
+#include <Wire.h>
 
 #include<Printer.h>
 #include<Logger.h>
@@ -14,7 +15,7 @@
 #include<MotorDriver.h>
 #include<SpeakerControl.h>
 #include<MasterBT.h>
-
+#include<SlaveBT.h>
 #define mySerial Serial1
 
 Printer printer;
@@ -30,6 +31,7 @@ MotorDriver md;
 SpeakerControl speaker;
 
 MasterBT masterBT;
+SlaveBT slaveBT;
 
 // GLOBALS (?)
 
@@ -43,7 +45,7 @@ int currentTime;
 void setup(){
 
   mySerial.begin(9600);
-  BT_SERIAL.begin(38400);
+  //BT_SERIAL.begin(38400);
   printer.init();
 
   logger.include(&gps);
@@ -62,12 +64,12 @@ void setup(){
   stateEst.init(origin_lat, origin_lon);
 
   md.init();
-  speaker.init();
+  //speaker.init();
 
   const int numWaypoints = 2;
   const int wayPointDim = 2;
   const double followDist = -1.0;
-  pcont.init(numWaypoints, wayPointDim, waypoints, followDist);
+  //pcont.init(numWaypoints, wayPointDim, waypoints, followDist);
 
   printer.printMessage("Starting main loop",10);
   loopStartTime = millis();
@@ -78,7 +80,7 @@ void setup(){
   pcont.lastExecutionTime     = loopStartTime - LOOP_PERIOD + P_CONTROL_LOOP_OFFSET;
   masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + SEND_DATA_OFFSET;
   logger.lastExecutionTime    = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
-
+  slaveBT.lastExecutionTime = loopStartTime - LOOP_PERIOD + BT_LOOP_OFFSET;
 
 }
 
@@ -86,7 +88,11 @@ void setup(){
 
 void loop(){
   currentTime=millis();
-  speaker.sendPulse();
+  if (currentTime-slaveBT.lastExecutionTime > LOOP_PERIOD) {
+    slaveBT.lastExecutionTime = currentTime;
+    //speaker.sendPulse();
+  }
+  
 
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
@@ -104,8 +110,9 @@ void loop(){
 
   if ( currentTime-pcont.lastExecutionTime > LOOP_PERIOD ) {
     pcont.lastExecutionTime = currentTime;
-    pcont.calculateLeaderControl(&stateEst.state);
-    md.driveForward(pcont.uL,pcont.uR);
+    //pcont.calculateLeaderControl(&stateEst.state);
+//    md.driveForward(pcont.uL,pcont.uR);
+      md.driveForward(0,0);
   }
 
   if ( currentTime-imu.lastExecutionTime > LOOP_PERIOD ) {

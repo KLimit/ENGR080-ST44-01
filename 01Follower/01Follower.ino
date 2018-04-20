@@ -48,17 +48,19 @@ void setup(){
   pinMode(16,INPUT_PULLUP);  // was set to PULLDOWN in the past
   pinMode(17, OUTPUT);
   digitalWrite(17,LOW);
-  attachInterrupt(digitalPinToInterrupt(ENV_PIN), isrEnvelope, RISING);
+  attachInterrupt(digitalPinToInterrupt(16), isrEnvelope, RISING);
+  analogWriteResolution(12);
+  analogWrite(A14,0.18*4096/3.3);
   mySerial.begin(9600);
   BT_SERIAL.begin(38400);
   printer.init();
 
-  // logger.include(&gps);
+  //logger.include(&gps);
   // logger.include(&imu);
   // logger.include(&stateEst);
   logger.include(&md);
   logger.include(&sendGPS);
-  // logger.include(&env);
+  logger.include(&env);
   logger.init();
 
   gps.init(&GPS);
@@ -100,7 +102,7 @@ void loop(){
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
     // printer.printValue(1,logger.printState());
-    // printer.printValue(2,gps.printState());
+     printer.printValue(2,gps.printState());
     // printer.printValue(3,stateEst.printState());
     // printer.printValue(4,pcont.printWaypointUpdate());
     // printer.printValue(5,pcont.printString());
@@ -108,7 +110,7 @@ void loop(){
     // printer.printValue(7,imu.printRollPitchHeading());
     // printer.printValue(8,imu.printAccels());
 
-    printer.printMessage("first gps test", 1);
+    //printer.printMessage(String(gps.state.lat,5), 1);
 
     printer.printValue(2, slaveBT.printCoordinates());
     printer.printValue(3, slaveBT.printCoordinates2());
@@ -149,7 +151,9 @@ void loop(){
 }
 
 void isrEnvelope() {
-  env.updateSample();
   digitalWrite(17,HIGH);
+  delayMicroseconds(100);
   digitalWrite(17,LOW);
+  env.updateSample();
+  
 }
