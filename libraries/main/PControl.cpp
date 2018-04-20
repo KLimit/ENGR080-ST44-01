@@ -116,6 +116,11 @@ String PControl::printString(void) {
   return printString;
 }
 
+String PControl::printFollowerValues(){
+  String printString = "PControl: Yaw_Des" + String(yaw_des*180.0/PI);
+  + "Yaw: "
+}
+
 String PControl::printWaypointUpdate(void) {
   String wayPointUpdate = "PControl: Current Waypoint: " + String(currentWayPoint)
     + " Distance from Waypoint: " + String(dist);
