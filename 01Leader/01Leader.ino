@@ -12,7 +12,7 @@
 #include<StateEstimator.h>
 #include<PControl.h>
 #include<MotorDriver.h>
-
+#include<SpeakerControl.h>
 #include<MasterBT.h>
 
 #define mySerial Serial1
@@ -68,7 +68,7 @@ void setup(){
   stateEst.lastExecutionTime   = loopStartTime - LOOP_PERIOD + STATE_ESTIMATOR_LOOP_OFFSET;
   pcont.lastExecutionTime     = loopStartTime - LOOP_PERIOD + P_CONTROL_LOOP_OFFSET;
   logger.lastExecutionTime    = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
-  masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET; //Change this offset later.
+  masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + ; //Change this offset later.
 
 }
 
@@ -107,6 +107,7 @@ void loop(){
     gps.lastExecutionTime = currentTime;
     gps.read(&GPS); // blocking UART calls
   }
+  
 
   if ( currentTime-stateEst.lastExecutionTime > LOOP_PERIOD ) {
     stateEst.lastExecutionTime = currentTime;
