@@ -44,7 +44,11 @@ int currentTime;
 
 
 void setup(){
-
+  
+  pinMode(16,INPUT_PULLUP);  // was set to PULLDOWN in the past
+  pinMode(17, OUTPUT);
+  digitalWrite(17,LOW);
+  attachInterrupt(digitalPinToInterrupt(ENV_PIN), isrEnvelope, RISING);
   mySerial.begin(9600);
   BT_SERIAL.begin(38400);
   printer.init();
@@ -97,11 +101,9 @@ void loop(){
     // printer.printValue(6,md.printState());
     // printer.printValue(7,imu.printRollPitchHeading());
     // printer.printValue(8,imu.printAccels());
-<<<<<<< HEAD
+
     printer.printMessage("first gps test", 1);
-=======
-    printer.printMessage("MotorDriver Fix 001", 1);
->>>>>>> BT-Protocol
+
     printer.printValue(2, slaveBT.printCoordinates());
     printer.printValue(3, slaveBT.printCoordinates2());
     printer.printValue(4, slaveBT.printCoordinates3());
@@ -138,5 +140,11 @@ void loop(){
     logger.lastExecutionTime = currentTime;
     logger.log();
   }
-
 }
+
+void isrEnvelope() {
+  env.updateSample();
+  digitalWrite(17,HIGH);
+  digitalWrite(17,LOW);
+}
+

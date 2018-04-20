@@ -27,7 +27,7 @@ public:
 
 
   // data to be stored
-  volatile int interruptTime = 0;
+  volatile unsigned long interruptTime = 0;
 
 	// unsigned long sampTime [NUM_SAMPLES];  // range: 0-(2^32-1), 4 bytes per item
   // unsigned char mic [NUM_SAMPLES];  // range: 0-255, 1 byte per item
