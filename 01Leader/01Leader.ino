@@ -72,7 +72,7 @@ void setup(){
   pcont.lastExecutionTime     = loopStartTime - LOOP_PERIOD + P_CONTROL_LOOP_OFFSET;
   masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + SEND_DATA_OFFSET;
   logger.lastExecutionTime    = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
-   
+
 
 }
 
@@ -88,7 +88,7 @@ void loop(){
     printer.printValue(2,gps.printState());
     printer.printValue(3,stateEst.printState());
     printer.printValue(4,pcont.printWaypointUpdate());
-    printer.printValue(5,pcont.printString());
+    printer.printValue(5,pcont.printLeaderString());
     printer.printValue(6,md.printState());
     printer.printValue(7,imu.printRollPitchHeading());
     printer.printValue(8,imu.printAccels());
@@ -112,7 +112,7 @@ void loop(){
     gps.read(&GPS); // blocking UART calls
   }
 
-  
+
 
   if ( currentTime-stateEst.lastExecutionTime > LOOP_PERIOD ) {
     stateEst.lastExecutionTime = currentTime;
