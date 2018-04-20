@@ -4,8 +4,8 @@ extern Printer printer;
 #include "Pinouts.h"
 
 SpeakerControl::SpeakerControl(void)
-:DataSource("SpeakerTime", "ulong");
-{}
+:DataSource("SpeakerTime", "ulong"){
+}
 
 void SpeakerControl::init(void){
     pinMode(SPEAKER_PIN, OUTPUT);
@@ -28,6 +28,6 @@ void SpeakerControl::sendPulse(void){
 size_t SpeakerControl::writeDataBytes(unsigned char* buffer, size_t idx){
     unsigned long * time_slot = (unsigned long *) (buffer+idx);
     time_slot[0] = speakerTime;
-    return idx + sizeof(unsigned long)
+    return idx + sizeof(unsigned long);
 
 }
