@@ -11,21 +11,12 @@ SendGPS::SendGPS(void)
   //Uart_p = &Uart;
 }
 
-<<<<<<< HEAD
-void SendGPS::updateState(float la, float lo, unsigned long leaderT, unsigned long followT)
-{
-  lat = la;
-  lon = lo;
-  leaderTime = leaderT;
-  followTime = followT;
-=======
 void SendGPS::updateState(float lat, float lon, unsigned long leaderT, unsigned long followT)
 {
   leaderLat = lat;
   leaderLon = lon;
   leaderTime = leaderT;
   followerTime = followT;
->>>>>>> BT-Protocol
 
 }
 

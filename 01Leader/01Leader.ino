@@ -76,6 +76,7 @@ void setup(){
 
 void loop(){
   currentTime=millis();
+  
 
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
@@ -114,11 +115,13 @@ void loop(){
 
   // Bluetooth timer
   // printer.printMessage("bluetooth? " + String(currentTime-masterBT.lastExecutionTime > LOOP_PERIOD), 1);
+
+  //The runtime of this code is extremely short
   if (currentTime-masterBT.lastExecutionTime > LOOP_PERIOD) {
     masterBT.lastExecutionTime = currentTime;
-    bool sentOrNot = masterBT.sendTest();
-    printer.printMessage("bluetooth sent: " + String(sentOrNot), 1);
+    masterBT.sendCoords(&gps);
   }
+
 
   if (currentTime- logger.lastExecutionTime > LOOP_PERIOD && logger.keepLogging) {
     logger.lastExecutionTime = currentTime;
