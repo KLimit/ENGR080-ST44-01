@@ -29,7 +29,7 @@ public:
   void updatePoint(float x, float y);
   void updateFollowerWaypoint(SendGPS sendGPS);
 
-  String printString(void);
+  String printFollowerString(void);
   String printWaypointUpdate(void);
 
   int lastExecutionTime = -1;

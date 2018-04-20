@@ -96,8 +96,9 @@ void PControl::calculateNominal(float x, float y) {
 void PControl::calculateSteering(float x, float y, float h) {
   // FOLLOWER
   // ANGLE TOWARD LEADER
-  float h_des = calcDesiredHeading(y_des, y, x_des, x);
-  u = Kp * angleDiff(h_des - h);
+  yaw_des = calcDesiredHeading(y_des, y, x_des, x);
+  yaw = h;
+  u = Kp * angleDiff(yaw_des - yaw);
   uL = max(0.0, min(255.0, (avgPower - u) * Kl));
   uR = max(0.0, min(255.0, (avgPower + u) * Kr));
 
@@ -108,20 +109,14 @@ float PControl::calcDesiredHeading(float y_des, float y, float x_des, float x) {
   return atan2(y_des - y, x_des - x);
 }
 
-String PControl::printString(void) {
+String PControl::printFollowerString(void) {
   String printString = "PControl: Yaw_Des: " + String(yaw_des*180.0/PI)
     + " Yaw: " + String(yaw*180.0/PI)
     + " u: " + String(u);
     + " dist: " + String(dist);
-    + " uPower: " + String(uPower);
     + " avgPower: " + String(avgPower);
 
   return printString;
-}
-
-String PControl::printFollowerValues(){
-  String printString = "PControl: Yaw_Des" + String(yaw_des*180.0/PI);
-  + "Yaw: "
 }
 
 String PControl::printWaypointUpdate(void) {
