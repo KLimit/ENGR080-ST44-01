@@ -2,7 +2,6 @@
 % H Limm
 % ST-44
 clear;
-clf;
 
 filenum = input('FILE> ','s');
 infofile = strcat('INF', filenum, '.TXT');
@@ -60,6 +59,14 @@ fclose(fid);
 % end
 % plot(t*1E-6, trig);
 
-%% PLOT CALIBRATION CURVE
+%% PLOT LEADER POSITION
+for i = 1:numel(leaderLat)
+    if leaderLat(i) > -110
+        lLat(i) = -117;
+    else
+        lLat(i) = leaderLat(i);
+    end
+end
+
 
 
