@@ -2,7 +2,6 @@
 % H Limm
 % ST-44
 clear;
-clf;
 
 filenum = input('FILE> ','s');
 infofile = strcat('INF', filenum, '.TXT');

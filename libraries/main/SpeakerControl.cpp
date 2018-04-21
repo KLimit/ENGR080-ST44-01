@@ -4,7 +4,7 @@ extern Printer printer;
 #include "Pinouts.h"
 
 SpeakerControl::SpeakerControl(void)
-:DataSource("SpeakerTime", "ulong"){
+:DataSource("SpeakerTime, TimesPlayed", "ulong, int"){
 }
 
 void SpeakerControl::init(void){
@@ -18,26 +18,31 @@ void SpeakerControl::sendPulse(void){
         speakerTime = micros();
         digitalWrite(SPEAKER_PIN, HIGH);
         playSwitch = true;
-        
+        timesPlayed++;
+
+
     }
     else{
         if(playTimeCounter>10){
             digitalWrite(SPEAKER_PIN, LOW);
             playTimeCounter = 0;
-            playSwitch = false; 
+            playSwitch = false;
         }
         delay(delayTime);
     }
     if(playSwitch == true){
-        playTimeCounter++;  
+        playTimeCounter++;
     }
     loopCounter++;
-    
+
 }
 
 size_t SpeakerControl::writeDataBytes(unsigned char* buffer, size_t idx){
     unsigned long * time_slot = (unsigned long *) (buffer+idx);
     time_slot[0] = speakerTime;
-    return idx + sizeof(unsigned long);
+    idx += sizeof(unsigned long);
+    int * play_slot = (int *) (buffer + idx);
+    play_slot[0] = timesPlayed;
+    return idx + sizeof(int);
 
 }
