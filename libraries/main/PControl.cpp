@@ -65,8 +65,8 @@ void PControl::calculateLeaderControl(state_t * state) {
   yaw = state->heading;
   u = Kp * angleDiff(yaw_des - yaw);
 
-  uL = max(0.0,min(255.0,(avgPower - u)*Kl));
-  uR = max(0.0,min(255.0,(avgPower + u)*Kr));
+  uL = max(0.0,min(255.0,(avgPower - u)*KlLead));
+  uR = max(0.0,min(255.0,(avgPower + u)*KrLead));
 
 }
 
@@ -99,8 +99,8 @@ void PControl::calculateSteering(float x, float y, float h) {
   yaw_des = calcDesiredHeading(y_des, y, x_des, x);
   yaw = h;
   u = Kp * angleDiff(yaw_des - yaw);
-  uL = max(0.0, min(255.0, (avgPower - u) * Kl));
-  uR = max(0.0, min(255.0, (avgPower + u) * Kr));
+  uL = max(0.0, min(255.0, (avgPower - u) * KlFollow));
+  uR = max(0.0, min(255.0, (avgPower + u) * KrFollow));
 
 }
 

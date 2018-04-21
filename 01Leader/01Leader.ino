@@ -35,7 +35,7 @@ SlaveBT slaveBT;
 
 // GLOBALS (?)
 
-double waypoints[] = {0, 10, 0, 0};
+double waypoints[] = {0, 0, 15, 0};
 
 int loopStartTime;
 int currentTime;
@@ -59,9 +59,16 @@ void setup(){
   imu.init();
 
   // PARSONS COURTYARD
-  const float origin_lat = 34.1061134;
-  const float origin_lon = -117.7120895;
+  gps.read(&GPS);
+  while(gps.state.lat == 0){
+  
+  printer.printMessage(String(gps.state.lat,10),10);
+  gps.read(&GPS);}
+  const float origin_lat = gps.state.lat;
+  const float origin_lon = gps.state.lat;
   stateEst.init(origin_lat, origin_lon);
+  
+  
 
   md.init();
   speaker.init();
@@ -81,7 +88,7 @@ void setup(){
   masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + SEND_DATA_OFFSET;
   logger.lastExecutionTime    = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
   slaveBT.lastExecutionTime = loopStartTime - LOOP_PERIOD + BT_LOOP_OFFSET;
-
+  
 }
 
 

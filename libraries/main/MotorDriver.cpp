@@ -37,7 +37,7 @@ void MotorDriver::apply(void)
     else{
       analogWrite(motorPins[m][FORWARD_PIN],pwmDir[m]*pwmValues[m]);
     }
-    analogWrite(motorPins[m][BACKWARD_PIN],pwmDir[m]*pwmValues[m]);
+    analogWrite(motorPins[m][BACKWARD_PIN],(!pwmDir[m])*pwmValues[m]);
   }
 }
 
