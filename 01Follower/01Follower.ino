@@ -118,7 +118,7 @@ void loop(){
     printer.printValue(6,md.printState());
     printer.printValue(7,imu.printRollPitchHeading());
     printer.printValue(8, sendGPS.printReceivedStates());
-    printer.printToSerial();  // To stop printing, just comment this line out
+    //printer.printToSerial();  // To stop printing, just comment this line out
 
   }
 
