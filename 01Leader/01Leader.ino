@@ -21,8 +21,9 @@
 Printer printer;
 Logger logger;
 
-SensorGPS gps;
 Adafruit_GPS GPS(&mySerial);
+SensorGPS gps;
+
 SensorIMU imu;
 
 StateEstimator stateEst;

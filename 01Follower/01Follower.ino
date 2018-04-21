@@ -50,7 +50,7 @@ void setup(){
   digitalWrite(17,LOW);
   attachInterrupt(digitalPinToInterrupt(16), isrEnvelope, RISING);
   analogWriteResolution(8);
-  analogWrite(A14,0.18*256/3.3);
+  analogWrite(A14,0.8*256/3.3);
   mySerial.begin(9600);
   BT_SERIAL.begin(38400);
   printer.init();
