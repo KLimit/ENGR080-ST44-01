@@ -28,7 +28,7 @@ void MotorDriver::apply(void)
     }
     pwmDir[m] = (motorValues[m] >= 0); // true if motor goes forward
   }
-
+  
   // write this information to motors
   for (int m = 0; m < NUM_MOTORS; m++) { // using pwmDir as 0 or 1
     if(m==0){
@@ -44,7 +44,7 @@ void MotorDriver::apply(void)
 String MotorDriver::printState(void) {
   String printString =
     "Motors: M1: " + String(pwmDir[LEFT_MOTOR_INDEX]*pwmValues[LEFT_MOTOR_INDEX])
-    + " M2: " + String(pwmDir[RIGHT_MOTOR_INDEX]*pwmValues[RIGHT_MOTOR_INDEX]);
+    + " M4: " + String(pwmDir[RIGHT_MOTOR_INDEX]*pwmValues[RIGHT_MOTOR_INDEX]);
 
   return printString; //printer.printValue(4,printString);
 }
@@ -117,8 +117,8 @@ void MotorDriver::turnLeft(int power) {
 // power vertical motors up
 void MotorDriver::drive(int m1_power,int m2_power,int m3_power,int m4_power) {
   motorValues[LEFT_MOTOR_INDEX] = m1_power; //M1
-  motorValues[RIGHT_MOTOR_INDEX] = m2_power; //M2
-  // motorValues[VERT_MOTOR_INDEX] = m4_power; //M4
+  //motorValues[RIGHT_MOTOR_INDEX] = m2_power; //M2
+  motorValues[RIGHT_MOTOR_INDEX] = m4_power; //M4
   // motorValues[X_MOTOR_INDEX] = m3_power; //M3
   apply();
   printState();

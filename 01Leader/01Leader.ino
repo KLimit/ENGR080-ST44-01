@@ -45,7 +45,7 @@ int currentTime;
 void setup(){
 
   mySerial.begin(9600);
-  //BT_SERIAL.begin(38400);
+  BT_SERIAL.begin(38400);
   printer.init();
 
   logger.include(&gps);
@@ -59,17 +59,17 @@ void setup(){
   imu.init();
 
   // PARSONS COURTYARD
-  const float origin_lat = 34.106111;
-  const float origin_lon = 117.711667;
+  const float origin_lat = 34.1061134;
+  const float origin_lon = -117.7120895;
   stateEst.init(origin_lat, origin_lon);
 
   md.init();
-  //speaker.init();
+  speaker.init();
 
   const int numWaypoints = 2;
   const int wayPointDim = 2;
   const double followDist = -1.0;
-  //pcont.init(numWaypoints, wayPointDim, waypoints, followDist);
+  pcont.init(numWaypoints, wayPointDim, waypoints, followDist);
 
   printer.printMessage("Starting main loop",10);
   loopStartTime = millis();
@@ -90,7 +90,7 @@ void loop(){
   currentTime=millis();
   if (currentTime-slaveBT.lastExecutionTime > LOOP_PERIOD) {
     slaveBT.lastExecutionTime = currentTime;
-    //speaker.sendPulse();
+    speaker.sendPulse();
   }
   
 
@@ -111,9 +111,9 @@ void loop(){
 
   if ( currentTime-pcont.lastExecutionTime > LOOP_PERIOD ) {
     pcont.lastExecutionTime = currentTime;
-    //pcont.calculateLeaderControl(&stateEst.state);
-//    md.driveForward(pcont.uL,pcont.uR);
-      md.driveForward(0,0);
+    pcont.calculateLeaderControl(&stateEst.state);
+    md.driveForward(pcont.uL,pcont.uR);
+      
   }
 
   if ( currentTime-imu.lastExecutionTime > LOOP_PERIOD ) {
@@ -124,7 +124,6 @@ void loop(){
   if (true){//(gps.loopTime(loopStartTime)) {
     gps.lastExecutionTime = currentTime;
     gps.read(&GPS); // blocking UART calls
-    printer.printMessage(gps.state.lat, 10);
   }
 
 
@@ -140,8 +139,8 @@ void loop(){
   //The runtime of this code is extremely short
   if (currentTime-masterBT.lastExecutionTime > LOOP_PERIOD) {
     masterBT.lastExecutionTime = currentTime;
-    // masterBT.sendCoords(&gps);
-    masterBT.sendTest();
+    masterBT.sendCoords(&gps);
+    
   }
 
 

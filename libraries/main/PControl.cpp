@@ -82,7 +82,7 @@ void PControl::calculateFollowerControl(state_t * fState) {
 void PControl::calculateNominal(float x, float y) {
   // FOLLOWER
   // follower robot's state
-  float distFromLeader = sqrt(pow(x-x_des, 2) + pow(y-y_des, 2));
+  distFromLeader = sqrt(pow(x-x_des, 2) + pow(y-y_des, 2));
 
   float distError = dist_des - distFromLeader;
   if (distError >= 0) {
@@ -110,30 +110,30 @@ float PControl::calcDesiredHeading(float y_des, float y, float x_des, float x) {
 }
 
 String PControl::printLeaderString(void) {
-  String printString = "PControl: Yaw_Des: " + String(yaw_des*180.0/PI)
-    + " Yaw: " + String(yaw*180.0/PI)
-    + " u: " + String(u);
-    + " uL " + String(uL);
+  String printString = //"PControl: Yaw_Des: " + String(yaw_des*180.0/PI)
+   // + " Yaw: " + String(yaw*180.0/PI)
+     " u: " + String(u);
+     //" uL " + String(uL);
     + " uR: " + String(uR);
+   
+    
 
   return printString;
 }
 
 String PControl::printFollowerString(void) {
-  String printString = "PControl: Yaw_Des: " + String(yaw_des*180.0/PI)
-    + " Yaw: " + String(yaw*180.0/PI)
-    + " u: " + String(u);
-    + " dist: " + String(dist);
-    + " avgPower: " + String(avgPower);
-    + " uL: " + String(uL);
+  String printString = + " Dist from WP: " + String(distFromLeader) + " u: " + String(u)
+    + " uL: " + String(uL)
     + " uR: " + String(uR);
+     
 
   return printString;
 }
 
 String PControl::printWaypointUpdate(void) {
-  String wayPointUpdate = "PControl: Current Waypoint: " + String(currentWayPoint)
-    + " Distance from Waypoint: " + String(dist);
+  String wayPointUpdate = "AvgP: " + String(avgPower)
+    + " Dist from WP: " + String(distFromLeader);
+    
   return wayPointUpdate;
 }
 

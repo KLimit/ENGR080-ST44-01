@@ -12,7 +12,7 @@
 #include "Pinouts.h"
 #include "TimingOffsets.h"
 
-#define NUM_TO_AVERAGE 10
+#define NUM_TO_AVERAGE 1
 
 
 class SensorIMU : public DataSource {

@@ -21,11 +21,10 @@ void SendGPS::updateState(float lat, float lon, unsigned long leaderT, unsigned 
 }
 
 String SendGPS::printReceivedStates(){
-  printString = "SendGPS Coordinates: \n";
-  printString += "Lat: ";
-  printString += String(leaderLat);
+  printString = "Lat: ";
+  printString += String(leaderLat,7);
   printString += " Lon: ";
-  printString += String(leaderLon);
+  printString += String(leaderLon,7);
   printString += " Leader Time: ";
   printString += String(leaderTime);
   printString += " Follower Time: ";

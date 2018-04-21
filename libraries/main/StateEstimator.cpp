@@ -29,7 +29,7 @@ void StateEstimator::updateState(sensors_vec_t * imu_state_p, gps_state_t * gps_
 
   // get heading
   float heading_rad = imu_state_p->heading*PI/180.0; // convert to radians
-  heading_rad = -heading_rad + PI/2.0; // adjust from 0=North, CW=(+) to 0=East, CCW=(+)
+  heading_rad = heading_rad + PI/2.0; // adjust from 0=North, CW=(+) to 0=East, CCW=(+)
   state.heading = angleDiff(heading_rad);
 
 }
@@ -38,7 +38,7 @@ String StateEstimator::printState(void) {
   int decimals = 2;
   String currentState = "State: x: " + String(state.x,decimals)
     + " y: " + String(state.y,decimals)
-    + " h: " + String(state.heading,decimals);
+    + " h: " + String(180*state.heading/PI,decimals);
   return currentState;
 }
 

@@ -49,8 +49,8 @@ void setup(){
   pinMode(17, OUTPUT);
   digitalWrite(17,LOW);
   attachInterrupt(digitalPinToInterrupt(16), isrEnvelope, RISING);
-  analogWriteResolution(12);
-  analogWrite(A14,0.18*4096/3.3);
+  analogWriteResolution(8);
+  analogWrite(A14,0.18*256/3.3);
   mySerial.begin(9600);
   BT_SERIAL.begin(38400);
   printer.init();
@@ -68,7 +68,7 @@ void setup(){
 
   // PARSONS COURTYARD
   const float origin_lat = 34.106111;
-  const float origin_lon = 117.711667;
+  const float origin_lon = -117.711667;
   stateEst.init(origin_lat, origin_lon);
   
   md.init();
@@ -101,21 +101,14 @@ void loop(){
 
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
-    // printer.printValue(1,logger.printState());
+     //printer.printValue(1,logger.printState());
      printer.printValue(2,gps.printState());
-    // printer.printValue(3,stateEst.printState());
-    // printer.printValue(4,pcont.printWaypointUpdate());
-    // printer.printValue(5,pcont.printString());
-    // printer.printValue(6,md.printState());
-    // printer.printValue(7,imu.printRollPitchHeading());
-    // printer.printValue(8,imu.printAccels());
-
-    //printer.printMessage(String(gps.state.lat,5), 1);
-
-    printer.printValue(2, slaveBT.printCoordinates());
-    printer.printValue(3, slaveBT.printCoordinates2());
-    printer.printValue(4, slaveBT.printCoordinates3());
-    printer.printValue(5, sendGPS.printReceivedStates());
+     printer.printValue(3,stateEst.printState());
+     printer.printValue(5,pcont.printWaypointUpdate());
+     printer.printValue(4,pcont.printFollowerString());
+     printer.printValue(6,md.printState());
+     printer.printValue(7,imu.printRollPitchHeading());
+    printer.printValue(8, sendGPS.printReceivedStates());
     printer.printToSerial();  // To stop printing, just comment this line out
 
   }
@@ -151,9 +144,6 @@ void loop(){
 }
 
 void isrEnvelope() {
-  digitalWrite(17,HIGH);
-  delayMicroseconds(100);
-  digitalWrite(17,LOW);
   env.updateSample();
   
 }
