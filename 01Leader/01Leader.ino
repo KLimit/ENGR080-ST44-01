@@ -35,7 +35,7 @@ SlaveBT slaveBT;
 
 // GLOBALS (?)
 
-double waypoints[] = {0, 0, 15, 0};
+double waypoints[] = {0, 0, 1.2, -8.2, -5.37, -15.48, -13.29, -3.88, -2.72, 0};
 
 int loopStartTime;
 int currentTime;
@@ -58,14 +58,18 @@ void setup(){
   gps.init(&GPS);
   imu.init();
 
-  // PARSONS COURTYARD
+  //GPS COORDS
   gps.read(&GPS);
   while(gps.state.lat == 0){
   
   printer.printMessage(String(gps.state.lat,10),10);
-  gps.read(&GPS);}
+  gps.read(&GPS);
+  } 
+  printer.printMessage("Final lat: " + String(gps.state.lat), 10);
   const float origin_lat = gps.state.lat;
-  const float origin_lon = gps.state.lat;
+  const float origin_lon = gps.state.lon;
+  gps.originLat = origin_lat;
+  gps.originLon = origin_lon;
   stateEst.init(origin_lat, origin_lon);
   
   
@@ -73,8 +77,8 @@ void setup(){
   md.init();
   speaker.init();
 
-  const int numWaypoints = 2;
-  const int wayPointDim = 2;
+  const int numWaypoints = 5;
+  const int wayPointDim = 5;
   const double followDist = -1.0;
   pcont.init(numWaypoints, wayPointDim, waypoints, followDist);
 

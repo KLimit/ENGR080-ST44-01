@@ -26,6 +26,8 @@ public:
 	SensorGPS(void);
   
 
+  float originLat = 0;
+  float originLon = 0;
   
   // Starts the connection to the sensor
   void init(Adafruit_GPS* GPS);

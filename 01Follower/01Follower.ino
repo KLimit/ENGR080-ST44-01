@@ -55,9 +55,9 @@ void setup(){
   BT_SERIAL.begin(38400);
   printer.init();
 
-  //logger.include(&gps);
-  // logger.include(&imu);
-  // logger.include(&stateEst);
+  logger.include(&gps);
+  logger.include(&imu);
+  logger.include(&stateEst);
   logger.include(&md);
   logger.include(&sendGPS);
   logger.include(&env);
@@ -66,14 +66,23 @@ void setup(){
   gps.init(&GPS);
   imu.init();
 
-  // PARSONS COURTYARD
-  const float origin_lat = 34.106111;
-  const float origin_lon = -117.711667;
+  // GPS COORDSs
+  gps.read(&GPS);
+  while(gps.state.lat == 0){
+  
+  printer.printMessage(String(gps.state.lat,10),10);
+  gps.read(&GPS);
+  } 
+  printer.printMessage("Final lat: " + String(gps.state.lat), 10);
+  const float origin_lat = gps.state.lat;
+  const float origin_lon = gps.state.lon;
+  gps.originLat = origin_lat;
+  gps.originLon = origin_lon;
   stateEst.init(origin_lat, origin_lon);
   
   md.init();
 
-  const double followDist = 5.0;
+  const double followDist = 4.0;
   pcont.init(NULL, NULL, NULL, followDist);
 
   printer.printMessage("Starting main loop",10);
@@ -101,13 +110,13 @@ void loop(){
 
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
-     //printer.printValue(1,logger.printState());
-     printer.printValue(2,gps.printState());
-     printer.printValue(3,stateEst.printState());
-     printer.printValue(5,pcont.printWaypointUpdate());
-     printer.printValue(4,pcont.printFollowerString());
-     printer.printValue(6,md.printState());
-     printer.printValue(7,imu.printRollPitchHeading());
+    //printer.printValue(1,logger.printState());
+    printer.printValue(2,gps.printState());
+    printer.printValue(3,stateEst.printState());
+    printer.printValue(5,pcont.printWaypointUpdate());
+    printer.printValue(4,pcont.printFollowerString());
+    printer.printValue(6,md.printState());
+    printer.printValue(7,imu.printRollPitchHeading());
     printer.printValue(8, sendGPS.printReceivedStates());
     printer.printToSerial();  // To stop printing, just comment this line out
 

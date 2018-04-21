@@ -14,7 +14,7 @@ void SpeakerControl::init(void){
 
 
 void SpeakerControl::sendPulse(void){
-    if(loopCounter%100 == 0 && playSwitch == false){
+    if(loopCounter%50 == 0 && playSwitch == false){
         speakerTime = micros();
         digitalWrite(SPEAKER_PIN, HIGH);
         playSwitch = true;

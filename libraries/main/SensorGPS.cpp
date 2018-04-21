@@ -4,7 +4,7 @@ extern Printer printer;
 #include <Adafruit_GPS.h>
   
 SensorGPS::SensorGPS(void) 
-: DataSource("lat,lon,nsats","float,float,uint8") { //If the GPS data is giving us any issues, change float back into int32.
+: DataSource("lat,lon,nsats,originLat,originLon","float,float,uint8,float, float") { //If the GPS data is giving us any issues, change float back into int32.
 
   //HardwareSerial Uart = HardwareSerial();
 
@@ -130,5 +130,10 @@ size_t SensorGPS::writeDataBytes(unsigned char * buffer, size_t idx)
   uint8_t * uint8_slot = (uint8_t *) (buffer + idx);
   uint8_slot[0] = state.num_sat;
   idx += sizeof(uint8_t);
+
+  float * origins = (float *) (buffer + idx);
+  origins[0] = originLat;
+  origins[1] = originLon;
+  idx += 2 * sizeof(float);
   return idx;
 }
