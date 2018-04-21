@@ -61,18 +61,18 @@ void setup(){
   //GPS COORDS
   gps.read(&GPS);
   while(gps.state.lat == 0){
-  
+
   printer.printMessage(String(gps.state.lat,10),10);
   gps.read(&GPS);
-  } 
+  }
   printer.printMessage("Final lat: " + String(gps.state.lat), 10);
   const float origin_lat = gps.state.lat;
   const float origin_lon = gps.state.lon;
   gps.originLat = origin_lat;
   gps.originLon = origin_lon;
   stateEst.init(origin_lat, origin_lon);
-  
-  
+
+
 
   md.init();
   speaker.init();
@@ -92,7 +92,7 @@ void setup(){
   masterBT.lastExecutionTime  = loopStartTime - LOOP_PERIOD + SEND_DATA_OFFSET;
   logger.lastExecutionTime    = loopStartTime - LOOP_PERIOD + LOGGER_LOOP_OFFSET;
   slaveBT.lastExecutionTime = loopStartTime - LOOP_PERIOD + BT_LOOP_OFFSET;
-  
+
 }
 
 
@@ -103,7 +103,7 @@ void loop(){
     slaveBT.lastExecutionTime = currentTime;
     speaker.sendPulse();
   }
-  
+
 
   if ( currentTime-printer.lastExecutionTime > LOOP_PERIOD ) {
     printer.lastExecutionTime = currentTime;
@@ -115,7 +115,7 @@ void loop(){
     printer.printValue(6,md.printState());
     printer.printValue(7,imu.printRollPitchHeading());
     printer.printValue(8,imu.printAccels());
-    // printer.printValue(9, masterBT.printBytesSent());
+    printer.printValue(9, masterBT.printBytesSent());
 
     printer.printToSerial();  // To stop printing, just comment this line out
   }
@@ -124,7 +124,7 @@ void loop(){
     pcont.lastExecutionTime = currentTime;
     pcont.calculateLeaderControl(&stateEst.state);
     md.driveForward(pcont.uL,pcont.uR);
-      
+
   }
 
   if ( currentTime-imu.lastExecutionTime > LOOP_PERIOD ) {
@@ -151,7 +151,7 @@ void loop(){
   if (currentTime-masterBT.lastExecutionTime > LOOP_PERIOD) {
     masterBT.lastExecutionTime = currentTime;
     masterBT.sendCoords(&gps);
-    
+
   }
 
 

@@ -4,7 +4,7 @@ extern Printer printer;
 
 
 MotorDriver::MotorDriver()
-: DataSource("left,right,vertical","int,int,int")
+: DataSource("left,right","int,int")
 {
   for (int m = 0; m < NUM_MOTORS; m++) {
     motorValues[m] = 0;
@@ -28,7 +28,7 @@ void MotorDriver::apply(void)
     }
     pwmDir[m] = (motorValues[m] >= 0); // true if motor goes forward
   }
-  
+
   // write this information to motors
   for (int m = 0; m < NUM_MOTORS; m++) { // using pwmDir as 0 or 1
     if(m==0){

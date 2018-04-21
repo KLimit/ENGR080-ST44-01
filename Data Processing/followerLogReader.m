@@ -60,13 +60,13 @@ fclose(fid);
 % plot(t*1E-6, trig);
 
 %% PLOT LEADER POSITION
-for i = 1:numel(leaderLat)
-    if leaderLat(i) > -110
-        lLat(i) = -117;
-    else
-        lLat(i) = leaderLat(i);
-    end
-end
+% for i = 1:numel(leaderLat)
+%     if leaderLat(i) > -110
+%         lLat(i) = -117;
+%     else
+%         lLat(i) = leaderLat(i);
+%     end
+% end
 
 
 
