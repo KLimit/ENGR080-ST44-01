@@ -42,8 +42,8 @@ public:
   float distFromLeader;   //distance from leader
   float u;               // control effort
   float Kp=20.0;         // proportional control gain
-  float KrLead = 1.5;          // right motor gain correction for leader
-  float KlLead=2;          // left motor gain correction for leader
+  float KrLead = 4;          // right motor gain correction for leader
+  float KlLead=4.5;          // left motor gain correction for leader
   float KrFollow = 1;
   float KlFollow = 1;
   float Kpower = 10;   // average power proportional control gain (FOLLOWER)

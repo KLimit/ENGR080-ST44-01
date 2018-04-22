@@ -36,7 +36,7 @@ SlaveBT slaveBT;
 
 // GLOBALS (?)
 
-double waypoints[] = {0, 0, 1.2, -8.2, -5.37, -15.48, -13.29, -3.88, -2.72, 0};
+double waypoints[] = {10,0,0,0};
 
 int loopStartTime;
 int currentTime;
@@ -78,8 +78,8 @@ void setup(){
   md.init();
   speaker.init();
 
-  const int numWaypoints = 5;
-  const int wayPointDim = 5;
+  const int numWaypoints = 2;
+  const int wayPointDim = 2;
   const double followDist = -1.0;
   pcont.init(numWaypoints, wayPointDim, waypoints, followDist);
 

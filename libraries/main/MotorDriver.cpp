@@ -30,15 +30,11 @@ void MotorDriver::apply(void)
   }
 
   // write this information to motors
-  for (int m = 0; m < NUM_MOTORS; m++) { // using pwmDir as 0 or 1
-    if(m==0){
-      analogWrite(3,pwmDir[m]*pwmValues[m]);
-    }
-    else{
-      analogWrite(motorPins[m][FORWARD_PIN],pwmDir[m]*pwmValues[m]);
-    }
-    analogWrite(motorPins[m][BACKWARD_PIN],(!pwmDir[m])*pwmValues[m]);
-  }
+      analogWrite(20,(!pwmDir[0])*pwmValues[0]);
+      analogWrite(3,pwmDir[0]*pwmValues[0]);
+      analogWrite(23,(!pwmDir[1])*pwmValues[1]);
+      analogWrite(6,pwmDir[1]*pwmValues[1]);
+  
 }
 
 String MotorDriver::printState(void) {
