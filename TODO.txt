@@ -1,0 +1,10 @@
+CODE TODO
+
+- Add Clock DataSource
+- Add current waypoint logging for follower
+
+ANALYSIS TODO
+
+- Discuss GPS drift
+- Consider Bluetooth connection strength
+  - In final deployment, Follower did not receive any data from the leader (log 101)
