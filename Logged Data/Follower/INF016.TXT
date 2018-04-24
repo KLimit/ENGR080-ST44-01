@@ -1,0 +1,2 @@
+left,right,vertical,leaderLat, leaderLon, leaderTime, followerTime
+int,int,int,float, float, ulong, ulong

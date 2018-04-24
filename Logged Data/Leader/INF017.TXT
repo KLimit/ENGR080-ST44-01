@@ -1,0 +1,2 @@
+lat,lon,nsats,originLat,originLon,headingIMU,accelX,accelY,accelZ,x,y,heading,left,right,SpeakerTime, TimesPlayed
+float,float,uint8,float, float,float,float,float,float,float,float,float,int,int,ulong, int

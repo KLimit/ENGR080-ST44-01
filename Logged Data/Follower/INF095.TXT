@@ -1,0 +1,2 @@
+lat,lon,nsats,originLat,originLon,headingIMU,accelX,accelY,accelZ,x,y,heading,left,right,leaderLat, leaderLon, leaderTime, followerTime,EnvelopeTime
+float,float,uint8,float, float,float,float,float,float,float,float,float,int,int,float, float, ulong, ulong,int

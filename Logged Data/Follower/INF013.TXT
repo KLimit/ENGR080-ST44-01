@@ -1,0 +1,2 @@
+leaderLat, leaderLon, leaderTime, followerTime
+float, float, ulong, ulong

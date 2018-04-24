@@ -1,0 +1,2 @@
+lat,lon,hdop,nsats,rollIMU,pitchIMU,headingIMU,accelX,accelY,accelZ,x,y,heading,left,right,vertical,sentLat,sentLon, leaderTime, followTime,EnvelopeTime
+float,float,uint16,uint8,float,float,float,float,float,float,float,float,float,int,int,int,float, float, ulong, ulong,int
